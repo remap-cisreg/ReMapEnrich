@@ -7,5 +7,6 @@ genome_intersect = function(bedfile1, bedfile2)
                                 method = "intersect", 
                                 params = "-wo"
     )
+    colnames(intersections)[7]="intersect.length"
     return(intersections)
 }
