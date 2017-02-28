@@ -3,7 +3,7 @@ Title: Bioinformatic tools for computing enrichment
 Version: 0.1
 Authors@R: c(person("Zacharie", "Menetrier", email = "zacharie.menetrier@gmail.com",
                   role = c("aut", "cre")),
-                  person("Martin", "Mestdagh", email = "aremplir@gmail.com",
+                  person("Martin", "Mestdagh", email = "martin.mestdagh@gmail.com",
                   role = c("aut")))
 Description: Bioinformatic tools for computing enrichment
 Depends: R (>= 3.3.1)
