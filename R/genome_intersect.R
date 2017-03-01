@@ -1,29 +1,30 @@
 #' Genomic regions intersections
 #' 
-#' Gets the intersections of two chromosomic regions at a certain frequency.
+#' Gets the intersections of two chromosomic regions at a certain fraction.
 #' The chromosomic regions are read from bed files.
 #' 
 #' @param bedfile1 The first bed file.
 #' @param bedfile2 The second bed file.
-#' @param frequency The frequency that intersections shall exceed to be considered.
+#' @param fraction The fraction that intersections shall exceed to be considered.
 #' 
 #' @return A data frame (empty if no intersections have been found) containing the intersections and their lengths in base pairs.
 #' 
 #' @export
-genome.intersect = function(bedfile1, bedfile2, frequency = 0)
+genome.intersect = function(bedfile1, bedfile2, fraction = 0)
 {
     temp.path = tempfile()
-    command = paste("intersectBed -a", bedfile1, "-b", bedfile2, "-f", frequency, ">", temp.path)
+    command = paste("intersectBed -a", bedfile1, "-b", bedfile2, "-f", fraction, ">", temp.path)
     system(command)
     intersections = import.bed(temp.path)
     return(intersections)
 }
 
+########################################## bedr version ##########################################
 
-genome.intersect.bedr = function(regions1, regions2, frequency = 0)
+genome.intersect.bedr = function(regions1, regions2, fraction = 0)
 {
     # The parameters are set in a string to be called in bedtools.
-    parameters = paste("-wo -f", frequency)
+    parameters = paste("-wo -f", fraction)
     # Calling bedtools with the intersect method.
     intersections = bedr::bedr( input = list(a = regions1, b = regions2),
                                 method = "intersect", 
