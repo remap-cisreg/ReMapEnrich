@@ -1,15 +1,18 @@
 #' @export
-enrichment = function(regions, catalog, genome, frequency = 0, shuffles = 100)
+enrichment = function(regions, catalog, genome, fraction = 0, shuffles = 100)
 {
-    nb.overlaps = overlaps_number(genomic.regions, catalog, frequency)
-    nb.random_overlaps = 0
-    for(i in shuffles)
+    cat("COMPUTING OVERLAPS\n")
+    nb.overlaps = overlaps.number(regions, catalog, fraction)
+    nb.random.overlaps = 0
+    cat(paste("COMPUTING", shuffles, "SHUFFLES\n"))
+    for(i in 1:shuffles)
     {
-        shuffle = genomic.shuffle(regions, genome)
-        nb.random.overlaps = nb.random.overlaps + overlaps.number(shuffle, catalog, frequency)
+        cat(paste("#",i, "\n"))
+        shuffle = genomic.shuffle.temp.file(regions, genome)
+        nb.random.overlaps = nb.random.overlaps + overlaps.number(shuffle, catalog, fraction)
     }
     mean.th = nb.random.overlaps / shuffles
-    significance = ppois(nb.random.overlaps - 1, lambda = mean_th, lower.tail = FALSE, log = TRUE) / log(10)
+    significance = ppois(nb.random.overlaps - 1, lambda = mean.th, lower.tail = FALSE, log = TRUE) / log(10)
     p.value = 10 ** significance
     significance = - significance
     
@@ -18,6 +21,6 @@ enrichment = function(regions, catalog, genome, frequency = 0, shuffles = 100)
         p.value = NA
         significance = NA
     }
-    enrich.tab = data.frame(n.overlaps, mean.th, p.value, significance)
+    enrich.tab = data.frame(nb.overlaps, mean.th, p.value, significance)
     return(enrich.tab)
 }

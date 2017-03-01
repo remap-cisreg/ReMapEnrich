@@ -17,6 +17,15 @@ genomic.shuffle = function(regions, genome)
     return(shuffle)
 }
 
+genomic.shuffle.temp.file = function(regions, genome)
+{
+    temp.path = tempfile()
+    command = paste("shuffleBed -i", regions, "-g", genome, "-chrom >", temp.path)
+    system(command)
+    return(temp.path)
+}
+
+########################################## bedr version ##########################################
 
 genomic.shuffle.bedr = function(regions, genome)
 {
