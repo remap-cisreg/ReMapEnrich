@@ -1,20 +1,23 @@
-#' Create a file <name_file>.txt
+#' Create an output file with the format chosen by user or a capture like 'txt' if none is chosen
 #' 
-#'  @param variable where is the file to output
-#'  @param Name of the output file
-#'    
-#'  @return the file ouput   
+#'  @param dat dataframe to output
+#'  @param name_file Name of the output file chosen
+#'  @param format The format chosen
 #'      
 #'  @export
-
-output_file  =function(fic,output_file,format)
-    {
+output_file  =function(dat, name_file, format = "default")
+{
     if(format == "csv")
-        {
-        write.csv(fic,file='output_file')
-        return('output_file')
-        }
-        else 
-            capture.output(fic,file = 'output_file')
-            return('output_file')
+    {
+        write.csv(dat, file = name_file)
     }
+    if (format == "tsv")
+    {
+        write.table(dat, file = name_file, quote = FALSE, sep = '\t', col.names = NA)
+    }
+    if (format == "default")
+    {
+        # Realize a capture of the dataframe if format isn't selected
+        capture.output(dat, file = name_file)
+    }
+}
