@@ -10,12 +10,22 @@
 #' @return A data frame (empty if no intersections have been found) containing the intersections and their lengths in base pairs.
 #' 
 #' @export
-genome_intersect = function(genomic_regions_1, genomic_regions_2, frequency = 0)
+genome.intersect = function(bedfile1, bedfile2, frequency = 0)
+{
+    temp.path = tempfile()
+    command = paste("intersectBed -a", bedfile1, "-b", bedfile2, "-f", frequency, ">", temp.path)
+    system(command)
+    intersections = import.bed(temp.path)
+    return(intersections)
+}
+
+
+genome.intersect.bedr = function(regions1, regions2, frequency = 0)
 {
     # The parameters are set in a string to be called in bedtools.
     parameters = paste("-wo -f", frequency)
     # Calling bedtools with the intersect method.
-    intersections = bedr::bedr( input = list(a = genomic_regions_1, b = genomic_regions_2), 
+    intersections = bedr::bedr( input = list(a = regions1, b = regions2),
                                 method = "intersect", 
                                 params = parameters
     )

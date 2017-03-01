@@ -8,12 +8,22 @@
 #' @return A data frame containing the new shuffled chromosic regions.
 #' 
 #' @export
-genomic_shuffle = function(genomic_regions, genome)
+genomic.shuffle = function(regions, genome)
+{
+    temp.path = tempfile()
+    command = paste("shuffleBed -i", regions, "-g", genome, "-chrom >", temp.path)
+    system(command)
+    shuffle = import.bed(temp.path)
+    return(shuffle)
+}
+
+
+genomic.shuffle.bedr = function(regions, genome)
 {
     # The parameters are set in a string to be called in bedtools.
     parameters = paste("-g", genome, "-chrom")
     # Calling bedtools with the shuffle method.
-    shuffle = bedr::bedr( input = list(i = genomic_regions), 
+    shuffle = bedr::bedr( input =  list(i = regions),
                           method = "shuffle", 
                           params = parameters
     )

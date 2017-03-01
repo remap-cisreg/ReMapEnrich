@@ -10,10 +10,10 @@
 #' @return The number of overlaps for the two sets of chromosomic regions given a frequency.
 #' 
 #' @export
-overlaps_number = function(genomic_regions_1, genomic_regions_2, frequency = 0)
+overlaps.number = function(bedfile1, bedfile2, frequency = 0)
 {
     # Calling the function genome_intersect to get a data frame of the overlaps.
-    intersections = genome_intersect(genomic_regions_1, genomic_regions_2, frequency)
+    intersections = genome.intersect(bedfile1, bedfile2, frequency)
     return(nrow(intersections))
 }
 
