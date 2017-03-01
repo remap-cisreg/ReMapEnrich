@@ -2,3 +2,4 @@
 
 export(genome_intersect)
 export(import_bed)
+export(overlap_number)
