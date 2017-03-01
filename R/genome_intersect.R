@@ -1,15 +1,31 @@
+#' Genomic regions intersections
+#' 
+#' Gets the intersections of two chromosomic regions at a certain frequency.
+#' The chromosomic regions are read from bed files.
+#' 
+#' @param bedfile1 The first bed file.
+#' @param bedfile2 The second bed file.
+#' @param frequency The frequency that intersections shall exceed to be considered.
+#' 
+#' @return A data frame (empty if no intersections have been found) containing the intersections and their lengths in base pairs.
+#' 
 #' @export
-# Cette fonction va permettre de calculer le nombre d'intersections entre les deux fichiers selectionnés
-genome_intersect = function(bedfile1, bedfile2, frequency =0)
+genome_intersect = function(bedfile1, bedfile2, frequency = 0)
 {
+    # The parameters are set in a string to be called in bedtools.
     parameters = paste("-wo -f", frequency)
-    dat1 = import_bed(bedfile1)
-    dat2 = import_bed(bedfile2)
-    intersections = bedr::bedr( input = list(a = dat1, b = dat2), 
+    # Importing the two bed files.
+    genomic_regions_1 = import_bed(bedfile1)
+    genomic_regions_2 = import_bed(bedfile2)
+    # Calling bedtools with the intersect method.
+    intersections = bedr::bedr( input = list(a = genomic_regions_1, b = genomic_regions_2), 
                                 method = "intersect", 
                                 params = parameters
     )
-    if (ncol(intersections)>=7)                         #Ajout d'une condition du changement du nom de la colonne 
-        {colnames(intersections)[7]="intersect.length"} # pour eviter un erreur avec la fonction overlap_number
+    # Testing if the data frame is containing a 7th column before renaming it.
+    if (ncol(intersections) >= 7)                         
+    {
+        colnames(intersections)[7] = "intersect.length"
+    }
     return(intersections)
 }

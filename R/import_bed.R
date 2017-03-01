@@ -1,8 +1,17 @@
+#' Import bed files
+#' 
+#' Imports bed files automatically in a nice data frame.
+#' 
+#' @param file_path The path of the file to import.
+#' 
+#' @return A data frame with the corresponding chromosomic regions of the bed file.
+#' 
 #' @export
-# Cette fonction va permettre d'importer les fichiers (.bed) pour être lu par la suite
-import_bed = function(path)
+import_bed = function(file_path)
 {
-    dat = as.data.frame(read.table(path,header = FALSE, sep="\t",stringsAsFactors=FALSE, quote=""))
-    colnames(dat) = c("chr", "start", "end")
-    return(dat)
+    # Gets the data frame from the file path.
+    genomic_regions = as.data.frame(read.table(file_path, header = FALSE, sep = "\t",stringsAsFactors = FALSE, quote = ""))
+    # Renaming the data frame columns to fall in the bed standard.
+    colnames(genomic_regions) = c("chr", "start", "end")
+    return(genomic_regions)
 }
