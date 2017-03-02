@@ -5,7 +5,7 @@
 #'  @param format The format chosen
 #'      
 #'  @export
-output.file  =function(dat, name.file, format = "default")
+output.file  =function(dat, name.file = "output.file", format = "default")
 {
     if(format == "csv")
     {
