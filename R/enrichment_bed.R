@@ -15,7 +15,7 @@ enrichment.bed = function(regions, catalog, genome, fraction = 0, shuffles = 100
 {
     cat("COMPUTING OVERLAPS\n")
     # Counting the number of overlaps between the regions and the catalog.
-    overlaps = count.overlaps(regions, catalog, fraction)
+    overlaps = count.overlaps(catalog, regions, fraction)
     random.overlaps = 0
     cat(paste("COMPUTING", shuffles, "SHUFFLES\n"))
     # Creating the shuffled genomic regions.
