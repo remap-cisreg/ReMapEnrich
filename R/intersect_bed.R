@@ -10,7 +10,7 @@
 #' @return A data frame (empty if no intersections have been found) containing the intersections and their lengths in base pairs.
 #' 
 #' @export
-genome.intersect = function(bedfile1, bedfile2, fraction = 0)
+intersect.bed = function(bedfile1, bedfile2, fraction = 0)
 {
     temp.path = tempfile()
     command = paste("intersectBed -a", bedfile1, "-b", bedfile2, "-f", fraction, ">", temp.path)
@@ -21,7 +21,7 @@ genome.intersect = function(bedfile1, bedfile2, fraction = 0)
 
 ########################################## bedr version ##########################################
 
-genome.intersect.bedr = function(regions1, regions2, fraction = 0)
+intersect.bedr = function(regions1, regions2, fraction = 0)
 {
     # The parameters are set in a string to be called in bedtools.
     parameters = paste("-wo -f", fraction)

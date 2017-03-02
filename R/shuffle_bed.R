@@ -2,13 +2,13 @@
 #' 
 #' Shuffle genomic regions among a defined genome.
 #' 
-#' @param bedfile The bed file containing the genomic regions to shuffle.
+#' @param regions The bed file containing the genomic regions to shuffle.
 #' @param genome A file containing all the chromosome lengths for the species in consideration.
 #' 
 #' @return A data frame containing the new shuffled chromosic regions.
 #' 
 #' @export
-genomic.shuffle = function(regions, genome)
+shuffle.bed = function(regions, genome)
 {
     temp.path = tempfile()
     command = paste("shuffleBed -i", regions, "-g", genome, "-chrom >", temp.path)
@@ -17,7 +17,15 @@ genomic.shuffle = function(regions, genome)
     return(shuffle)
 }
 
-genomic.shuffle.temp.file = function(regions, genome)
+#' Genomic regions shuffle
+#' 
+#' Shuffle genomic regions among a defined genome.
+#' 
+#' @param regions The bed file containing the genomic regions to shuffle.
+#' @param genome A file containing all the chromosome lengths for the species in consideration.
+#' 
+#' @return A temporary file containing the new shuffled chromosic regions.
+shuffle.bed.temp.file = function(regions, genome)
 {
     temp.path = tempfile()
     command = paste("shuffleBed -i", regions, "-g", genome, "-chrom >", temp.path)
@@ -27,7 +35,7 @@ genomic.shuffle.temp.file = function(regions, genome)
 
 ########################################## bedr version ##########################################
 
-genomic.shuffle.bedr = function(regions, genome)
+shuffle.bedr = function(regions, genome)
 {
     # The parameters are set in a string to be called in bedtools.
     parameters = paste("-g", genome, "-chrom")
