@@ -24,7 +24,7 @@ shuffle.bed = function(regions, genome)
 #' @param regions The bed file containing the genomic regions to shuffle.
 #' @param genome A file containing all the chromosome lengths for the species in consideration.
 #' 
-#' @return A temporary file containing the new shuffled chromosic regions.
+#' @return The path to a temporary file containing the new shuffled chromosic regions.
 shuffle.bed.temp.file = function(regions, genome)
 {
     temp.path = tempfile()
