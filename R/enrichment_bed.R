@@ -1,6 +1,6 @@
 #' Compute enrichment
 #' 
-#' Gets the value of genomic enrichment from bed files
+#' Gets the value of genomic enrichment from bed files.
 #' 
 #' @param regions The bed file containing the genomic regions to analyze.
 #' @param catalog The bed file containing the database used for annotation.
