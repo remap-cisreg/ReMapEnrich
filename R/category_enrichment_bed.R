@@ -11,7 +11,7 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-category.enrichment.bed = function(regions, catalog, genome, fraction = 0, shuffles = 100)
+category.enrichment.bed = function(regions, catalog, genome, fraction = 0, shuffles = 10)
 {
     cat("Computing overlaps.\n")
     # Extracting all the informations for the overlaps between the regions and the catalog.
@@ -44,6 +44,7 @@ category.enrichment.bed = function(regions, catalog, genome, fraction = 0, shuff
         # Gets the number of differents categories.
         shuffle.categories.length = length(shuffle.categories)
         # For each category of the suffles.
+        if(shuffle.categories.length == 0) break
         for(j in 1:shuffle.categories.length)
         {
             # Gets the name of the current categories.

@@ -15,7 +15,15 @@ intersect.bed = function(bedfile1, bedfile2, fraction = 0)
     temp.path = tempfile()
     command = paste("intersectBed -a", bedfile1, "-b", bedfile2, "-f", fraction, ">", temp.path)
     system(command)
-    intersections = import.bed(temp.path)
+    size = file.info(temp.path)$size
+    if(size == 0)
+    {
+        intersections = data.frame()
+    }
+    else
+    {
+        intersections = import.bed(temp.path)   
+    }
     unlink(temp.path)
     return(intersections)
 }

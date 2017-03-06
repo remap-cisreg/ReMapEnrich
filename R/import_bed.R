@@ -7,7 +7,7 @@
 #' @return A data frame with the corresponding chromosomic regions of the bed file.
 #' 
 #' @export
-import.bed = function(path, intersect = FALSE)
+import.bed = function(path)
 {
     # Gets the data frame from the file path.
     genomic.regions = as.data.frame(data.table::fread(path, header = FALSE, sep = "\t",stringsAsFactors = FALSE, quote = ""))
