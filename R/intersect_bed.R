@@ -10,7 +10,7 @@
 #' @return A data frame (empty if no intersections have been found) containing the intersections and their lengths in base pairs.
 #' 
 #' @export
-intersect.bed = function(bedfile1, bedfile2, fraction = 0)
+intersect.bed = function(bedfile1, bedfile2, fraction = 0.1)
 {
     temp.path = tempfile()
     command = paste("intersectBed -a", bedfile1, "-b", bedfile2, "-f", fraction, ">", temp.path)

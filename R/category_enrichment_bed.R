@@ -11,7 +11,7 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-category.enrichment.bed = function(regions, catalog, genome, fraction = 0, shuffles = 10)
+category.enrichment.bed = function(regions, catalog, genome, fraction = 0.1, shuffles = 10)
 {
     cat("Computing overlaps.\n")
     # Extracting all the informations for the overlaps between the regions and the catalog.
