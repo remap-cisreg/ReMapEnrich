@@ -17,11 +17,11 @@ enrichment.bed = function(regions, catalog, genome, fraction = 0, shuffles = 100
     # Counting the number of overlaps between the regions and the catalog.
     overlaps = count.overlaps(catalog, regions, fraction)
     random.overlaps = 0
-    cat(paste("COMPUTING", shuffles, "SHUFFLES\n"))
+    cat("COMPUTING", shuffles, "SHUFFLES\n")
     # Creating the shuffled genomic regions.
     for(i in 1:shuffles)
     {
-        cat(paste("#",i, "\n"))
+        cat("#",i, "\n")
         shuffle = shuffle.bed.temp.file(regions, genome)
         # Counting the number of overlaps between the shuffled regions and the catalog.
         random.overlaps = random.overlaps + count.overlaps(shuffle, catalog, fraction)
@@ -37,7 +37,7 @@ enrichment.bed = function(regions, catalog, genome, fraction = 0, shuffles = 100
     else
     {
         # Computing the significance from the poisson distribution.
-        significance = ppois(random.overlaps - 1, lambda = theorical.mean, lower.tail = FALSE, log = TRUE) / log(10)
+        significance = ppois(overlaps - 1, lambda = theorical.mean, lower.tail = FALSE, log = TRUE) / log(10)
         # Computing the p.value from the significance.
         p.value = 10 ** significance
         significance = - significance
