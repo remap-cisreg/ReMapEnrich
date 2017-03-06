@@ -27,24 +27,21 @@ bed_to_granges = function(file)
     {
         df$strand = gsub(pattern= "[^+-]+", replacement = '*', x = df$strand)
     }
-    
-    
-    library("GenomicRanges")
     if(length(df) == 3)
     {
         gr = with(df, GRanges(chr, IRanges(start, end)))
-    } else 
-        if (length(df)==4)
-        {
+    }
+    if (length(df)==4)
+    {
         gr = with(df, GRanges(chr, IRanges(start, end), id=id))
-        } else 
-            if (length(df)==5)
-            {
-                 gr = with(df, GRanges(chr, IRanges(start, end), id=id, score=score))
-            } else 
-                if (length(df)==6)
-                {
-                    gr = with(df, GRanges(chr, IRanges(start, end), id=id, score=score, strand=strand))
-                }
+    } 
+    if (length(df)==5)
+    {
+        gr = with(df, GRanges(chr, IRanges(start, end), id=id, score=score))
+    } 
+    if (length(df)==6)
+    {
+        gr = with(df, GRanges(chr, IRanges(start, end), id=id, score=score, strand=strand))
+    }
     return(gr)
 }

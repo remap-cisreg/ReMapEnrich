@@ -38,6 +38,7 @@ category.enrichment.bed = function(regions, catalog, genome, fraction = 0, shuff
         shuffle = shuffle.bed.temp.file(regions, genome)
         # Gets the overlaps between the shuffled regions and the catalog.
         shuffle.overlaps = intersect.bed(catalog, shuffle, fraction)
+        unlink(shuffle)
         # Splitting the overlaps in a list by the name/category it has been intersectng in the catalog.
         shuffle.categories = split(shuffle.overlaps, shuffle.overlaps$name)
         # Gets the number of differents categories.

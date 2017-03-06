@@ -12,17 +12,8 @@ import.bed = function(path, intersect = FALSE)
     # Gets the data frame from the file path.
     genomic.regions = as.data.frame(data.table::fread(path, header = FALSE, sep = "\t",stringsAsFactors = FALSE, quote = ""))
     # Renaming the data frame columns to fall in the bed standard.
-
-    if(intersect)
-    {
-        column.names = c("chrom", "chromStart", "chromEnd", "name", "score", "strand", "thickStart",
+    column.names = c("chrom", "chromStart", "chromEnd", "name", "score", "strand", "thickStart",
                          "thickEnd", "itemRgb", "blockCount", "blockSizes", "blockStarts")
-    }
-    else
-    {
-        column.names = c("chrom", "chromStart", "chromEnd", "name", "score", "strand", "thickStart",
-                         "thickEnd", "itemRgb", "blockCount", "blockSizes", "blockStarts")
-    }
     colnames(genomic.regions) = column.names[1:ncol(genomic.regions)]
     return(genomic.regions)
 }

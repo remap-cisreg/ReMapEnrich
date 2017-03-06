@@ -25,6 +25,7 @@ enrichment.bed = function(regions, catalog, genome, fraction = 0, shuffles = 100
         shuffle = shuffle.bed.temp.file(regions, genome)
         # Counting the number of overlaps between the shuffled regions and the catalog.
         random.overlaps = random.overlaps + count.overlaps(shuffle, catalog, fraction)
+        unlink(shuffle)
     }
     # Creating the theorical mean for the poisson distribution.
     theorical.mean = random.overlaps / shuffles

@@ -14,6 +14,7 @@ shuffle.bed = function(regions, genome)
     command = paste("shuffleBed -i", regions, "-g", genome, "-chrom >", temp.path)
     system(command)
     shuffle = import.bed(temp.path)
+    unlink(temp.path)
     return(shuffle)
 }
 
@@ -31,18 +32,4 @@ shuffle.bed.temp.file = function(regions, genome)
     command = paste("shuffleBed -i", regions, "-g", genome, "-chrom >", temp.path)
     system(command)
     return(temp.path)
-}
-
-########################################## bedr version ##########################################
-
-shuffle.bedr = function(regions, genome)
-{
-    # The parameters are set in a string to be called in bedtools.
-    parameters = paste("-g", genome, "-chrom")
-    # Calling bedtools with the shuffle method.
-    shuffle = bedr::bedr( input =  list(i = regions),
-                          method = "shuffle", 
-                          params = parameters
-    )
-    return(shuffle)
 }
