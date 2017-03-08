@@ -1,0 +1,177 @@
+---
+title: "Roken: enrichment of genomic regions"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Roken}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>")
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+library(dplyr)
+```
+
+# Quick example
+
+This quick example is based on pet datasets released with the roken package. 
+
+It will go through the folowing steps. 
+
+1. Load a minimal example
+
+    - a query set of genomic regions. 
+    - (reduced) catalogue of reference genomic regions. 
+    - load the chromosome sizes.
+
+2. Compute the enrichment of intersections between the query and each entry of the catalogue. 
+
+```{r}
+# Load the roken library
+library(roken) 
+
+# Load the example dataset
+roken.load.examples()
+```
+
+We now dispose of paths to three datasets: 
+
+- mini.catalog
+- mini.genome
+- mini.regions
+
+```{r}
+category.enrichment.bed(
+    regions = mini.regions, 
+    catalog = mini.catalog, 
+    genome = mini.genome)
+```
+
+
+## Data loading 
+
+## Downloading reMap2 catalogue
+
+```{r}
+# Create a local directory for  the tutorial
+demo.dir <- "~/roken_demo"
+dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
+setwd(demo.dir)
+
+## Download the ReMap catalogue
+remap.file <- "nrPeaks_public.bed.gz"
+remap.url <- file.path("http://tagc.univ-mrs.fr/remap/download/All/", remap.file)
+
+download.file(url=remap.url, 
+              destfile=remap.file, 
+              method="wget", quiet = FALSE, 
+              mode = "w",
+              cacheOK = TRUE,
+              extra = getOption("download.file.extra"))
+```
+
+## Loading a custom catalogue
+
+## Loading query region set
+
+## Loading chromosome sizes
+
+********************************
+# Running the enrichment analysis
+
+```{r}
+
+remap.chr22.file <- 
+    system.file(
+        "extdata",                 "ReMap_nrPeaks_public_chr22.bed", 
+        package = "roken")
+
+remap.chr22.sox2.file <- 
+    system.file(
+        "extdata",                 "ReMap_nrPeaks_public_chr22_SOX2.bed", 
+        package = "roken")
+
+hg19.chr22.size.file <- 
+    system.file(
+        "extdata",                 "hg19_chr22.genome", 
+        package = "roken")
+
+```
+
+```{r}
+chr22.result <- 
+    category.enrichment.bed(
+        regions = remap.chr22.sox2.file, 
+        catalog = remap.chr22.file, 
+        genome = hg19.chr22.size.file)
+
+View(chr22.result)
+```
+
+## Negative control
+
+A negative control consists in submitting datasets known to be under the null hypothesis. One approach is to pick up at random genomic regions of the same sizes as the query set. In principle the software should return no significant overlap. 
+
+```{r}
+## Generate a randomized query set
+shuffled.query <- shuffle.bed(
+    regions = remap.chr22.sox2.file, 
+    genome = hg19.chr22.size.file)
+shuffled.file <- "shuffled.bed"
+write.table(x = shuffled.query, 
+            file = shuffled.file,
+            quote=FALSE, sep="\t", 
+            col.names = FALSE,
+            row.names = FALSE)
+
+shuffled.result <- 
+    category.enrichment.bed(
+        regions = shuffled.file, 
+        catalog = remap.chr22.file, 
+        genome = hg19.chr22.size.file)
+
+head(shuffled.result)
+
+```
+
+
+# Displaying the results
+
+## P-value histogram
+
+```{r}
+par(mfrow = c(2,1))
+hist(chr22.result$p.value, breaks=20)
+hist(shuffled.result$p.value, breaks=20)
+par(mfrow = c(1,1))
+
+```
+
+
+# Exporting the results
+
+
+
+# Bazard
+
+```{r}
+
+chr22.size <- unlist(read.table(file = hg19.chr22.size.file, header = FALSE, row.names = 1)[1])
+
+query <- read.delim(
+    file = remap.chr22.sox2.file,
+    header = FALSE)
+
+query.region.lengths <- unlist(query[3] - query[2] + 1)
+
+# hist(unlist(query.region.lengths), breaks=100)
+
+possible.starts <- chr22.size - query.region.lengths
+
+sample.int(n = possible.starts, 
+           size=nrow(query))
+
+```
+
