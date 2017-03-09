@@ -11,11 +11,11 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-BedEnrichment <- function(query, catalog, chromFile = GetChromFile("hg19"), fraction = 0.1, shuffles = 10)
+BedEnrichment <- function(queryFile, catalogFile, chromFile = GetChromFile("hg19"), fraction = 0.1, shuffles = 10)
 {
     cat("Computing overlaps.\n")
     # Extracting all the informations for the overlaps between the regions and the catalog.
-    overlaps <- BedIntersect(catalog, regions, fraction)
+    overlaps <- BedIntersect(catalogFile, queryFile, fraction)
     # Splitting the overlaps in a list by the name/category it has been intersectng in the catalog.
     categories <- split(overlaps, overlaps$name)
     # Gets the number of distincts categories.

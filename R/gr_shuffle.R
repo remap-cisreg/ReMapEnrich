@@ -1,5 +1,9 @@
 #' @export
-GrShuffle <- function(regions, chromFile = GetChromFile("hg19"))
+GrShuffle <- function(regions, chromSizes = GetChromSizes(GetChromFile("hg19")))
 {
-    genome <- as.data.frame(data.table::fread(genome.file, header = FALSE, sep = "\t",stringsAsFactors = FALSE, quote = ""))
+    regionsLength <- regions@ranges@width
+    possibleStarts <- chromSizes[as.vector(regions@seqnames), ] - regionsLength
+    randomStarts <- sample.int(possibleStarts, size = length(regions))
+    granges <- GRanges(regions@seqnames, IRanges(start = randomStarts, width = regionsLength), strand=regions@strand)
+    return(granges)
 }

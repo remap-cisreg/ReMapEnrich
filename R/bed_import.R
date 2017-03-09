@@ -5,6 +5,8 @@
 #' @param path The path of the file to import.
 #' 
 #' @return A data frame with the corresponding chromosomic regions of the bed file.
+#' 
+#' @export
 BedImport <- function(path)
 {
     # Gets the data frame from the file path.
