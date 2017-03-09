@@ -1,47 +1,51 @@
 #' BED to GRanges
 #'
-#' This function loads a BED-like file and stores it as a GRanges object.
+#' This function loads a bed file and stores it as a GRanges object.
 #' The tab-delimited file must be ordered as 'chr', 'start', 'end', 'id', 'score', 'strand'.
-#' The minimal BED file must have the 'chr', 'start', 'end' columns.
+#' The minimal bed file must have the 'chr', 'start', 'end' columns.
 #' Any columns after the strand column are ignored.
 #' 
-#' @param file Location of your file
-#' @keywords BED GRanges
+#' @param path Location of your file
 #' @export
-#' @examples
-#' bed_to_granges('my_bed_file.bed')
-bed_to_granges = function(file)
+bed.to.granges = function(path)
 {
-    df = read.table(file, header=F, stringsAsFactors=F)
-    if(length(df) > 6)
+    # Imports the bed file in a data frame.
+    df = import.bed(path)
+    # If the data frame has more than 6 columns then remove them.
+    if(ncol(df) > 6)
     {   
-        df = df[,-c(7:length(df))]
+        df = df[,-c(7:ncol(df))]
     }
-    if(length(df)<3)
+    # If the data frame has less than 3 columns then throw an error.
+    if(ncol(df)<3)
     {   
         stop("File has less than 3 columns")
     }
-    header = c('chr','start','end','id','score','strand')
-    names(df) = header[1:length(names(df))]
+    # If the strand is known in the data frame then replace it by the GRanges equivalent.
     if('strand' %in% colnames(df))
     {
         df$strand = gsub(pattern= "[^+-]+", replacement = '*', x = df$strand)
     }
-    if(length(df) == 3)
+    # Construct the GRanges object depending on the number of columns.
+    if(ncol(df) == 3)
     {
-        gr = with(df, GRanges(chr, IRanges(start, end)))
+        gr = with(df, GRanges(chrom, IRanges(chromStart, chromEnd)))
     }
-    if (length(df)==4)
+    else if (ncol(df)==4)
     {
-        gr = with(df, GRanges(chr, IRanges(start, end), id=id))
+        gr = with(df, GRanges(chrom, IRanges(chromStart, chromEnd), id=name))
     } 
-    if (length(df)==5)
+    else if (ncol(df)==5)
     {
-        gr = with(df, GRanges(chr, IRanges(start, end), id=id, score=score))
+        gr = with(df, GRanges(chrom, IRanges(chromStart, chromEnd), id=name, score=score))
     } 
-    if (length(df)==6)
+    else if (ncol(df)==6)
     {
-        gr = with(df, GRanges(chr, IRanges(start, end), id=id, score=score, strand=strand))
+        gr = with(df, GRanges(chrom, IRanges(chromStart, chromEnd), id=name, score=score, strand=strand))
+    }
+    else
+    {
+        stop("Error while constructing the GRanges object. No number of columns have been matched.")
     }
     return(gr)
 }
