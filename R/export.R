@@ -5,19 +5,19 @@
 #'  @param format The format chosen
 #'      
 #'  @export
-output.file  =function(dat, name.file = "output.file", format = "default")
+ExportEnrichment  <- function(dat, fileName = "output", format = "default")
 {
     if(format == "csv")
     {
-        write.csv(dat, file = name.file)
+        write.csv(dat, file = fileName)
     }
     if (format == "tsv")
     {
-        write.table(dat, file = name.file, quote = FALSE, sep = '\t', col.names = NA)
+        write.table(dat, file = fileName, quote = FALSE, sep = '\t', col.names = NA)
     }
     if (format == "default")
     {
         # Realize a capture of the dataframe if format isn't selected
-        capture.output(dat, file = name.file)
+        capture.output(dat, file = fileName)
     }
 }

@@ -5,15 +5,13 @@
 #' @param path The path of the file to import.
 #' 
 #' @return A data frame with the corresponding chromosomic regions of the bed file.
-#' 
-#' @export
-import.bed = function(path)
+BedImport <- function(path)
 {
     # Gets the data frame from the file path.
-    genomic.regions = as.data.frame(data.table::fread(path, header = FALSE, sep = "\t",stringsAsFactors = FALSE, quote = ""))
+    regions <- as.data.frame(data.table::fread(path, header = FALSE, sep = "\t",stringsAsFactors = FALSE, quote = ""))
     # Renaming the data frame columns to fall in the bed standard.
-    column.names = c("chrom", "chromStart", "chromEnd", "name", "score", "strand", "thickStart",
+    columnNames <- c("chrom", "chromStart", "chromEnd", "name", "score", "strand", "thickStart",
                          "thickEnd", "itemRgb", "blockCount", "blockSizes", "blockStarts")
-    colnames(genomic.regions) = column.names[1:ncol(genomic.regions)]
-    return(genomic.regions)
+    colnames(regions) <- columnNames[1:ncol(regions)]
+    return(regions)
 }

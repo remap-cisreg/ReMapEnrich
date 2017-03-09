@@ -10,20 +10,20 @@
 #' @return A data frame (empty if no intersections have been found) containing the intersections and their lengths in base pairs.
 #' 
 #' @export
-intersect.bed = function(bedfile1, bedfile2, fraction = 0.1)
+BedIntersect <- function(bedfile1, bedfile2, fraction = 0.1)
 {
-    temp.path = tempfile()
-    command = paste("intersectBed -a", bedfile1, "-b", bedfile2, "-f", fraction, ">", temp.path)
+    tempPath <- tempfile()
+    command <- paste("intersectBed -a", bedfile1, "-b", bedfile2, "-f", fraction, ">", tempPath)
     system(command)
-    size = file.info(temp.path)$size
+    size <- file.info(tempPath)$size
     if(size == 0)
     {
-        intersections = data.frame()
+        intersections <- data.frame()
     }
     else
     {
-        intersections = import.bed(temp.path)   
+        intersections <- BedImport(tempPath)   
     }
-    unlink(temp.path)
+    unlink(tempPath)
     return(intersections)
 }
