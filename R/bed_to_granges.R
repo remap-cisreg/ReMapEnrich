@@ -6,15 +6,12 @@
 #' Any columns after the strand column are ignored.
 #' 
 #' @param path Location of your file
+#' 
 #' @export
-BedToGranges <- function(path, genomicRange = FALSE)
+BedToGranges <- function(path)
 {
     # Imports the bed file in a data frame.
-    bedData <- ImportBed(path)
-    if(!genomicRange)
-    {
-        return(bedData)
-    }
+    bedData <- BedImport(path)
     # If the data frame has more than 6 columns then remove them.
     if(ncol(bedData) > 6)
     {   
@@ -33,19 +30,19 @@ BedToGranges <- function(path, genomicRange = FALSE)
     # Construct the grangesanges object depending on the number of columns.
     if(ncol(bedData) == 3)
     {
-        grangesanges <- with(bedData, grangesanges(chrom, IRanges(chromStart, chromEnd)))
+        grangesanges <- with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd)))
     }
     else if (ncol(bedData)==4)
     {
-        grangesanges = with(bedData, grangesanges(chrom, IRanges(chromStart, chromEnd), id=name))
+        grangesanges = with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd), id=name))
     } 
     else if (ncol(bedData)==5)
     {
-        granges <- with(bedData, grangesanges(chrom, IRanges(chromStart, chromEnd), id=name, score=score))
+        granges <- with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd), id=name, score=score))
     } 
     else if (ncol(bedData)==6)
     {
-        granges <- with(bedData, grangesanges(chrom, IRanges(chromStart, chromEnd), id=name, score=score, strand=strand))
+        granges <- with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd), id=name, score=score, strand=strand))
     }
     else
     {
