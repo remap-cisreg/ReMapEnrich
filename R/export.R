@@ -5,7 +5,7 @@
 #'  @param format The format chosen
 #'      
 #'  @export
-ExportEnrichment  <- function(dat, fileName = "output", format = "default")
+ExportEnrichment  <- function(dat, fileName = "output", format = "default", plot = FALSE)
 {
     if(format == "csv")
     {
@@ -20,4 +20,17 @@ ExportEnrichment  <- function(dat, fileName = "output", format = "default")
         # Realize a capture of the dataframe if format isn't selected
         capture.output(dat, file = fileName)
     }
+#    if(plot == TRUE)
+#    {
+#        res <- dat[,5]
+#         names(res) <- dat[,1]
+    #         res <- sort(res)
+    #         a <- 0
+    #    b <- 0
+    #    png("plot.png")
+    #    output.plot <- barplot(res, horiz = TRUE, beside = TRUE,
+    #                           xlab = "significance", ylab = "category", space = 0.5, width = 0.5,
+    #                           col = colfunc(10))
+    #    dev.off()
+  #  }
 }
