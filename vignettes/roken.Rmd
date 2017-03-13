@@ -55,7 +55,7 @@ category.enrichment.bed(
 ## Downloading reMap2 catalogue
 
 ```{r}
-# Create a local directory for  the tutorial
+# Create a local directory for the tutorial
 demo.dir <- "~/roken_demo"
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
 setwd(demo.dir)
