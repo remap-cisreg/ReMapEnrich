@@ -23,7 +23,7 @@ GetChromFile <- function(genome)
 #' @export
 GetChromSizes <- function(genome)
 {
-    chromFile = GetChromFile(genome)
+    chromFile <- GetChromFile(genome)
     chromSizes <- read.table(chromFile, header = FALSE, sep = "\t",stringsAsFactors = FALSE, quote = "", row.names = 1)
     return(chromSizes)
 }

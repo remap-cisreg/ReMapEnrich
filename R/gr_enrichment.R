@@ -22,8 +22,7 @@ GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shu
     catCount[categories] <- 0
     shuffleCatCount[categories] <- 0
     # Computes the intersections betwen query and catalog.
-    overlaps <- subsetByOverlaps(catalog, query)
-    count <- lengths(split(overlaps@elementMetadata$id, overlaps@elementMetadata$id))
+    count <- GrIntersect(query, catalog)
     # Adds the found overlaps in the count.
     catCount[names(count)] <- catCount[names(count)] + count[names(count)]
     # Shuffles are created and computed as the query for bootstrapping.
@@ -31,8 +30,7 @@ GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shu
     {
         shuffle <- GrShuffle(query, chromSizes)
         # Computes the intersections betwen shuffle and catalog.
-        shuffleOverlaps <- subsetByOverlaps(catalog, shuffle)
-        count <- lengths(split(shuffleOverlaps@elementMetadata$id, shuffleOverlaps@elementMetadata$id))
+        count <- GrIntersect(shuffle, catalog)
         # Adds the found overlaps in the count.
         shuffleCatCount[names(count)] <- shuffleCatCount[names(count)] + count[names(count)]
     }

@@ -1,8 +1,8 @@
 #' BED to GRanges
 #'
-#' This function loads a bed file and stores it as a grangesanges object.
-#' The tab-delimited file must be ordered as 'chr', 'start', 'end', 'id', 'score', 'strand'.
-#' The minimal bed file must have the 'chr', 'start', 'end' columns.
+#' This function loads a bed file and stores it as a genomic ranges object.
+#' The tab-delimited file must be ordered as 'chrom', 'chromStart', 'chromEnd', 'name', 'score', 'strand'.
+#' The minimal bed file must have the 'chrom', 'chromStart', 'chromEnd' columns.
 #' Any columns after the strand column are ignored.
 #' 
 #' @param path Location of your file
