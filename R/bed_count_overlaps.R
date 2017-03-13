@@ -10,7 +10,7 @@
 #' @return The number of overlaps for the two sets of chromosomic regions given a frequency.
 #' 
 #' @export
-BedCountOverlaps <- function(bedfile1, bedfile2, fraction = 0.1)
+BedCountOverlaps <- function(bedfile1, bedfile2, fraction = 0)
 {
     # Calling the function genome_intersect to get a data frame of the overlaps.
     intersections <- BedIntersect(bedfile1, bedfile2, fraction)

@@ -1,23 +1,36 @@
-#' Genomic regions shuffle
+#' bed regions shuffle
 #' 
 #' Shuffle genomic regions among a defined genome.
 #' 
-#' @param regions The bed file containing the genomic regions to shuffle.
-#' @param genome A file containing all the chromosome lengths for the species in consideration.
+#' @param bedFile The bed file containing the genomic regions to shuffle.
+#' @param chromFile A file containing all the chromosome lengths for the species in consideration.
+#' @param outputFile A path where the output file will be created, if this string is empty then a data frame is returned.
 #' 
-#' @return A data frame containing the new shuffled chromosic regions.
+#' @return A data frame containing the new shuffled chromosic regions or the path to a file containing this informations.
 #' 
 #' @export
-BedShuffle <- function(regions, chromFile = GetChromFile("hg19"), tempFile = FALSE)
+BedShuffle <- function(bedFile, chromFile = GetChromFile("hg19"), outputFile = "")
+{
+    path <- outputFile
+    if(outputFile == "")
+    {
+        path <- tempfile()
+    }
+    command <- paste("shuffleBed -i", bedFile, "-g", chromFile, "-chrom >", path)
+    system(command)
+    if(outputFile != "")
+    {
+        return(path)
+    }
+    shuffle <- BedImport(path)
+    unlink(path)
+    return(shuffle)
+}
+
+BedShuffleTempFile <- function(bedFile, chromFile = GetChromFile("hg19"))
 {
     tempPath <- tempfile()
-    command <- paste("shuffleBed -i", regions, "-g", chromFile, "-chrom >", tempPath)
+    command <- paste("shuffleBed -i", bedFile, "-g", chromFile, "-chrom >", tempPath)
     system(command)
-    if(tempFile)
-    {
-        return(tempFile)
-    }
-    shuffle <- BedImport(tempPath)
-    unlink(tempPath)
-    return(shuffle)
+    return(tempPath)
 }

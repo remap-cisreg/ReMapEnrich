@@ -1,4 +1,4 @@
-#' BED to grangesanges
+#' BED to GRanges
 #'
 #' This function loads a bed file and stores it as a grangesanges object.
 #' The tab-delimited file must be ordered as 'chr', 'start', 'end', 'id', 'score', 'strand'.
@@ -6,6 +6,8 @@
 #' Any columns after the strand column are ignored.
 #' 
 #' @param path Location of your file
+#' 
+#' @return A genomic ranges object containing the informations from the given bed file.
 #' 
 #' @export
 BedToGranges <- function(path)
