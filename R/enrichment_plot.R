@@ -5,12 +5,9 @@
 #'  @param format.plot The type of the plot.
 #'  @param aRisk The alpha risk, by default 0.05.
 #'  @export
-<<<<<<< HEAD
 EnrichmentPlot <- function(enrich, format.plot = 'défault')
-=======
 #'  
 EnrichmentBarPlot <- function(enrich, formatPlot = 'défault', aRisk = 0.05)
->>>>>>> 091f4331a54fcb22c5d5df82848a1a1efda643a6
 {
     res <- enrich$significance
     names(res) <- enrich[,1]
