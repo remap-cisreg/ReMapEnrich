@@ -1,11 +1,8 @@
-cat = BedToGranges("big_data/nrPeaks_all.bed")
-query = BedToGranges("big_data/ENCFF001VCU.bed")
+cat = BedToGranges("inst/extdata/ReMap_nrPeaks_public_chr22.bed")
+query = BedToGranges("inst/extdata/ReMap_nrPeaks_public_chr22_SOX2.bed")
 enrich = GrEnrichment(query, cat)
-res2=enrich[,5]
-names(res2) = enrich[,1]
-res2=sort(res2)
-res2=res2[(length(res2)-10):length(res2)]
-colfunc<-colorRampPalette(c("royalblue","red"))
-output.plot=barplot(res2,horiz=TRUE,beside=TRUE,xlab="significance(log10(Pval))",space=0.5,width=0.5,
-                    cex.names=0.8,col=colfunc(length(res2)),las=2)
-
+effet = log(enrich$random.average / enrich$nb.overlaps, 2)
+plot(effet,enrich$significance)
+# par(mfrow = c(1,2))
+# hist(enrich$p.value)
+# hist(s.enrich$p.value)

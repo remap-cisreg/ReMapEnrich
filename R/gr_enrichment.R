@@ -1,5 +1,5 @@
 #' @export
-GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shuffles = 10)
+GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shuffles = 20)
 {
     # Creation of the two vectors containing the count for teach category.
     categories <- unique(catalog@elementMetadata$id)
@@ -19,12 +19,14 @@ GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shu
         count <- lengths(split(shuffleOverlaps@elementMetadata$id, shuffleOverlaps@elementMetadata$id))
         shuffleCatCount[names(count)] <- shuffleCatCount[names(count)] + count[names(count)]
     }
-    theoricalMeans = shuffleCatCount / shuffles
-    enrichPValues = ppois(catCount, theoricalMeans, lower = FALSE)
-    depletionPValues = ppois(catCount, theoricalMeans, lower = TRUE)
-    enrichPValues[theoricalMeans == 0] = NA
-    depletionPValues[theoricalMeans == 0] = NA
-    enrichment = data.frame(categories, catCount, theoricalMeans, enrichPValues, depletionPValues)
-    colnames(enrichment) <- c("category", "nb.overlaps", "random.average", "enrich.p.value", "depletion.p.value")
-    return(enrichment[order(enrichment$enrich.p.value, decreasing = FALSE),])
+    theoricalMeans <- shuffleCatCount / shuffles
+    significances <- ppois(catCount, theoricalMeans, lower = FALSE, log = TRUE) / 2.302585
+    pValues <- 10 ** significances 
+    significances <- - significances
+    pValues <- p.adjust(pValues, method = "BH")
+    pValues[theoricalMeans == 0] <- NA
+    significances[theoricalMeans == 0] <- NA
+    enrichment = data.frame(categories, catCount, theoricalMeans, pValues, significances)
+    colnames(enrichment) <- c("category", "nb.overlaps", "random.average", "p.value", "significance")
+    return(enrichment[order(enrichment$significance, decreasing = TRUE),])
 }
