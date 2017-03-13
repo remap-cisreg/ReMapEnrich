@@ -3,7 +3,6 @@
 #'  @param format.plot The type of the plot 
 #'      
 #'  @export
-#'  
 EnrichmentPlot <- function(enrich, format.plot = 'défault')
 {
     res <- enrich$significance

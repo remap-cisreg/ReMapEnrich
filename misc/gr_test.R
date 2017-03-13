@@ -1,5 +1,5 @@
-queryFile = "big_data/ENCFF001VCU.bed"
-catFile = "big_data/nrPeaks_all.bed"
+queryFile = "inst/extdata/ReMap_nrPeaks_public_chr22_SOX2.bed"
+catFile = "inst/extdata/ReMap_nrPeaks_public_chr22.bed"
 query = BedToGranges(queryFile)
 cat = BedToGranges(catFile)
-enrichment = GrEnrichment(query, cat, shuffles = 10)
+enrichment = GrEnrichment(query, cat, shuffles = 10, lower = TRUE)

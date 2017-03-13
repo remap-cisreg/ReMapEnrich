@@ -11,7 +11,7 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-BedEnrichment <- function(queryFile, catalogFile, chromFile = GetChromFile("hg19"), fraction = 0, shuffles = 10)
+BedEnrichment <- function(queryFile, catalogFile, chromFile = GetChromFile("hg19"), fraction = 0, shuffles = 10, lower = FALSE)
 {
     # Creation of the two vectors containing the count for each category.
     categories <- unique(BedImport(catalogFile)$name)
@@ -41,7 +41,7 @@ BedEnrichment <- function(queryFile, catalogFile, chromFile = GetChromFile("hg19
     theoricalMeans <- shuffleCatCount / shuffles
     # The significance is a number directly related to the p value.
     # The significance is in a range that is more understandable and computable.
-    significances <- ppois(catCount, theoricalMeans, lower = FALSE, log = TRUE) / 2.302585
+    significances <- ppois(catCount, theoricalMeans, lower = lower, log = TRUE) / 2.302585
     pValues <- 10 ** significances 
     significances <- - significances
     # The p values are adjusted by the Benjamini-Hochberg method.

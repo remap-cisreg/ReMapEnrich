@@ -12,4 +12,4 @@ LazyData: true
 RoxygenNote: 6.0.1
 Imports:
     data.table (>= 1.10.4)
-License: AMU
+License: GNU Affero General Public License
