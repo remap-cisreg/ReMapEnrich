@@ -1,8 +1,0 @@
-cat = BedToGranges("inst/extdata/ReMap_nrPeaks_public_chr22.bed")
-query = BedToGranges("inst/extdata/ReMap_nrPeaks_public_chr22_SOX2.bed")
-enrich = GrEnrichment(query, cat)
-effet = log(enrich$random.average / enrich$nb.overlaps, 2)
-plot(effet,enrich$significance)
-# par(mfrow = c(1,2))
-# hist(enrich$p.value)
-# hist(s.enrich$p.value)
