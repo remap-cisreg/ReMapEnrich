@@ -10,7 +10,7 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shuffles = 20)
+GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shuffles = 20, lower = FALSE)
 {
     # Creation of the two vectors containing the count for each category.
     categories <- unique(catalog@elementMetadata$id)
@@ -38,7 +38,7 @@ GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shu
     theoricalMeans <- shuffleCatCount / shuffles
     # The significance is a number directly related to the p value.
     # The significance is in a range that is more understandable and computable.
-    significances <- ppois(catCount, theoricalMeans, lower = FALSE, log = TRUE) / 2.302585
+    significances <- ppois(catCount, theoricalMeans, lower = lower, log = TRUE) / 2.302585
     pValues <- 10 ** significances 
     significances <- - significances
     # The p values are adjusted by the Benjamini-Hochberg method.
