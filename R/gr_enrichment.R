@@ -36,15 +36,19 @@ GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shu
     theoricalMeans <- shuffleCatCount / shuffles
     # The significance is a number directly related to the p value.
     # The significance is in a range that is more understandable and computable.
-    significances <- ppois(catCount, theoricalMeans, lower = lower, log = TRUE) / 2.302585
+    adjustedSignificances <- (ppois(catCount, theoricalMeans, lower = lower, log = TRUE) + log(catNumber)) / 2.302585
+    adjustedPValues <- 10 ** adjustedSignificances 
+    adjustedSignificances <- - adjustedSignificances
+    #
+    significances <- (ppois(catCount, theoricalMeans, lower = lower, log = TRUE)) / 2.302585
     pValues <- 10 ** significances 
     significances <- - significances
     # If the theorical means are at 0 then the pvalues and significance are not numbers.
     pValues[theoricalMeans == 0] <- NA
     significances[theoricalMeans == 0] <- NA
-    enrichment = data.frame(categories, catCount, theoricalMeans, pValues, significances)
-    colnames(enrichment) <- c("category", "nb.overlaps", "random.average", "p.value", "significance")
-    enrichment <- enrichment[order(enrichment$significance, decreasing = TRUE),]
+    enrichment = data.frame(categories, catCount, theoricalMeans, pValues, significances, adjustedPValues, adjustedSignificances)
+    colnames(enrichment) <- c("category", "nb.overlaps", "random.average", "p.value", "significance", "adjusted.p.value", "adjusted.significance")
+    enrichment <- enrichment[order(enrichment$adjusted.significance, decreasing = TRUE),]
     totalPeaks <- length(query)
     mappedPeaks <- GrCountMappedPeaks(query, catalog)
     enrichment <- Enrichment(peaks = enrichment, totalPeaks = totalPeaks, mappedPeaks = mappedPeaks)
