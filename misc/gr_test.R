@@ -1,5 +1,8 @@
-queryFile = "inst/extdata/ReMap_nrPeaks_public_chr22_SOX2.bed"
-catFile = "inst/extdata/ReMap_nrPeaks_public_chr22.bed"
+queryFile = "big_data/ENCFF001VCU.bed"
+catFile = "big_data/nrPeaks_all.bed"
 query = BedToGranges(queryFile)
 cat = BedToGranges(catFile)
-enrichment = GrEnrichment(query, cat, shuffles = 10, lower = TRUE)
+enrichment = GrEnrichment(query, cat, shuffles = 10, lower =FALSE)
+par(mfrow = c(1,2))
+EnrichmentBarPlot(enrichment,lengthData = 10)
+EnrichmentVolcanoPlot(enrichment)
