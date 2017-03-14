@@ -10,10 +10,13 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shuffles = 20, lower = FALSE){
+GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shuffles = 6, lower = FALSE){
     # Creation of the two vectors containing the count for each category.
     categories <- unique(catalog@elementMetadata$id)
     catNumber <- length(categories)
+    if(catNumber < 2){
+        stop("There is less than 2 categories found in the catalog.")
+    }
     # This vector is for the query.
     catCount <- vector()
     # This vector is for the shuffles that will be created.
@@ -34,8 +37,7 @@ GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shu
     }
     # The theorical means are calculated from the shuffles overlaps.
     theoricalMeans <- shuffleCatCount / shuffles
-    # The significance is a number directly related to the p value.
-    # The significance is in a range that is more understandable and computable.
+    #
     adjustedSignificances <- (ppois(catCount, theoricalMeans, lower = lower, log = TRUE) + log(catNumber)) / 2.302585
     adjustedPValues <- 10 ** adjustedSignificances 
     adjustedSignificances <- - adjustedSignificances
@@ -49,8 +51,5 @@ GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shu
     enrichment = data.frame(categories, catCount, theoricalMeans, pValues, significances, adjustedPValues, adjustedSignificances)
     colnames(enrichment) <- c("category", "nb.overlaps", "random.average", "p.value", "significance", "adjusted.p.value", "adjusted.significance")
     enrichment <- enrichment[order(enrichment$adjusted.significance, decreasing = TRUE),]
-    totalPeaks <- length(query)
-    mappedPeaks <- GrCountMappedPeaks(query, catalog)
-    enrichment <- Enrichment(peaks = enrichment, totalPeaks = totalPeaks, mappedPeaks = mappedPeaks)
     return(enrichment)
 }
