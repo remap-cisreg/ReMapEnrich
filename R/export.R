@@ -1,9 +1,9 @@
 #' Create an output file with the format chosen by user or a capture like 'txt' if none is selected
 #' 
-#'  @param dat dataframe to output
-#'  @param name.file Name of the output file chosen
-#'  @param format The format chosen
-#'  @param plot Boolean option T or F if user wants a plot 
+#'  @param dat dataframe to output.
+#'  @param fileName Name of the output file chosen.
+#'  @param format The format chosen.
+#'  @param plot Boolean option T or F if user wants a plot. 
 #'      
 #'  @export
 ExportEnrichment  <- function(dat, fileName = "output", format = "default", plot = FALSE)
@@ -16,13 +16,15 @@ ExportEnrichment  <- function(dat, fileName = "output", format = "default", plot
     {
         write.table(dat, file = fileName, quote = FALSE, sep = '\t', col.names = NA)
     }
-    if (format == "default")
+    else
     {
-        # Realize a capture of the dataframe if format isn't selected
+        # Realize a capture of the dataframe if format isn't selected.
         capture.output(dat, file = fileName)
     }
-   if(plot == TRUE)
+    # Verify if user wants a plot with the output file.
+    if(plot == TRUE)
    {
-       EnrichmentPlot(dat, format.plot = "default")
+        # Create a default plot = barplot.
+        EnrichmentBarPlot(dat, aRisk = 0.05)
    }
 }
