@@ -5,8 +5,6 @@
 #'  @param lengthdata The number of category for the plot.
 #'  @param aRisk The alpha risk, by default 0.05.
 #'  @export
-EnrichmentPlot <- function(enrich, format.plot = 'défault')
-#'  
 EnrichmentBarPlot <- function(enrich, lengthdata = 10 , aRisk = 0.05)
 {
     res <- enrich$significance
@@ -26,6 +24,7 @@ EnrichmentBarPlot <- function(enrich, lengthdata = 10 , aRisk = 0.05)
         stop("The alpha risk is too small to be computed.")
     }
     abline(v = aSignificance, lty = 5)
+    
 }
 
 EnrichmentVolcanoPlot <- function(enrich, aRisk = 0.05)
