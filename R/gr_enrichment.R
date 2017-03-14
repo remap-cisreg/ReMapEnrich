@@ -10,8 +10,7 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shuffles = 20, lower = FALSE)
-{
+GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shuffles = 20, lower = FALSE){
     # Creation of the two vectors containing the count for each category.
     categories <- unique(catalog@elementMetadata$id)
     catNumber <- length(categories)
@@ -26,8 +25,7 @@ GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shu
     # Adds the found overlaps in the count.
     catCount[names(count)] <- catCount[names(count)] + count[names(count)]
     # Shuffles are created and computed as the query for bootstrapping.
-    for(i in 1:shuffles)
-    {
+    for(i in 1:shuffles){
         shuffle <- GrShuffle(query, chromSizes)
         # Computes the intersections betwen shuffle and catalog.
         count <- GrIntersect(shuffle, catalog)
@@ -41,12 +39,14 @@ GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shu
     significances <- ppois(catCount, theoricalMeans, lower = lower, log = TRUE) / 2.302585
     pValues <- 10 ** significances 
     significances <- - significances
-    # The p values are adjusted by the Benjamini-Hochberg method.
-    pValues <- p.adjust(pValues, method = "BH")
     # If the theorical means are at 0 then the pvalues and significance are not numbers.
     pValues[theoricalMeans == 0] <- NA
     significances[theoricalMeans == 0] <- NA
     enrichment = data.frame(categories, catCount, theoricalMeans, pValues, significances)
     colnames(enrichment) <- c("category", "nb.overlaps", "random.average", "p.value", "significance")
-    return(enrichment[order(enrichment$significance, decreasing = TRUE),])
+    enrichment <- enrichment[order(enrichment$significance, decreasing = TRUE),]
+    totalPeaks <- length(query)
+    mappedPeaks <- GrCountMappedPeaks(query, catalog)
+    enrichment <- Enrichment(peaks = enrichment, totalPeaks = totalPeaks, mappedPeaks = mappedPeaks)
+    return(enrichment)
 }
