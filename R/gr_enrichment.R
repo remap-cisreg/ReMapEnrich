@@ -48,6 +48,8 @@ GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shu
     # If the theorical means are at 0 then the pvalues and significance are not numbers.
     pValues[theoricalMeans == 0] <- NA
     significances[theoricalMeans == 0] <- NA
+    adjustedPValues[theoricalMeans == 0] <- NA
+    adjustedSignificances[theoricalMeans == 0] <- NA
     enrichment = data.frame(categories, catCount, theoricalMeans, pValues, significances, adjustedPValues, adjustedSignificances)
     colnames(enrichment) <- c("category", "nb.overlaps", "random.average", "p.value", "significance", "adjusted.p.value", "adjusted.significance")
     enrichment <- enrichment[order(enrichment$adjusted.significance, decreasing = TRUE),]
