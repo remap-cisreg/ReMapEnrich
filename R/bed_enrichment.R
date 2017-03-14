@@ -11,8 +11,7 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-BedEnrichment <- function(queryFile, catalogFile, chromFile = GetChromFile("hg19"), fraction = 0, shuffles = 10, lower = FALSE)
-{
+BedEnrichment <- function(queryFile, catalogFile, chromFile = GetChromFile("hg19"), fraction = 0, shuffles = 10, lower = FALSE){
     # Creation of the two vectors containing the count for each category.
     categories <- unique(BedImport(catalogFile)$name)
     catNumber <- length(categories)
@@ -28,8 +27,7 @@ BedEnrichment <- function(queryFile, catalogFile, chromFile = GetChromFile("hg19
     # Adds the found overlaps in the count.
     catCount[names(count)] <- catCount[names(count)] + count[names(count)]
     # Shuffles are created and computed as the query for bootstrapping.
-    for(i in 1:shuffles)
-    {
+    for(i in 1:shuffles){
         shuffleFile <- BedShuffleTempFile(queryFile, chromFile)
         # Computes the intersections betwen shuffle and catalog.
         shuffleOverlaps <- BedIntersect(catalogFile, shuffleFile, fraction)

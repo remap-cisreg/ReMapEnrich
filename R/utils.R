@@ -7,8 +7,7 @@
 #' @return The path to a file that contains the chromosome lengths.
 #' 
 #' @export
-GetChromFile <- function(genome)
-{
+GetChromFile <- function(genome){
     return(system.file("extdata", paste(genome, ".genome", sep = ""), package = "roken"))
 }
 
@@ -21,8 +20,7 @@ GetChromFile <- function(genome)
 #' @return A table that contains the chromosome lengths.
 #' 
 #' @export
-GetChromSizes <- function(genome)
-{
+GetChromSizes <- function(genome){
     chromFile <- GetChromFile(genome)
     chromSizes <- read.table(chromFile, header = FALSE, sep = "\t",stringsAsFactors = FALSE, quote = "", row.names = 1)
     return(chromSizes)
