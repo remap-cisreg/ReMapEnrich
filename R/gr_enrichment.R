@@ -17,23 +17,17 @@ GrEnrichment <- function(query, catalog, chromSizes = GetChromSizes("hg19"), shu
     if(catNumber < 2){
         stop("There is less than 2 categories found in the catalog.")
     }
-    # This vector is for the query.
-    catCount <- vector()
-    # This vector is for the shuffles that will be created.
-    shuffleCatCount <- vector()
-    catCount[categories] <- 0
-    shuffleCatCount[categories] <- 0
     # Computes the intersections betwen query and catalog.
-    count <- GrIntersect(query, catalog)
-    # Adds the found overlaps in the count.
-    catCount[names(count)] <- catCount[names(count)] + count[names(count)]
+    catCount <- GrIntersect(query, catalog)
     # Shuffles are created and computed as the query for bootstrapping.
+    shuffleCatCount <- vector()
+    shuffleCatCount[categories] <- 0
     for(i in 1:shuffles){
         shuffle <- GrShuffle(query, chromSizes)
         # Computes the intersections betwen shuffle and catalog.
         count <- GrIntersect(shuffle, catalog)
         # Adds the found overlaps in the count.
-        shuffleCatCount[names(count)] <- shuffleCatCount[names(count)] + count[names(count)]
+        shuffleCatCount <- shuffleCatCount + count
     }
     # The theorical means are calculated from the shuffles overlaps.
     theoricalMeans <- shuffleCatCount / shuffles
