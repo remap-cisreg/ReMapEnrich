@@ -8,7 +8,7 @@
 #' @return A data frame containing the Remap genomic regions.
 #' 
 #' @export
-GetRemapCatalog <- function(filePath){
+LoadRemapCatalog <- function(filePath){
     tempZipFile <- tempfile()
     url <- "http://tagc.univ-mrs.fr/remap/download/All/nrPeaks_all.bed.gz"
     download.file(url, tempZipFile)
