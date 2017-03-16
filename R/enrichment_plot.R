@@ -1,58 +1,57 @@
-#'  EnrichmentBarPlot
+#'  Enrichment bar plot
 #'  
-#'  Create a barplot or a volcanoplot (chosen by user) from the enrichment
-#'  @param enrich The file enrichment from which the plot will be create.
+#'  Creates a barplot from the enrichment.
+#'  
+#'  @param enrich The enrichment data frame from which the plot will be created.
 #'  @param lengthData The number of category for the plot.
 #'  @param aRisk The alpha risk, by default 0.05.
+#'  
 #'  @export
-EnrichmentBarPlot <- function(enrich, lengthData = 10 , aRisk = 0.05)
-{
-    res <- enrich$adjusted.significance
-    names(res) <- enrich$category
-    res2 <- sort(res)
-    res2 <- res2[(length(res2)-lengthData):length(res2)]
+EnrichmentBarPlot <- function(enrich, lengthData = 10 , aRisk = 0.05){
+    adjustedSignificance <- enrich$adjusted.significance
+    names(adjustedSignificance) <- enrich$category
+    sortedAdjustedSignificance <- sort(adjustedSignificance)
+    sortedAdjustedSignificance <- 
+        sortedAdjustedSignificance[(length(sortedAdjustedSignificance)-lengthData):length(sortedAdjustedSignificance)]
     # Create a gradient stain.
     colorFunction <- colorRampPalette(c("royalblue", "red"))
     # Give a title for the barplot with lengthData.
     titlePlot = c("Significance of first", lengthData, "category")
     # Create barplot with legend.
-    barplot(res2,
+    barplot(sortedAdjustedSignificance,
             horiz     = TRUE, 
             beside    = TRUE, 
             xlab      = "Significance",
             space     = 0.5,
             width     = 0.5,
             cex.names = 0.8,
-            col       = colorFunction(length(res2)),
+            col       = colorFunction(length(sortedAdjustedSignificance)),
             las       = 2,
             main      = titlePlot)
     # Convert alpha risk from p-value to significance.
     aSignificance <- ( -10 * log10(aRisk ))
     if (!is.finite(aSignificance))
-    {
         stop("The alpha risk is too small to be computed.")
-    }
     # Add a line that shows the alpha risk.
     abline(v = aSignificance, lty = 5)
     mtext(bquote(alpha == .(aSignificance)), side = 3, at = aSignificance, col = "red")
 }
 
-
-
-
-#'  EnrichmentVolcanoPlot
-#'  Create a volcanoplot from the enrichment
+#'  Enrichment volcano plot
+#'  
+#'  Creates a volcanoplot from the enrichment.
+#'  
 #'  @param enrich The file enrichment from which the plot will be create.
 #'  @param aRisk The alpha risk, by default 0.05.
+#'  
 #'  @export
-EnrichmentVolcanoPlot <- function(enrich, aRisk = 0.05)
-{
+EnrichmentVolcanoPlot <- function(enrich, aRisk = 0.05){
     # Create a gradient stain.
     colorFunction <- colorRampPalette(c("red", "royalblue"))
     matrixVolcano <- matrix(nrow = length(enrich$category), ncol = 2)
-    effects_size <- log(enrich$random.average/enrich$adjusted.significance,
+    effectsSize <- log(enrich$random.average/enrich$adjusted.significance,
                         base = 2)
-    matrixVolcano[, 1] <- effects_size
+    matrixVolcano[, 1] <- effectsSize
     matrixVolcano[, 2] <- enrich$adjusted.significance
     matrixVolcano[complete.cases(matrixVolcano*0), drop=FALSE]
     # Create a volcanoplot-like.
@@ -65,9 +64,7 @@ EnrichmentVolcanoPlot <- function(enrich, aRisk = 0.05)
     # Convert alpha risk from p-value to significance.
     aSignificance <- ( -10 * log10(aRisk))
     if (!is.finite(aSignificance))
-    {
         stop("The alpha risk is too small to be computed.")
-    }
     # Add a line that shows the alpha risk.
     abline(v = aSignificance, h = 0, col = "red", lty = 5)
     mtext(bquote(alpha == .(aSignificance)), side = 4, at = aSignificance, col = "red")

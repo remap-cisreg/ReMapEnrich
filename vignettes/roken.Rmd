@@ -24,7 +24,6 @@ It will go through the folowing steps.
 
     - a query set of genomic regions. 
     - (reduced) catalogue of reference genomic regions. 
-    - load the chromosome sizes.
 
 2. Compute the enrichment of intersections between the query and each entry of the catalogue. 
 
@@ -33,22 +32,26 @@ It will go through the folowing steps.
 library(roken) 
 
 # Load the example dataset
-roken.load.examples()
+query <- BedToGranges(system.file("extdata",
+                                    "ReMap_nrPeaks_public_chr22_SOX2.bed",
+                                    package = "roken"))
+
+catalog <- BedToGranges(system.file("extdata",
+                                    "ReMap_nrPeaks_public_chr22.bed",
+                                    package = "roken"))
 ```
 
-We now dispose of paths to three datasets: 
-
-- mini.catalog
-- mini.genome
-- mini.regions
+We now dispose of two genomic ranges object.
+The catalogue contains features names.
 
 ```{r}
-category.enrichment.bed(
-    regions = mini.regions, 
-    catalog = mini.catalog, 
-    genome = mini.genome)
+enrichment <- GrEnrichment(query, catalog)
 ```
 
+The data frame enrichment now contains all the features of the catalogue with their enrichment values.
+The column "adjusted.significance" is the one ordering the data frame.
+It is important to specify that this example is only relevant for the hg19 assembly.
+If any other assembly is computed, the parameter "chromSizes" should be acknowledged consequently.
 
 ## Data loading 
 
@@ -59,18 +62,12 @@ category.enrichment.bed(
 demo.dir <- "~/roken_demo"
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
 setwd(demo.dir)
-
-## Download the ReMap catalogue
-remap.file <- "nrPeaks_public.bed.gz"
-remap.url <- file.path("http://tagc.univ-mrs.fr/remap/download/All/", remap.file)
-
-download.file(url=remap.url, 
-              destfile=remap.file, 
-              method="wget", quiet = FALSE, 
-              mode = "w",
-              cacheOK = TRUE,
-              extra = getOption("download.file.extra"))
+# Use the function LoadRemapCatalog
+remapCatalog <- LoadRemapCatalog("nrpeaks_all.bed.gz")
 ```
+
+The genomic ranges object remapCatalog now contains the full reMap2 catalogue.
+A file has also been downloaded at "~/roken_demo/nrpeaks_all.bed.gz" (0.544 GB when not compressed).
 
 ## Loading a custom catalogue
 
@@ -78,37 +75,15 @@ download.file(url=remap.url,
 
 ## Loading chromosome sizes
 
-********************************
-# Running the enrichment analysis
-
 ```{r}
-
-remap.chr22.file <- 
-    system.file(
-        "extdata",                 "ReMap_nrPeaks_public_chr22.bed", 
-        package = "roken")
-
-remap.chr22.sox2.file <- 
-    system.file(
-        "extdata",                 "ReMap_nrPeaks_public_chr22_SOX2.bed", 
-        package = "roken")
-
-hg19.chr22.size.file <- 
-    system.file(
-        "extdata",                 "hg19_chr22.genome", 
-        package = "roken")
-
+# This call will not create any file but only load the data in a vector.
+rn5ChromSizes <- LoadUcscChromSizes("rn5")
+# It is also possible to load the chromosomes sizes of any species in a file during the process.
+rn5ChromSizes <- LoadUcscChromSizes("rn5", "rn5_chrom_sizes.txt")
 ```
 
-```{r}
-chr22.result <- 
-    category.enrichment.bed(
-        regions = remap.chr22.sox2.file, 
-        catalog = remap.chr22.file, 
-        genome = hg19.chr22.size.file)
-
-View(chr22.result)
-```
+The vector rn5ChromSizes now contains all the chromosomes for the rattus norvegicus and their respective lengths.
+A file has also been downloaded at "~/roken_demo/rn5_chrom_sizes.txt".
 
 ## Negative control
 
@@ -116,24 +91,8 @@ A negative control consists in submitting datasets known to be under the null hy
 
 ```{r}
 ## Generate a randomized query set
-shuffled.query <- shuffle.bed(
-    regions = remap.chr22.sox2.file, 
-    genome = hg19.chr22.size.file)
-shuffled.file <- "shuffled.bed"
-write.table(x = shuffled.query, 
-            file = shuffled.file,
-            quote=FALSE, sep="\t", 
-            col.names = FALSE,
-            row.names = FALSE)
-
-shuffled.result <- 
-    category.enrichment.bed(
-        regions = shuffled.file, 
-        catalog = remap.chr22.file, 
-        genome = hg19.chr22.size.file)
-
-head(shuffled.result)
-
+shuffledQuery <- GrShuffle(query)
+shuffledEnrichment <- GrEnrichment(shuffledQuery, catalog)
 ```
 
 
@@ -143,35 +102,19 @@ head(shuffled.result)
 
 ```{r}
 par(mfrow = c(2,1))
-hist(chr22.result$p.value, breaks=20)
-hist(shuffled.result$p.value, breaks=20)
+hist(enrichment$adjusted.p.value, breaks=20)
+hist(shuffledEnrichment$adjusted.p.value, breaks=20)
 par(mfrow = c(1,1))
-
 ```
 
-
-# Exporting the results
-
-
-
-# Bazard
+## Volcano plot
 
 ```{r}
-
-chr22.size <- unlist(read.table(file = hg19.chr22.size.file, header = FALSE, row.names = 1)[1])
-
-query <- read.delim(
-    file = remap.chr22.sox2.file,
-    header = FALSE)
-
-query.region.lengths <- unlist(query[3] - query[2] + 1)
-
-# hist(unlist(query.region.lengths), breaks=100)
-
-possible.starts <- chr22.size - query.region.lengths
-
-sample.int(n = possible.starts, 
-           size=nrow(query))
-
+EnrichmentVolcanoPlot(enrichment)
 ```
 
+## Bar plot
+
+```{r}
+EnrichmentBarPlot(enrichment)
+```
