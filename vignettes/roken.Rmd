@@ -32,9 +32,10 @@ It will go through the folowing steps.
 library(roken) 
 
 # Load the example dataset
-query <- BedToGranges(system.file("extdata",
-                                    "ReMap_nrPeaks_public_chr22_SOX2.bed",
-                                    package = "roken"))
+query <- BedToGranges(system.file(
+    "extdata",                                    
+    "ReMap_nrPeaks_public_chr22_SOX2.bed",
+    package = "roken"))
 
 catalog <- BedToGranges(system.file("extdata",
                                     "ReMap_nrPeaks_public_chr22.bed",
@@ -45,7 +46,7 @@ We now dispose of two genomic ranges object.
 The catalogue contains features names.
 
 ```{r}
-enrichment <- GrEnrichment(query, catalog)
+enrichment <- GrEnrichment(query, catalog, shuffles = 10)
 ```
 
 The data frame enrichment now contains all the features of the catalogue with their enrichment values.
