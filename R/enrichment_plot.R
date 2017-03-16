@@ -19,15 +19,16 @@ EnrichmentBarPlot <- function(enrich, lengthData = 10 , aRisk = 0.05){
     titlePlot = c("Significance of first", lengthData, "category")
     # Create barplot with legend.
     barplot(sortedAdjustedSignificance,
+            main      = titlePlot,
+            xlab      = "Significance",
+            col       = colorFunction(length(sortedAdjustedSignificance)),
             horiz     = TRUE, 
             beside    = TRUE, 
-            xlab      = "Significance",
             space     = 0.5,
             width     = 0.5,
             cex.names = 0.8,
-            col       = colorFunction(length(sortedAdjustedSignificance)),
             las       = 2,
-            main      = titlePlot)
+            )
     # Convert alpha risk from p-value to significance.
     aSignificance <- ( -10 * log10(aRisk ))
     if (!is.finite(aSignificance))
@@ -48,19 +49,17 @@ EnrichmentBarPlot <- function(enrich, lengthData = 10 , aRisk = 0.05){
 EnrichmentVolcanoPlot <- function(enrich, aRisk = 0.05){
     # Create a gradient stain.
     colorFunction <- colorRampPalette(c("red", "royalblue"))
-    matrixVolcano <- matrix(nrow = length(enrich$category), ncol = 2)
-    effectsSize <- log(enrich$random.average/enrich$adjusted.significance,
+    effectsSize <- log(enrich$random.average/enrich$nb.overlaps,
                         base = 2)
-    matrixVolcano[, 1] <- effectsSize
-    matrixVolcano[, 2] <- enrich$adjusted.significance
-    matrixVolcano[complete.cases(matrixVolcano*0), drop=FALSE]
-    # Create a volcanoplot-like.
-    plot(matrixVolcano,
+   # Create a volcanoplot-like.
+    plot(x    = effectsSize,
+         y    = enrich$adjusted.significance,
+         main = "Volcano plot",
          xlab = "Effect size",
          ylab = "Significance",
-         main = "Volcano plot",
+         col  =  colorFunction(length(enrich$significance)),
          pch  = 19,
-         col  =  colorFunction(length(enrich$significance)))
+         cex  = 0.5)
     # Convert alpha risk from p-value to significance.
     aSignificance <- ( -10 * log10(aRisk))
     if (!is.finite(aSignificance))
