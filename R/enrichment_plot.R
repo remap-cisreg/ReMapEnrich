@@ -7,8 +7,11 @@
 #'  @param aRisk The alpha risk, by default 0.05.
 #'  
 #'  @export
-EnrichmentBarPlot <- function(enrich, lengthData = 10 , aRisk = 0.05,
-                              sigDisplayQuantile=0.95) {
+EnrichmentBarPlot <- function(enrich, 
+                              lengthData = 20,
+#                              sigDisplayQuantile=0.95, 
+                              aRisk = 0.05
+                              ) {
     
     adjustedSignificance <- enrich$adjusted.significance
     names(adjustedSignificance) <- enrich$category
@@ -16,7 +19,7 @@ EnrichmentBarPlot <- function(enrich, lengthData = 10 , aRisk = 0.05,
     sortedAdjustedSignificance <- 
         sortedAdjustedSignificance[(length(sortedAdjustedSignificance)-lengthData):length(sortedAdjustedSignificance)]
 
-    yMax <- quantile(x = enrich$adjusted.significance, probs = sigDisplayQuantile)
+#    yMax <- quantile(x = enrich$adjusted.significance, probs = sigDisplayQuantile)
     
     # Create a gradient stain.
     colorFunction <- colorRampPalette(c("royalblue", "red"))
@@ -24,7 +27,7 @@ EnrichmentBarPlot <- function(enrich, lengthData = 10 , aRisk = 0.05,
     titlePlot = c("Significance of first", lengthData, "category")
     # Create barplot with legend.
     barplot(sortedAdjustedSignificance,
-            ylim      = c(0, yMax),
+#            ylim      = c(0, yMax),
             main      = titlePlot,
             xlab      = "Significance",
             col       = colorFunction(length(sortedAdjustedSignificance)),
