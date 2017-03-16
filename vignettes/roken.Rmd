@@ -67,7 +67,7 @@ remapCatalog <- LoadRemapCatalog("nrpeaks_all.bed.gz")
 ```
 
 The genomic ranges object remapCatalog now contains the full reMap2 catalogue.
-A file has also been downloaded at "~/roken_demo/nrpeaks_all.bed.gz" (0.5 G).
+A file has also been downloaded at "~/roken_demo/nrpeaks_all.bed.gz" (0.544 GB when not compressed).
 
 ## Loading a custom catalogue
 
@@ -105,4 +105,16 @@ par(mfrow = c(2,1))
 hist(enrichment$adjusted.p.value, breaks=20)
 hist(shuffledEnrichment$adjusted.p.value, breaks=20)
 par(mfrow = c(1,1))
+```
+
+## Volcano plot
+
+```{r}
+EnrichmentVolcanoPlot(enrichment)
+```
+
+## Bar plot
+
+```{r}
+EnrichmentBarPlot(enrichment)
 ```
