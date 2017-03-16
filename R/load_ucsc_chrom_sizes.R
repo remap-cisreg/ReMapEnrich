@@ -8,7 +8,7 @@
 #' @return A table that contains the chromosome lengths.
 #' 
 #' @export
-GetUcscChromSizes <- function(id, file = ""){
+LoadUcscChromSizes <- function(id, file = ""){
     path <- file
     if(file == "")
         path <- tempfile()
