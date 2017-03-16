@@ -25,6 +25,6 @@ ExportEnrichment  <- function(dat, fileName = "output", format = "default", plot
     if(plot == TRUE)
    {
         # Create a default plot = barplot.
-        EnrichmentBarPlot(dat, aRisk = 0.05)
+        EnrichmentBarPlot(dat, lengthData = 10, aRisk = 0.05)
    }
 }

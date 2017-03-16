@@ -54,6 +54,7 @@ EnrichmentVolcanoPlot <- function(enrich, aRisk = 0.05)
                         base = 2)
     matrixVolcano[, 1] <- effects_size
     matrixVolcano[, 2] <- enrich$adjusted.significance
+    matrixVolcano[complete.cases(matrixVolcano*0), drop=FALSE]
     # Create a volcanoplot-like.
     plot(matrixVolcano,
          xlab = "Effect size",
@@ -70,4 +71,30 @@ EnrichmentVolcanoPlot <- function(enrich, aRisk = 0.05)
     # Add a line that shows the alpha risk.
     abline(v = aSignificance, h = 0, col = "red", lty = 5)
     mtext(bquote(alpha == .(aSignificance)), side = 4, at = aSignificance, col = "red")
+}
+
+
+
+
+
+
+#'  Create a pie from the enrichment
+#'  @param enrich The file enrichment from which the plot will be create.
+#'  @param lengthData The number of category for the plot.
+#'  @export
+EnrichmentPiePlot <- function(enrich, lengthData = 10)
+{
+    dataPie <- enrich$nb.overlaps
+    names(dataPie) <- enrich$category
+    dataPie <- dataPie[(length(dataPie)-lengthData):length(dataPie)]
+    labelPie <- names(dataPie)
+    percentPie <- round(dataPie/sum(dataPie)*100)
+    labelPie <- paste(labelPie, percentPie)
+    labelPie <- paste(labelPie, "%", sep="")
+    colorFunction <- colorRampPalette(c("royalblue", "red"))
+    titlePie <- c("Percent of overlap of first", lengthData, "category")
+    pie(dataPie,
+        main   = titlePie,
+        col    = colorFunction(length(dataPie)),
+        labels = labelPie)
 }
