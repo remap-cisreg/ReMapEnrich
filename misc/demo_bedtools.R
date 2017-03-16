@@ -11,6 +11,7 @@ demo_time <- function()
     EnrichmentBarPlot(enrich=enrich,lengthData = 20)
     EnrichmentVolcanoPlot(enrich)
     return(enrich)
+    par(mfrow = c(1, 1))
 }
 
 print(system.time(enrich <- demo_time()))
