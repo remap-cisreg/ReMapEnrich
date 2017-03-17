@@ -41,13 +41,15 @@ GrEnrichment <- function(query, catalog, chromSizes = ImportChromSizes("hg19"), 
     significances <- (ppois(catCount, theoricalMeans, lower = lower, log = TRUE)) / 2.302585
     pValues <- 10 ** significances 
     significances <- - significances
+    #
+    effectSizes = log(catCount / theoricalMeans, base = 2)
     # If the theorical means are at 0 then the pvalues and significance are not numbers.
     pValues[theoricalMeans == 0] <- NA
     significances[theoricalMeans == 0] <- NA
     adjustedPValues[theoricalMeans == 0] <- NA
     adjustedSignificances[theoricalMeans == 0] <- NA
-    enrichment = data.frame(categories, catCount, theoricalMeans, pValues, significances, adjustedPValues, adjustedSignificances)
-    colnames(enrichment) <- c("category", "nb.overlaps", "random.average", "p.value", "significance", "adjusted.p.value", "adjusted.significance")
+    enrichment = data.frame(categories, catCount, theoricalMeans, pValues, significances, adjustedPValues, adjustedSignificances, effectSizes)
+    colnames(enrichment) <- c("category", "nb.overlaps", "random.average", "p.value", "significance", "adjusted.p.value", "adjusted.significance", "effect.size")
     enrichment <- enrichment[order(enrichment$adjusted.significance, decreasing = TRUE),]
     return(enrichment)
 }
