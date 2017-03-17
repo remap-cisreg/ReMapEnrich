@@ -8,7 +8,8 @@
 #' @param fraction=0.1 The fraction that intersections shall exceed to be considered.
 #' 
 #' @return The number of overlaps for the two sets of chromosomic regions given a frequency.
-#' 
+#' @examples
+#' x <- BedCountOverlaps(H3K27ac.bed, ReMap.bed, fraction = 0.1)
 #' @export
 BedCountOverlaps <- function(bedfile1, bedfile2, fraction = 0.1) {
     # Calling the function genome_intersect to get a data frame of the overlaps.
