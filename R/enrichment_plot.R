@@ -1,17 +1,18 @@
-#'  Enrichment bar plot
-#'  
-#'  Creates a barplot from the enrichment.
+#'  @title Enrichment bar plot
+#'  @author Martin Mestdagh
+#'  @description Creates a barplot from the enrichment.
 #'  
 #'  @param enrich The enrichment data frame from which the plot will be created.
-#'  @param lengthData The number of category for the plot.
-#'  @param aRisk The alpha risk, by default 0.05.
-#'  
+#'  @param lengthData=10 The number of category for the plot.
+#'  @param aRisk=0.05 The alpha risk, by default 0.05.
+#'  @param sigDisplayQuantile=0.95 quantile used to define the maximal value for the
+#'  Y axis, based on a quantile.
+#'  @param col="Dark2" Allows you to use colorBrewer palettes.
 #'  @export
 EnrichmentBarPlot <- function(enrich, 
                               lengthData = 20,
-#                              sigDisplayQuantile=0.95, 
-                              aRisk = 0.05
-                              ) {
+                              aRisk = 0.05,
+                              col = "Dark2") {
     
     adjustedSignificance <- enrich$adjusted.significance
     names(adjustedSignificance) <- enrich$category
@@ -19,18 +20,15 @@ EnrichmentBarPlot <- function(enrich,
     sortedAdjustedSignificance <- 
         sortedAdjustedSignificance[(length(sortedAdjustedSignificance)-lengthData):length(sortedAdjustedSignificance)]
 
-#    yMax <- quantile(x = enrich$adjusted.significance, probs = sigDisplayQuantile)
-    
     # Create a gradient stain.
-    colorFunction <- colorRampPalette(c("royalblue", "red"))
+    colorFunction <- c(colorRampPalette(brewer.pal(8, col))(length(sortedAdjustedSignificance)))
     # Give a title for the barplot with lengthData.
     titlePlot = c("Significance of first", lengthData, "category")
     # Create barplot with legend.
     barplot(sortedAdjustedSignificance,
-#            ylim      = c(0, yMax),
             main      = titlePlot,
             xlab      = "Significance",
-            col       = colorFunction(length(sortedAdjustedSignificance)),
+            col       = colorFunction,
             horiz     = TRUE, 
             beside    = TRUE, 
             space     = 0.5,
@@ -38,6 +36,7 @@ EnrichmentBarPlot <- function(enrich,
             cex.names = 0.8,
             las       = 2
             )
+    
     # Convert alpha risk from p-value to significance.
     aSignificance <- ( -10 * log10(aRisk ))
     if (!is.finite(aSignificance))
@@ -55,12 +54,15 @@ EnrichmentBarPlot <- function(enrich,
 #'  @param aRisk=0.05 The alpha risk, by default 0.05.
 #'  @param sigDisplayQuantile=0.95 quantile used to define the maximal value for the
 #'  Y axis, based on a quantile. 
-#'  
+#'  @param col="Dark2" Allows you to use colorBrewer palettes.
+#'
 #'  @export
-EnrichmentVolcanoPlot <- function(enrich, aRisk = 0.05,
-                                  sigDisplayQuantile=0.95) {
+EnrichmentVolcanoPlot <- function(enrich,
+                                  sigDisplayQuantile = 0.95,
+                                  aRisk = 0.05,
+                                  col = "Dark2") {
     # Create a gradient stain.
-    colorFunction <- colorRampPalette(c("red", "royalblue"))
+    colorFunction <- c(colorRampPalette(brewer.pal(8, col))(length(enrich$adjusted.significance)))
     effectsSize <- log(enrich$random.average/enrich$nb.overlaps,
                         base = 2)
 
@@ -79,7 +81,7 @@ EnrichmentVolcanoPlot <- function(enrich, aRisk = 0.05,
          main = "Volcano plot",
          xlab = "Effect size",
          ylab = "Significance",
-         col  =  colorFunction(length(enrich$significance)),
+         col  =  colorFunction,
          pch  = pch,
          cex  = 0.5)
     # Convert alpha risk from p-value to significance.
@@ -94,7 +96,7 @@ EnrichmentVolcanoPlot <- function(enrich, aRisk = 0.05,
 
 
 
-
+#-----------------------Suspendu---------------------------------
 
 #'  Create a pie from the enrichment
 #'  @param enrich The file enrichment from which the plot will be create.
