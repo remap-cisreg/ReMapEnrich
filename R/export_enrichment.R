@@ -6,7 +6,7 @@
 #'  @param plot Boolean option T or F if user wants a plot. 
 #'      
 #'  @export
-ExportEnrichment  <- function(dat, fileName = "output", format = "default", plot = FALSE)
+ExportEnrichment  <- function(dat, fileName = "output", format = "tsv")
 {
     if(format == "csv")
     {
@@ -16,15 +16,4 @@ ExportEnrichment  <- function(dat, fileName = "output", format = "default", plot
     {
         write.table(dat, file = fileName, quote = FALSE, sep = '\t', col.names = NA)
     }
-    else
-    {
-        # Realize a capture of the dataframe if format isn't selected.
-        capture.output(dat, file = fileName)
-    }
-    # Verify if user wants a plot with the output file.
-    if(plot == TRUE)
-   {
-        # Create a default plot = barplot.
-        EnrichmentBarPlot(dat, aRisk = 0.05)
-   }
 }
