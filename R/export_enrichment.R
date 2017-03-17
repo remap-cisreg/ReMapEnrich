@@ -16,4 +16,18 @@ ExportEnrichment  <- function(dat, fileName = "output", format = "tsv")
     {
         write.table(dat, file = fileName, quote = FALSE, sep = '\t', col.names = NA)
     }
+<<<<<<< HEAD:R/export_enrichment.R
+=======
+    else
+    {
+        # Realize a capture of the dataframe if format isn't selected.
+        capture.output(dat, file = fileName)
+    }
+    # Verify if user wants a plot with the output file.
+    if(plot == TRUE)
+   {
+        # Create a default plot = barplot.
+        EnrichmentBarPlot(dat, lengthData = 10, aRisk = 0.05)
+   }
+>>>>>>> 38ed497669a3ef74e6805fe2730e79178733726b:R/export.R
 }
