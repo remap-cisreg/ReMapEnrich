@@ -1,17 +1,18 @@
-#' Computes enrichment
-#' 
-#' Gets the value of genomic enrichment for each feature of a bed file.
+#' @title Computes enrichment
+#' @author Zacharie Menetrier
+#' @description Gets the value of genomic enrichment for each feature of a bed file.
 #' 
 #' @param queryFile The bed file containing the genomic regions to analyze.
 #' @param catalog The bed file containing the database used for annotation.
-#' @param chromFile A file containing all the chromosome lengths for the species in consideration.
-#' @param fraction The fraction that intersections shall exceed to be considered.
-#' @param shuffles The number of shuffled genomic regions to be created for theorical distribution (higher means more accurate).
+#' @param chromFile=LoadChromFile("hg19") A file containing all the chromosome lengths for the species in consideration.
+#' @param fraction=0.1 The fraction that intersections shall exceed to be considered.
+#' @param shuffles=6 The number of shuffled genomic regions to be created for theorical distribution (higher means more accurate).
+#' @param lower=FALSE If FALSE (default), probabilities are P[X > x], otherwise, P[X <= x].
 #' 
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-BedEnrichment <- function(queryFile, catalogFile, chromFile = LoadChromFile("hg19"), fraction = 0, shuffles = 6, lower = FALSE){
+BedEnrichment <- function(queryFile, catalogFile, chromFile = LoadChromFile("hg19"), fraction = 0.1, shuffles = 6, lower = FALSE) {
     # Creation of the two vectors containing the count for each category.
     categories <- unique(BedImport(catalogFile)$name)
     catNumber <- length(categories)
@@ -27,7 +28,7 @@ BedEnrichment <- function(queryFile, catalogFile, chromFile = LoadChromFile("hg1
     # Adds the found overlaps in the count.
     catCount[names(count)] <- catCount[names(count)] + count[names(count)]
     # Shuffles are created and computed as the query for bootstrapping.
-    for(i in 1:shuffles){
+    for(i in 1:shuffles) {
         shuffleFile <- BedShuffleTempFile(queryFile, chromFile)
         # Computes the intersections betwen shuffle and catalog.
         shuffleOverlaps <- BedIntersect(catalogFile, shuffleFile, fraction)

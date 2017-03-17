@@ -1,14 +1,15 @@
-#' Get chromosome sizes from the ucsc data base
-#'
-#' Download the chromosome sizes from any species in the ucsc data base.
+#' @title Load ucsc chromosomes sizes
+#' @author Zacharie Menetrier
+#' @description Download the chromosome sizes from any species in the ucsc data base.
 #' Need mysql installed and in the correct PATH to run.
 #' 
 #' @param id The ucsc id of the assembly.
+#' @param file="" The path to a file where the chromosomes sizes will be saved. If empty no file is created.
 #' 
 #' @return A table that contains the chromosome lengths.
 #' 
 #' @export
-LoadUcscChromSizes <- function(id, file = ""){
+LoadUcscChromSizes <- function(id, file = "") {
     path <- file
     if(file == "")
         path <- tempfile()

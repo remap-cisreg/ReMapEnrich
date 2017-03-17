@@ -1,28 +1,28 @@
-#' Computes enrichment
-#' 
-#' Gets the value of genomic enrichment for each feature of a genomic ranges object.
+#' @title Computes enrichment
+#' @author Zacharie Menetrier
+#' @description Gets the value of genomic enrichment for each feature of a genomic ranges object.
 #' 
 #' @param query The genomic ranges object containing the genomic regions to analyze.
 #' @param catalog The genomic ranges object containing the database used for annotation.
-#' @param chromSizes A vector containing all the chromosome lengths for the species in consideration.
-#' @param shuffles The number of shuffled genomic regions to be created for theorical distribution (higher means more accurate).
+#' @param chromSizes=LoadChromSizes("hg19") A vector containing all the chromosome lengths for the species in consideration.
+#' @param shuffles=6 The number of shuffled genomic regions to be created for theorical distribution (higher means more accurate).
+#' @param lower=FALSE If FALSE (default), probabilities are P[X > x], otherwise, P[X <= x].
 #' 
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-GrEnrichment <- function(query, catalog, chromSizes = LoadChromSizes("hg19"), shuffles = 6, lower = FALSE){
+GrEnrichment <- function(query, catalog, chromSizes = LoadChromSizes("hg19"), shuffles = 6, lower = FALSE) {
     # Creation of the two vectors containing the count for each category.
     categories <- unique(catalog@elementMetadata$id)
     catNumber <- length(categories)
-    if(catNumber < 2){
+    if(catNumber < 2)
         stop("There is less than 2 categories found in the catalog.")
-    }
     # Computes the intersections betwen query and catalog.
     catCount <- GrIntersect(query, catalog)
     # Shuffles are created and computed as the query for bootstrapping.
     shuffleCatCount <- vector()
     shuffleCatCount[categories] <- 0
-    for(i in 1:shuffles){
+    for(i in 1:shuffles) {
         shuffle <- GrShuffle(query, chromSizes)
         # Computes the intersections betwen shuffle and catalog.
         count <- GrIntersect(shuffle, catalog)

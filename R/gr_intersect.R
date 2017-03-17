@@ -1,14 +1,14 @@
-#' Genomic ranges intersections
+#' @titleGenomic ranges intersections
+#' @author Zacharie Menetrier
+#' @description Computes the intersections between two genomic ranges object.
 #' 
-#' Computes the intersections between two genomic ranges object.
-#' 
-#' @param query A genomic ranges objecct to be analyzed.
+#' @param query A genomic ranges object to be analyzed.
 #' @param catalog A genomic ranges object to be compared to the query.
 #' 
 #' @return A vector containing the numbers of hits for each category of the catalog.
 #' 
 #' @export
-GrIntersect <- function(query, catalog){
+GrIntersect <- function(query, catalog) {
     categories <- unique(catalog@elementMetadata$id)
     catCount <- vector()
     catCount[categories] <- 0

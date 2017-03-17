@@ -1,6 +1,6 @@
-#' Count mapped peaks
-#'
-#' This function counts the number of peaks that are mapped with two genomic ranges object.
+#' @title Count mapped peaks
+#' @author Zacharie Menetrier
+#' @description This function counts the number of peaks that are mapped with two genomic ranges object.
 #' It counts the number of peaks in the query that are mapped in the catalog.
 #'
 #' @param query A genomic ranges object containing the peaks to analyze.
@@ -9,7 +9,7 @@
 #' @return An integer that represents the number of peaks mapped.
 #' 
 #' @export
-GrCountMappedPeaks <- function(query, catalog){
+GrCountMappedPeaks <- function(query, catalog) {
     # Sets an id for each element of the query.
     query@elementMetadata$id = 1:length(query)
     # Overlaps the query and catalog and find the number of ids that are still existing.

@@ -1,6 +1,6 @@
-#' Bed to GRanges
-#'
-#' This function loads a bed file and stores it as a genomic ranges object.
+#' @title Bed to GRanges
+#' @author Martin Mestdagh
+#' @description This function loads a bed file and stores it as a genomic ranges object.
 #' The tab-delimited file must be ordered as 'chrom', 'chromStart', 'chromEnd', 'name', 'score', 'strand'.
 #' The minimal bed file must have the 'chrom', 'chromStart', 'chromEnd' columns.
 #' Any columns after the strand column are ignored.
@@ -10,7 +10,7 @@
 #' @return A genomic ranges object containing the informations from the given bed file.
 #' 
 #' @export
-BedToGranges <- function(path){
+BedToGranges <- function(path) {
     # Imports the bed file in a data frame.
     bedData <- BedImport(path)
     # If the data frame has more than 6 columns then remove them.
@@ -23,7 +23,7 @@ BedToGranges <- function(path){
     if('strand' %in% colnames(bedData))
         bedData$strand <- gsub(pattern= "[^+-]+", replacement = '*', x = bedData$strand)
     # Construct the grangesanges object depending on the number of columns.
-    if(ncol(bedData) == 3){
+    if(ncol(bedData) == 3) {
         grangesanges <- with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd)))
     } else if (ncol(bedData)==4) {
         grangesanges = with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd), id=name))

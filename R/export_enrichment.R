@@ -1,15 +1,16 @@
-#' Create an output file with the format chosen by user or a capture like 'txt' if none is selected
+#' @title Export enrichment
+#' @description Create an output file for an enrichment data frame.
+#' @author Martin Mestdagh
 #' 
-#'  @param dat dataframe to output.
-#'  @param fileName Name of the output file chosen.
-#'  @param format The format chosen.
-#'  @param plot Boolean option T or F if user wants a plot. 
+#' @param enrichment Enrichment data frame to output.
+#' @param fileName="output" Name of the output file.
+#' @param format="tsv" The format of the output file.
 #'      
 #'  @export
-ExportEnrichment  <- function(dat, fileName = "output", format = "tsv") {
+ExportEnrichment  <- function(enrichment, fileName = "output", format = "tsv") {
     if(format == "csv") {
-        write.csv(dat, file = fileName)
+        write.csv(enrichment, file = fileName)
     } else {
-        write.table(dat, file = fileName, quote = FALSE, sep = '\t', col.names = NA)
+        write.table(enrichment, file = fileName, quote = FALSE, sep = '\t', col.names = NA)
     }
 }
