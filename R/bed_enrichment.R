@@ -12,7 +12,7 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-BedEnrichment <- function(queryFile, catalogFile, chromFile = LoadChromFile("hg19"), fraction = 0.1, shuffles = 6, lower = FALSE) {
+BedEnrichment <- function(queryFile, catalogFile, chromFile = ImportChromFile("hg19"), fraction = 0.1, shuffles = 6, lower = FALSE) {
     # Creation of the two vectors containing the count for each category.
     categories <- unique(BedImport(catalogFile)$name)
     catNumber <- length(categories)

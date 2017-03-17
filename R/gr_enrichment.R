@@ -11,7 +11,7 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-GrEnrichment <- function(query, catalog, chromSizes = LoadChromSizes("hg19"), shuffles = 6, lower = FALSE) {
+GrEnrichment <- function(query, catalog, chromSizes = ImportChromSizes("hg19"), shuffles = 6, lower = FALSE) {
     # Creation of the two vectors containing the count for each category.
     categories <- unique(catalog@elementMetadata$id)
     catNumber <- length(categories)

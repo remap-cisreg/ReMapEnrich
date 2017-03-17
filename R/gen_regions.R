@@ -1,5 +1,5 @@
 #' @export
-GenRegions <- function(n, size, chromSizes = GetChromSizes("hg19")) {
+GenRegions <- function(n, size, chromSizes = ImportChromSizes("hg19")) {
     chroms <- sample(rownames(chromSizes), n, replace = TRUE)
     extremeStarts <- chromSizes[chroms,] - size
     randomStarts <- sample.int(extremeStarts, n)
