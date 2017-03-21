@@ -10,5 +10,6 @@
 ImportChromSizes <- function(genome) {
     chromFile <- ImportChromFile(genome)
     chromSizes <- read.table(chromFile, header = FALSE, sep = "\t",stringsAsFactors = FALSE, quote = "", row.names = 1)
+    colnames(chromSizes) = "size"
     return(chromSizes)
 }
