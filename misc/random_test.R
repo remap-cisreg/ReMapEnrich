@@ -1,29 +1,19 @@
-# Create a temporary directory for the tests
-testDir <- "~/roken_demo/random_test"
-dir.create(testDir, recursive = TRUE, showWarnings = FALSE)
-setwd(testDir)
-
-## Download and load the ReMap catalog
-catalog <- LoadRemapCatalog()
-## Generate random regions
-query <- GenRegions(n=10000, size = 200)
-
-## Quick test: generate random regions fot the reference
-catalog <- GenRegions(n=50000, size = 500)
-catalog@elementMetadata$id <- "rand"
 
 
-# query <- BedToGranges("big_data/ENCFF001VCU.bed")
-# catalog <- BedToGranges("big_data/nrPeaks_all.bed")
+
+#query <- BedToGranges("big_data/ENCFF001VCU.bed")
+catalog <- BedToGranges("big_data/nrPeaks_all.bed")
+query <- GenRegions(1000, 1000)
 
 ## Instantiate result table
-iterations <- 1000
+iterations <- 50
 result <- data.frame()
 # resultNames <- c("pval", "lambda", "intersections")
 # result <- data.frame(matrix(ncol=length(resultNames), nrow = iterations))
 # names(result) <- resultNames
 for (i in 1:iterations) {
-    message("Shuffling test, iteration\t", i)
+    cat("Shuffling test, iteration\t", i, "\r")
+    flush.console()
     enrichment <- GrEnrichment(GrShuffle(query), catalog)
     result <- rbind(result, enrichment)
     # pVals <- c(pVals, enrichment$adjusted.p.value)
