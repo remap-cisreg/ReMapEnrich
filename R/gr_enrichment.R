@@ -17,8 +17,8 @@ GrEnrichment <- function(query, catalog, chromSizes = ImportChromSizes("hg19"), 
     # Creation of the two vectors containing the count for each category.
     categories <- unique(catalog@elementMetadata$id)
     catNumber <- length(categories)
-    if(catNumber < 2)
-        stop("There is less than 2 categories found in the catalog.")
+    if(catNumber < 1)
+        stop("The catalog does not comprize any category.")
     # Computes the intersections betwen query and catalog.
     catCount <- GrIntersect(query, catalog, fractionQuery, fractionCatalog)
     # Shuffles are created and computed as the query for bootstrapping.
@@ -34,13 +34,20 @@ GrEnrichment <- function(query, catalog, chromSizes = ImportChromSizes("hg19"), 
     # The theorical means are calculated from the shuffles overlaps.
     theoricalMeans <- shuffleCatCount / shuffles
     #
-    adjustedSignificances <- (ppois(catCount, theoricalMeans, lower = lower, log = TRUE) + log(catNumber)) / 2.302585
-    adjustedPValues <- 10 ** adjustedSignificances 
+    logNominalPval <- ppois(catCount, theoricalMeans, lower = lower, log = TRUE)
+    adjustedSignificances <- - (logNominalPval + log(catNumber)) / log(10)
+    nominalPval <- 10^logNominalPval
+    eValue1 <- nominalPval * catNumber # TO DO: check if eValue1 == eValue
+    eValue <- 10^adjustedSignificances
+    adjustedPValues <- minp(eValue, 1) # Bonferoni-corrected P-value
     adjustedSignificances <- - adjustedSignificances
-    #
-    significances <- (ppois(catCount, theoricalMeans, lower = lower, log = TRUE)) / 2.302585
-    pValues <- 10 ** significances 
-    significances <- - significances
+    
+    # significances <- (ppois(catCount, theoricalMeans, lower = lower, log = TRUE)) / 2.302585
+    # pValues <- 10 ** significances 
+    # significances <- - significances
+    
+    ## TO DO NEXT TIME: MANUAL COMPUTATION OF VALUE FROM LOG(PVAL)
+    
     #
     effectSizes = log(catCount / theoricalMeans, base = 2)
     # If the theorical means are at 0 then the pvalues and significance are not numbers.
