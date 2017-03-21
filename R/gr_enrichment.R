@@ -34,29 +34,18 @@ GrEnrichment <- function(query, catalog, chromSizes = ImportChromSizes("hg19"), 
     # The theorical means are calculated from the shuffles overlaps.
     theoricalMeans <- shuffleCatCount / shuffles
     #
-    logNominalPval <- ppois(catCount, theoricalMeans, lower = lower, log = TRUE)
-    adjustedSignificances <- - (logNominalPval + log(catNumber)) / log(10)
-    nominalPval <- 10^logNominalPval
-    eValue1 <- nominalPval * catNumber # TO DO: check if eValue1 == eValue
-    eValue <- 10^adjustedSignificances
-    adjustedPValues <- minp(eValue, 1) # Bonferoni-corrected P-value
-    adjustedSignificances <- - adjustedSignificances
-    
-    # significances <- (ppois(catCount, theoricalMeans, lower = lower, log = TRUE)) / 2.302585
-    # pValues <- 10 ** significances 
-    # significances <- - significances
+    logPvals <- ppois(catCount, theoricalMeans, lower = lower, log = TRUE)
+    sigEVals <- - (logPvals + log(catNumber)) / log(10)
+    pVals <- 10 ** logPvals
+    eVals <- pVals * catNumber
     
     ## TO DO NEXT TIME: MANUAL COMPUTATION OF VALUE FROM LOG(PVAL)
     
-    #
-    effectSizes = log(catCount / theoricalMeans, base = 2)
-    # If the theorical means are at 0 then the pvalues and significance are not numbers.
-    pValues[theoricalMeans == 0] <- NA
-    significances[theoricalMeans == 0] <- NA
-    adjustedPValues[theoricalMeans == 0] <- NA
-    adjustedSignificances[theoricalMeans == 0] <- NA
-    enrichment = data.frame(categories, catCount, theoricalMeans, pValues, significances, adjustedPValues, adjustedSignificances, effectSizes)
-    colnames(enrichment) <- c("category", "nb.overlaps", "random.average", "p.value", "significance", "adjusted.p.value", "adjusted.significance", "effect.size")
-    enrichment <- enrichment[order(enrichment$adjusted.significance, decreasing = TRUE),]
+    effectSizes <- log(catCount / theoricalMeans, base = 2)
+    enrichment <- data.frame(categories, catCount, theoricalMeans, pVals, sigEVals, eVals)
+    
+   ## enrichment = data.frame(categories, catCount, theoricalMeans, pValues, significances, adjustedPValues, adjustedSignificances, effectSizes)
+  ##  colnames(enrichment) <- c("category", "nb.overlaps", "random.average", "p.value", "significance", "adjusted.p.value", "adjusted.significance", "effect.size")
+##    enrichment <- enrichment[order(enrichment$adjusted.significance, decreasing = TRUE),]
     return(enrichment)
 }
