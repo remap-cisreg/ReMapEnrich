@@ -14,7 +14,7 @@ EnrichmentBarPlot <- function(enrich,
                               sigDisplayQuantile = 0.95,
                               aRisk = 0.05,
                               coloration = "Accent") {
-    adjustedSignificance <- enrich$adjusted.significance
+    adjustedSignificance <- enrich$q.significance
     names(adjustedSignificance) <- enrich$category
     sortedAdjustedSignificance <- sort(adjustedSignificance)
     sortedAdjustedSignificance <- 
@@ -65,10 +65,10 @@ EnrichmentVolcanoPlot <- function(enrich,
                                   aRisk = 0.05,
                                   coloration = "Accent") {
     # Create a gradient stain.
-    colorFunction <- c(colorRampPalette(brewer.pal(8, coloration))(length(enrich$adjusted.significance)))
+    colorFunction <- c(colorRampPalette(brewer.pal(8, coloration))(length(enrich$q.significance)))
     
 
-    y <- enrich$adjusted.significance
+    y <- enrich$q.significance
     yMax <- quantile(x = y, probs = sigDisplayQuantile)
     outsiders <- y > yMax
     y[outsiders] <- yMax 
@@ -79,7 +79,7 @@ EnrichmentVolcanoPlot <- function(enrich,
     # Create a volcanoplot-like.
     plot(x    = enrich$effect.size,
          y    = y,
-         ylim=c(0,yMax),
+         ylim = c(0,yMax),
          main = "Volcano plot",
          xlab = "Effect size",
          ylab = "Significance",
