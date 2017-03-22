@@ -10,16 +10,23 @@
 #' @return A data frame (empty if no intersections have been found) containing the intersections and their lengths in base pairs.
 #' 
 #' @export
-BedIntersect <- function(bedfile1, bedfile2, fraction = 0.1) {
+BedIntersect <- function(queryFile, catalogFile, fractionQuery = 0.1, fractionCatalog = 0.1, categories) {
+    ##
+    ## WARNING THE LAST VERSION OF BEDTOOLS MUST BE INSTALLED SO THE -F PARAMETER IS IMPLEMENTED AS THE FRACTION QUERY
+    ##
+    catCount <- vector()
+    catCount[categories] <- 0
     tempPath <- tempfile()
-    command <- paste("intersectBed -a", bedfile1, "-b", bedfile2, "-f", fraction, ">", tempPath)
+    command <- paste("intersectBed -a", catalogFile, "-b", queryFile, "-f", fractionCatalog, ">", tempPath)
     system(command)
     size <- file.info(tempPath)$size
-    if(size == 0) {
-        intersections <- data.frame()
+    if (size == 0) {
+        overlaps <- data.frame()
     } else {
-        intersections <- BedImport(tempPath)   
+        overlaps <- BedImport(tempPath)   
     }
     unlink(tempPath)
-    return(intersections)
+    count <- lengths(split(overlaps$name, overlaps$name))
+    catCount[names(count)] <- catCount[names(count)] + count[names(count)]
+    return(catCount)
 }
