@@ -1,4 +1,5 @@
-# Démonstration de l'exemple 1 de Annotbed avec Bedtools avec deux plots en sorti: les 10 premiers peaks et 20 premiers
+# Démonstration de l'exemple 1 de Annotbed avec Bedtools avec deux plots en sorti: les 10 premiers peaks Volcanoplot
+
 
 demo_time <- function()
 {   
