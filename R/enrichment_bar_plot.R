@@ -1,19 +1,20 @@
-#'  @title Enrichment bar plot
-#'  @author Martin Mestdagh
-#'  @description Creates a barplot from the enrichment with ggplot. Category=f(Qval-significance)
-#'  
-#'  @param enrich The enrichment data frame from which the plot will be created.
-#'  @param lengthData=10 The number of category for the plot.
-#'  @param coloration=c("#6699ff","#ff5050") Palette of coloration for the histogram 
-#'  with personnal color or RColorBrewer palette.
-#'  @param aRisk=0.05 The alpha risk.
-#'  @export
+#' @title Enrichment bar plot
+#' @author Martin Mestdagh
+#' @description Creates a barplot from the enrichment with ggplot. Category=f(Qval-significance)
+#' 
+#' @param enrich The enrichment data frame from which the plot will be created.
+#' @param lengthData=20 The number of category for the plot.
+#' @param main="Significance of the 20 first categories"
+#' @param coloration=c("#6699ff","#ff5050") Palette of coloration for the histogram 
+#' with personnal color or RColorBrewer palette.
+#' @param aRisk=0.05 The alpha risk.
+#' @export
 EnrichmentBarPlot <- function(enrich,
-                           lengthData = 10, 
-                           aRisk = 0.05, 
-                           coloration = c("#6699ff","#ff5050")) {
-    #Give the title with the chosen length.
-    titlePlot = paste("Significance of first", lengthData, "categories")
+                              lengthData = 20, 
+                              main=paste("Significance of first", lengthData, "categories"),
+                              aRisk = 0.05, 
+                              coloration = c("#6699ff","#ff5050")) {
+
     
     # Sort the dataframe by q.significance decreasing.
     enrich <- enrich[order(enrich$q.significance, decreasing = TRUE),]
@@ -43,7 +44,7 @@ EnrichmentBarPlot <- function(enrich,
     # Transform the background for a better visualization.
     barPlot <- barPlot + theme_classic()
     # Give the title and name axis.
-    barPlot <- barPlot + ggtitle(titlePlot)
+    barPlot <- barPlot + ggtitle(main)
     barPlot <- barPlot + xlab("")
     barPlot <- barPlot + ylab("Q-Significance")
     # Add the line of alpha risk, color it and make the legend of it.
