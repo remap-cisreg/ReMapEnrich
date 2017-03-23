@@ -9,7 +9,7 @@
 #'  Y axis, based on a quantile.
 #'  @param coloration="Accent" Allows you to use colorBrewer palettes.
 #'  @export
-EnrichmentBarPlot <- function(enrich, 
+BarPlot <- function(enrich, 
                               lengthData = 20,
                               sigDisplayQuantile = 0.95,
                               aRisk = 0.05,
@@ -60,7 +60,7 @@ EnrichmentBarPlot <- function(enrich,
 #'  @param coloration="Accent" Allows you to use colorBrewer palettes.
 #'
 #'  @export
-EnrichmentVolcanoPlot <- function(enrich,
+VolcanoPlot <- function(enrich,
                                   sigDisplayQuantile = 0.95,
                                   aRisk = 0.05,
                                   coloration = "Accent") {
@@ -105,7 +105,7 @@ EnrichmentVolcanoPlot <- function(enrich,
 #'  @param enrich The file enrichment from which the plot will be create.
 #'  @param lengthData The number of category for the plot.
 #'  @export
-EnrichmentPiePlot <- function(enrich, lengthData = 10,coloration = "Reds")
+PiePlot <- function(enrich, lengthData = 10,coloration = "Reds")
 {
     dataPie <- enrich$nb.overlaps
     names(dataPie) <- enrich$category
