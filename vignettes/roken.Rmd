@@ -9,7 +9,7 @@ vignette: >
 ---
 
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>")
+knitr::opts_chunk$set(collapse = T, comment = "#>", eval=FALSE)
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
 ```
@@ -63,8 +63,9 @@ If any other assembly is computed, the parameter "chromSizes" should be acknowle
 demo.dir <- "~/roken_demo"
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
 setwd(demo.dir)
-# Use the function LoadRemapCatalog
-remapCatalog <- LoadRemapCatalog("nrpeaks_all.bed.gz")
+# Use the function DowloadRemapCatalog
+remapCatalog <- DownloadRemapCatalog("nrpeaks_all.bed.gz")
+
 ```
 
 The genomic ranges object remapCatalog now contains the full reMap2 catalogue.
