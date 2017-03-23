@@ -5,6 +5,7 @@
 #' 
 #' @param targetDir The name of the directory to download the catalogue in.
 #' @param fileName="nrPeaks_all.bed.gz" The name of the file to be created after the downloaded catalogue.
+#' @param force=FALSE If FALSE (default), then no file i soverwrited and the user is given confirmation message.
 #' 
 #' @return A data frame containing the Remap genomic regions.
 #' 

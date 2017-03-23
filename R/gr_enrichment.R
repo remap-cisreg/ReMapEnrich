@@ -1,4 +1,4 @@
-#' @title Computes enrichment
+#' @title Genomic Ranges enrichment
 #' @author Zacharie Menetrier
 #' @description Gets the value of genomic enrichment for each category of a genomic ranges object.
 #' 
@@ -13,16 +13,13 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-GrEnrichment <- function(query,
-                         catalog,
-                         chromSizes = ImportChromSizes("hg19"),
-                         fractionQuery = 0.1,
-                         fractionCatalog = 0.1,
-                         shuffles = 6,
-                         lower = FALSE) {
+GrEnrichment <- function(query, catalog, chromSizes = ImportChromSizes("hg19"), fractionQuery = 0.1,
+                         fractionCatalog = 0.1, shuffles = 6, lower = FALSE) {
     # The categories are extracted from the catalog.
     categories <- unique(catalog@elementMetadata$id)
-    countsList <- ComputeEnrichment(query, catalog, chromSizes, fractionQuery, fractionCatalog, shuffles, lower,
+    # Gets the counts list containing the number of overlaps for the query and the mean number of overlaps for the shuffles.
+    countsList <- ComputeEnrichment(query, catalog, chromSizes, fractionQuery, fractionCatalog, shuffles,
                                     GrIntersect, GrShuffle, categories)
-    return(ExtractEnrichment(categories, lower, countsList[[1]], countsList[[2]], shuffles))
+    # Returns all the information from the counts list.
+    return(ExtractEnrichment(categories, lower, countsList[[1]], countsList[[2]]))
 }
