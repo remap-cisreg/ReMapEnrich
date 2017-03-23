@@ -1,14 +1,16 @@
-#'  @title Enrichment Volcano plot
-#'  @author Martin Mestdagh
-#'  @description Creates a Volcano plot from the enrichment with ggplot. Qval-significance=f(effectsize)
+#' @title Enrichment Volcano plot
 #'  
-#'  @param enrich The enrichment data frame from which the plot will be created.
-#'  @param coloration=c("#ff5050", "#6699ff") Palette of coloration for the histogram 
-#'  with personnal color or RColorBrewer palette.
-#'  @param Arisk=0.05 The alpha risk?
-#'  @param sigDisplayQuantile=0.95 Quantile used to define the maximal value for the
-#'                                 Y axis, based on a quantile. 
-#'  @export
+#' @author Martin Mestdagh
+#' 
+#' @description Creates a Volcano plot from the enrichment with ggplot. Qval-significance=f(effectsize)
+#' 
+#' @param enrich The enrichment data frame from which the plot will be created.
+#' @param coloration=c("#ff5050", "#6699ff") Palette of coloration for the histogram 
+#' with personnal color or RColorBrewer palette.
+#' @param Arisk=0.05 The alpha risk?
+#' @param sigDisplayQuantile=0.95 Quantile used to define the maximal value for the
+#'                                Y axis, based on a quantile. 
+#' @export
 EnrichmentVolcanoPlot <- function(enrich,
                                   aRisk = 0.05,
                                   coloration = c("#ff5050", "#6699ff"),
