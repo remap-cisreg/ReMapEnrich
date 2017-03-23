@@ -35,7 +35,7 @@ EnrichmentBarPlot <- function(enrich,
     legendAlphaRisk <- paste("-log10(alpha risk)", " = ", sigAlpha)
     
     # Create the plot.
-    barPlot <- ggplot(enrich, aes(enrich$category, enrich$q.significance))
+    barPlot <- ggplot2::ggplot(enrich, aes(enrich$category, enrich$q.significance))
     # Add Bar for different category, and the coloring chooses.
     barPlot <- barPlot + geom_bar(stat = "identity", fill = colorFunction)
     # Reverse axis.

@@ -6,10 +6,13 @@
 #'  @param coloration=c("#ff5050", "#6699ff") Palette of coloration for the histogram 
 #'  with personnal color or RColorBrewer palette.
 #'  @param Arisk=0.05 The alpha risk?
+#'  @param sigDisplayQuantile=0.95 Quantile used to define the maximal value for the
+#'                                 Y axis, based on a quantile. 
 #'  @export
 EnrichmentVolcanoPlot <- function(enrich,
                                   aRisk = 0.05,
-                                  coloration = c("#ff5050", "#6699ff")) {
+                                  coloration = c("#ff5050", "#6699ff"),
+                                  sigDisplayQuantile = 0.95 ) {
     #Give the title with the chosen length.
     titlePlot = paste("Volcano Plot")
     
@@ -29,9 +32,18 @@ EnrichmentVolcanoPlot <- function(enrich,
     # Creation of the legend text.
     legendAlphaRisk <- paste("-log10(alpha risk)", " = ", sigAlpha)
     
+    # Separation of point outside the quantile.
+    y <- enrich$q.significance
+    yMax <- quantile(x = y, probs = sigDisplayQuantile)
+    outsiders <- y > yMax
+    y[outsiders] <- yMax 
+
     # Create the plot.
-    VolcanoPlot <- ggplot(enrich, aes(enrich$effect.size, enrich$q.significance))
-    VolcanoPlot <- VolcanoPlot + geom_point(stat = "identity", color= colorFunction)
+    VolcanoPlot <- ggplot2::ggplot(enrich, aes(enrich$effect.size, y, group = y))
+    #VolcanoPlot <- ggplot(enrich, aes(enrich$effect.size, y[outsiders], group = y[outsiders]))
+    VolcanoPlot <- VolcanoPlot + geom_point(stat = "identity", color = colorFunction)
+    VolcanoPlot <- VolcanoPlot + geom_point(stat = "identity", color = "Black", group = NULL)
+    #VolcanoPlot <- VolcanoPlot + geom_point(stat = "identity", color = "Black", aes(y[outsiders]))
     # Transform the background for a better visualization.
     VolcanoPlot <- VolcanoPlot + theme_minimal()
     # Give the title and name axis.
