@@ -10,7 +10,7 @@
 #' @return A vector containing the numbers of hits for each category of the catalog.
 #' 
 #' @export
-GrIntersect <- function(query, catalog, fractionQuery = 0.1, fractionCatalog = 0.1, categories) {
+GrIntersect <- function(query, catalog, fractionQuery = 0.1, fractionCatalog = 0.1, categories = unique(catalog@elementMetadata$id)) {
     catCount <- vector()
     catCount[categories] <- 0
     hits <- GenomicRanges::findOverlaps(catalog, query, type = "any")
