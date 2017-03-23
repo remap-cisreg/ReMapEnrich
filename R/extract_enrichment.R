@@ -1,14 +1,22 @@
-ExtractEnrichment <- function (categories, lower, catCount, shuffleCatCount, shuffles) {
+#' @title Extract enrichment
+#' @author Zacharie Menetrier
+#' @description Extracts the information for genomic enrichment.
+#' 
+#' @param categories=unique(catalog@elementMetadata$id) The categories contained in the catalog.
+#' This option is leaved for faster calculation when this function is runned multiple times.
+#' @param lower=FALSE If FALSE (default), probabilities are P[X > x], otherwise, P[X <= x].
+#' @param catCount The number of overlaps for each category.
+#' @param theoricalMeans The mean number of overlaps for each category.
+#' 
+#' @return A data frame containing the enrichment informations.
+ExtractEnrichment <- function (categories, lower, catCount, theoricalMeans) {
     catNumber <-length(categories)
-    # The theorical means are calculated from the shuffles overlaps.
-    theoricalMeans <- shuffleCatCount / shuffles
     # The p values are get with log transformation for computing extreme values.
     logPvals <- ppois(catCount, theoricalMeans, lower = lower, log = TRUE)
     # The vectors are sorted for the calculation of the q values.
     order <- order(logPvals)
     theoricalMeans <- theoricalMeans[order]
     catCount <- catCount[order]
-    shuffleCatCount <- shuffleCatCount[order]
     logPvals <- sort(logPvals)
     categories <- names(logPvals)
     # Different logarithmic values are calculated for the q value.

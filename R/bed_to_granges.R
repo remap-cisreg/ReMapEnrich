@@ -20,10 +20,10 @@ BedToGranges <- function(path) {
     if(ncol(bedData)<3)
         stop("File has less than 3 columns")
     # If the strand is known in the data frame then replace it by the grangesanges equivalent.
-    if('strand' %in% colnames(bedData))
+    if ('strand' %in% colnames(bedData))
         bedData$strand <- gsub(pattern= "[^+-]+", replacement = '*', x = bedData$strand)
     # Construct the grangesanges object depending on the number of columns.
-    if(ncol(bedData) == 3) {
+    if (ncol(bedData) == 3) {
         grangesanges <- with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd)))
     } else if (ncol(bedData)==4) {
         grangesanges = with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd), id=name))

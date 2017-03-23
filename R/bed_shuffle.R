@@ -10,13 +10,17 @@
 #' 
 #' @export
 BedShuffle <- function(bedFile, chromFile = ImportChromFile("hg19"), outputFile = "") {
+    # If no output file is given then the file path will be a temporary file.
     path <- outputFile
     if(outputFile == "")
         path <- tempfile()
+    # Calls bedtools with the corresponding parameters.
     command <- paste("shuffleBed -i", bedFile, "-g", chromFile, "-chrom >", path)
     system(command)
+    # If an output file has been given then return the new file.
     if(outputFile != "")
         return(path)
+    # Else destroy the temporary file and return the data frame.
     shuffle <- BedImport(path)
     unlink(path)
     return(shuffle)

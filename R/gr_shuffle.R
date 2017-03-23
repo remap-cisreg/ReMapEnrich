@@ -9,8 +9,11 @@
 #' 
 #' @export
 GrShuffle <- function(regions, chromSizes = ImportChromSizes("hg19")) {
+    # Gets all the regions lengths from the query.
     regionsLength <- regions@ranges@width
+    # The possible starts are the chromosome sizes - the regions lengths.
     possibleStarts <- chromSizes[as.vector(regions@seqnames), ] - regionsLength
+    # Gets all the random starts from sampling the possible starts.
     randomStarts <- unlist(lapply(possibleStarts, sample.int, size = 1))
     granges <- GRanges(regions@seqnames, IRanges(start = randomStarts, width = regionsLength), strand=regions@strand)
     return(granges)
