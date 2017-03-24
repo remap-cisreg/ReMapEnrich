@@ -1,11 +1,12 @@
 ---
 title: "Roken: enrichment of genomic regions"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+    BiocStyle::html_document
 vignette: >
-  %\VignetteIndexEntry{Roken}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+    %\VignetteIndexEntry{Roken}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}  
 ---
 
 ```{r, echo = FALSE, message = FALSE}
