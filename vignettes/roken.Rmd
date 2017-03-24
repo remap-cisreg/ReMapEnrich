@@ -1,12 +1,20 @@
 ---
 title: "Roken: enrichment of genomic regions"
+author: "Vignette Author"
 date: "`r Sys.Date()`"
-output: 
-    BiocStyle::html_document
+package: "`r pkg_ver('BiocStyle')`"
+abstract: >
+  Vignette Abstract
 vignette: >
     %\VignetteIndexEntry{Roken}
     %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteEncoding{UTF-8}  
+    %\VignetteEncoding{UTF-8}
+output: 
+    BiocStyle::html_document
+bibliography: 
+    bibliography.bib
+csl:
+    biomed-central.csl
 ---
 
 ```{r, echo = FALSE, message = FALSE}
@@ -14,6 +22,10 @@ knitr::opts_chunk$set(collapse = T, comment = "#>", eval=FALSE)
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
 ```
+
+# Abstract
+Current next generation sequencing studies generate a large variety of genomic regions ranging from regulatory regions with transcription factors or histone marks ChIP-seq to variant calls or coding/non-coding transcripts. Also, the number of complex catalogues from large-scale integrative efforts are increasing[@Griffon:2015en; @Ashoor:2015ey; @Amin:2015jm] and large sequencing projects[@RoadmapEpigenomicsConsortium:2015in; @ENCODEProjectConsortium:2012gc; @Fernandez:2016do].  To facilitate the interpretation of functional genomics, epigenomics and genomics data we have developed a R-software package ‘Roken’ to identify significantly enriched regions from user defined catalogues. Roken provide functions to import any in-house catalogue, automate and plot the enrichment analysis for genomic regions. 
+
 
 # Quick example
 
@@ -57,9 +69,9 @@ If any other assembly is computed, the parameter "chromSizes" should be acknowle
 
 ## Data loading 
 
-## Downloading reMap2 catalogue
+## Downloading ReMap catalogue
 
-```{r}
+```{r, echo=TRUE}
 # Create a local directory for the tutorial
 demo.dir <- "~/roken_demo"
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
@@ -69,7 +81,7 @@ remapCatalog <- DownloadRemapCatalog("nrpeaks_all.bed.gz")
 
 ```
 
-The genomic ranges object remapCatalog now contains the full reMap2 catalogue.
+The genomic ranges object remapCatalog now contains the full ReMap catalogue[@Griffon:2015en].
 A file has also been downloaded at "~/roken_demo/nrpeaks_all.bed.gz" (0.544 GB when not compressed).
 
 ## Loading a custom catalogue
@@ -121,3 +133,14 @@ EnrichmentVolcanoPlot(enrichment)
 ```{r}
 EnrichmentBarPlot(enrichment)
 ```
+
+
+# Session Info
+Here is the output of `sessionInfo()` on the system on which this document was compiled:
+```{r, include=FALSE}
+sessionInfo() 
+```
+
+# References
+
+
