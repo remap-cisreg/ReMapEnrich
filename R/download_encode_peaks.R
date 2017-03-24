@@ -1,21 +1,21 @@
-#' @title Download Remap catalogue
+#' @title Download ENCODE peaks
 #' @author Zacharie Menetrier
-#' @description Download or import in a data frame the Remap catalogue for transcriptions factors.
+#' @description Download or import in a data frame an ENCODE set of peaks.
 #' 
-#' @param targetDir The name of the directory to download the catalogue in.
-#' @param fileName="nrPeaks_all.bed.gz" The name of the file to be created after the downloaded catalogue.
+#' @param targetDir The name of the directory to download the peaks in.
+#' @param fileName=paste(id,".bed",sep="") The name of the file to be created after the downloaded peaks.
 #' @param force=FALSE If FALSE (default), then no file is overwrited and the user is given confirmation message.
 #' @param store=TRUE If TRUE (default) then a file is downloaded and written on the disk else it is only loaded as an R object.
 #' 
-#' @return A data frame containing the Remap genomic regions if store = FALSE else the path to the catalog file.
+#' @return A data frame containing the genomic regions if store = FALSE else the path to the peaks file.
 #' 
 #' @export
-DownloadRemapCatalog <- function(targetDir, fileName = "nrPeaks_all.bed", force = FALSE, store = TRUE) {
+DownloadEncodePeaks <- function(id, targetDir, fileName = paste(id,".bed",sep=""), force = FALSE, store = TRUE) {
     filePath <-file.path(targetDir,fileName)
     fileExists <- file.exists(filePath)
     input <- "Y"
     if (!force && !fileExists) {
-        input <- readline(prompt="A 0.5 GB file will be downloaded. Do you want to continue Y/N : ")
+        input <- readline(prompt="A file will be downloaded. Do you want to continue Y/N : ")
         while (input != "Y" && input != "N") {
             input <- readline(prompt="Please type Y or N and press Enter : ")
         }
@@ -30,8 +30,8 @@ DownloadRemapCatalog <- function(targetDir, fileName = "nrPeaks_all.bed", force 
             }
         } else {
             tempZipFile <- paste(tempfile(),".bed.gz", sep = "")
-            url <- "http://tagc.univ-mrs.fr/remap/download/All/nrPeaks_all.bed.gz"
-            download.file(url, tempZipFile)
+            url <- paste("https://www.encodeproject.org/files/",id, "/@@download/", id, ".bed.gz", sep = "")
+            download.file(url, tempZipFile, method = "wget")
             R.utils::gunzip(tempZipFile, filePath, overwrite = force)
             unlink(tempZipFile)
             message("A file has been created at ", filePath)
