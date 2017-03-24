@@ -40,7 +40,7 @@ EnrichmentVolcanoPlot <- function(enrich,
     y[outsiders] <- yMax 
 
     # Create the plot.
-    VolcanoPlot <- ggplot2::ggplot(enrich, aes(enrich$effect.size, y, group = y))
+    VolcanoPlot <- ggplot2::ggplot(enrich, aes(enrich$effect.size, y))
     #VolcanoPlot <- ggplot(enrich, aes(enrich$effect.size, y[outsiders], group = y[outsiders]))
     VolcanoPlot <- VolcanoPlot + geom_point(stat = "identity", color = colorFunction)
     #VolcanoPlot <- VolcanoPlot + geom_point(stat = "identity", color = "Black", aes(y[outsiders]))
