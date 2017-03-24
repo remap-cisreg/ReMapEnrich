@@ -7,7 +7,7 @@ result <- data.frame()
 for (i in 1:iterations) {
     cat("\r", i, "/", iterations)
     flush.console()
-    overlaps <- GrIntersect(GenRegions(1000,1000), catalog)
+    overlaps <- GrIntersect(GenRegions(10000,500), catalog)
     df <- data.frame(names(overlaps), overlaps)
     result <- rbind(result, df)
 }
@@ -22,7 +22,7 @@ for (category in unique(result[,1])) {
     # Draw the empirical density of overlaps.
     max.x <- max(cat.result[,2])
     histogram <- hist(cat.result[,2], breaks = 0:(max.x+1), 
-              col="grey", border = "grey")
+                      col="grey", border = "grey")
     ## Fit a Poisson onto the empirical density
     x.values <- 0:max.x
     exp.overlaps <- dpois(x = x.values, lambda = mean.nb.overlaps) * sum(histogram$counts)

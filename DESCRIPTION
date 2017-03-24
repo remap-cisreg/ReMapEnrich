@@ -15,3 +15,6 @@ Depends: R (>= 3.3),
 LazyData: true
 RoxygenNote: 6.0.1
 License: GNU Affero General Public License
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
