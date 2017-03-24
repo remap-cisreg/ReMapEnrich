@@ -11,12 +11,12 @@
 #' @return A data frame containing the Remap genomic regions if store = FALSE else the path to the catalog file.
 #' 
 #' @export
-DownloadRemapCatalog <- function(targetDir, fileName = "nrPeaks_all.bed", force = FALSE, store = TRUE) {
+DownloadEncodePeaks <- function(id, targetDir, fileName = paste(id,".bed",sep=""), force = FALSE, store = TRUE) {
     filePath <-file.path(targetDir,fileName)
     fileExists <- file.exists(filePath)
     input <- "Y"
     if (!force && !fileExists) {
-        input <- readline(prompt="A 0.5 GB file will be downloaded. Do you want to continue Y/N : ")
+        input <- readline(prompt="A file will be downloaded. Do you want to continue Y/N : ")
         while (input != "Y" && input != "N") {
             input <- readline(prompt="Please type Y or N and press Enter : ")
         }
@@ -31,7 +31,7 @@ DownloadRemapCatalog <- function(targetDir, fileName = "nrPeaks_all.bed", force 
             }
         } else {
             tempZipFile <- paste(tempfile(),".bed.gz", sep = "")
-            url <- "http://tagc.univ-mrs.fr/remap/download/All/nrPeaks_all.bed.gz"
+            url <- paste("https://www.encodeproject.org/files/",id, "/@@download/", id, ".bed.gz", sep = "")
             download.file(url, tempZipFile)
             R.utils::gunzip(tempZipFile, filePath, overwrite = force)
             unlink(tempZipFile)
