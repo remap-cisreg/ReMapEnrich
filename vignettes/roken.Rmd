@@ -29,7 +29,7 @@ Current next generation sequencing studies generate a large variety of genomic r
 
 # Quick example
 
-This quick example is based on pet datasets released with the roken package. 
+This example is based on pet datasets released with the roken package. 
 
 It will go through the folowing steps. 
 
@@ -67,9 +67,9 @@ The column "adjusted.significance" is the one ordering the data frame.
 It is important to specify that this example is only relevant for the hg19 assembly.
 If any other assembly is computed, the parameter "chromSizes" should be acknowledged consequently.
 
-## Data loading 
+## Catalogue loading 
 
-## Downloading ReMap catalogue
+### Downloading ReMap catalogue
 
 ```{r, echo=TRUE}
 # Create a local directory for the tutorial
@@ -84,21 +84,36 @@ remapCatalog <- DownloadRemapCatalog("nrpeaks_all.bed.gz")
 The genomic ranges object remapCatalog now contains the full ReMap catalogue[@Griffon:2015en].
 A file has also been downloaded at "~/roken_demo/nrpeaks_all.bed.gz" (0.544 GB when not compressed).
 
-## Loading a custom catalogue
+### Loading a custom catalogue
 
-## Loading query region set
+
+
+
+## Query region set loading
 
 ## Loading chromosome sizes
-
+To compute enrichement we first need to load the genome file for the species and assembly of interest. This can be done with `LoadUcscChromSizes` using standard UCSC short names for assemblies (eg. hg19, hg38, mm10, mm9, rn5, etc..). 
 ```{r}
 # This call will not create any file but only load the data in a vector.
-rn5ChromSizes <- LoadUcscChromSizes("rn5")
-# It is also possible to load the chromosomes sizes of any species in a file during the process.
-rn5ChromSizes <- LoadUcscChromSizes("rn5", "rn5_chrom_sizes.txt")
+hg19ChromSizes <- ImportUcscChromSizes("hg19")
+
+```
+```{r}
+head(hg19ChromSizes)
+
+```
+The vector hg19ChromSizes now contains all the chromosomes for the Homo sapiens NCBI37 (hg19) and their respective lengths.
+A file has also been downloaded at "~/roken_demo/hg19_chrom_sizes.txt".
+
+
+Alterntivaly, one can directly load a genome file from a file. 
+```{r}
+# It is also possible to load the chromosomes sizes of any species from a file.
+hg19ChromSizes <- ImportChromFile("hg19", "hg19_chrom_sizes.txt")
+
 ```
 
-The vector rn5ChromSizes now contains all the chromosomes for the rattus norvegicus and their respective lengths.
-A file has also been downloaded at "~/roken_demo/rn5_chrom_sizes.txt".
+
 
 ## Negative control
 
@@ -134,9 +149,9 @@ EnrichmentVolcanoPlot(enrichment)
 EnrichmentBarPlot(enrichment)
 ```
 
-# Demo using ENCODE data as query
+# Example using ENCODE data as query
 
-# Demo using CODEX and DENdb as catalogues 
+# Example using CODEX and DENdb as catalogues 
 Both CODEX and DENdb can be used as cataloguse just like ReMap as been used in the step-by-step quick example. 
 
 CODEX [@SanchezCastillo:2015ev] provides access to processed and curated NGS experiments, including ChIP-Seq (transcription factors and histones), RNA-Seq and DNase-Seq. 
@@ -145,7 +160,7 @@ DENdb [@Ashoor:2015ey] is a repository of predicted enhancers derived from multi
 
 
 
-# Demo CTCF peaks enriched in repeats
+# Example CTCF peaks enriched in repeats
 
 
 # Homepage
