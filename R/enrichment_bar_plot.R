@@ -1,36 +1,40 @@
-#'  @title Enrichment bar plot
-#'  @author Martin Mestdagh
-#'  @description Creates a barplot from the enrichment.
+#' @title Enrichment bar plot
+#' @author Martin Mestdagh
+#' @description Creates a barplot from the enrichment.
 #'  
-#'  @param enrich The enrichment data frame from which the plot will be created.
-#'  @param lengthData=10 The number of category for the plot.
-#'  @param aRisk=0.05 The alpha risk, by default 0.05.
-#'  @param sigDisplayQuantile=0.95 quantile used to define the maximal value for the
-#'  Y axis, based on a quantile.
-#'  @param coloration="Accent" Allows you to use colorBrewer palettes.
-#'  @export
-BarPlot <- function(enrich, 
+#' @param enrich The enrichment data frame from which the plot will be created.
+#' @param lengthData=10 The number of category for the plot.
+#' @param main=c("Significance of first", lengthData, "category"). Allows to choose the title of the plot.
+#' @param aRisk=0.05 The alpha risk, by default 0.05.
+#' @param sigDisplayQuantile=0.95 quantile used to define the maximal value for the
+#' Y axis, based on a quantile.
+#' @param col=c("#6699ff","#ff5050") Palette of coloration for the histogram 
+#'  with personnal color or RColorBrewer palette.
+#' @export
+EnrichmentBarPlot <- function(enrich, 
                               lengthData = 20,
+                              main = c("Significance of first", lengthData, "category"),
                               sigDisplayQuantile = 0.95,
+                              xlim=c(min(enrich$q.significance), max(enrich$q.significance)),
                               aRisk = 0.05,
-                              coloration = "Accent") {
-    adjustedSignificance <- enrich$q.significance
-    names(adjustedSignificance) <- enrich$category
-    sortedAdjustedSignificance <- sort(adjustedSignificance)
-    sortedAdjustedSignificance <- 
-        sortedAdjustedSignificance[(length(sortedAdjustedSignificance)-lengthData):length(sortedAdjustedSignificance)]
-
-    # Create a gradient stain.
-    colorFunction <- c(colorRampPalette(brewer.pal(8, coloration))(length(sortedAdjustedSignificance)))
-
-    # Give a title for the barplot with lengthData.
-    titlePlot = c("Significance of first", lengthData, "category")
+                              col = c("#6699ff","#ff5050")) {
     
-    # Create barplot with legend.
-    barplot(sortedAdjustedSignificance,
-            main      = titlePlot,
+    # Creation of matrix with column adapted and with the length selected.
+    qSignificanceEnrichment <- enrich$q.significance
+    names(qSignificanceEnrichment) <- enrich$category
+    qSignificanceEnrichment <- sort(qSignificanceEnrichment)
+    qSignificanceEnrichment <- 
+        qSignificanceEnrichment[(length(qSignificanceEnrichment)-lengthData):length(qSignificanceEnrichment)]
+
+    # Create the coloring palette
+    colorFunction <- paste(colorRampPalette(col)(lengthData+1))
+
+      # Create barplot with legend.
+    barplot(qSignificanceEnrichment,
+            main      = main,
             xlab      = "Significance",
             col       = colorFunction,
+            xlim      = xlim,
             horiz     = TRUE, 
             beside    = TRUE, 
             space     = 0.5,
@@ -39,27 +43,26 @@ BarPlot <- function(enrich,
             las       = 2
             )
     
-    # Convert alpha risk from p-value to significance.
-    aSignificance <- ( -10 * log10(aRisk ))
-    if (!is.finite(aSignificance))
-        stop("The alpha risk is too small to be computed.")
+    # Calculate the new alpha risk.
+    sigAlpha <- -log10(aRisk)
+    sigAlpha <- round(sigAlpha, 4)
     
     # Add a line that shows the alpha risk.
-    abline(v = aSignificance, lty = 5)
-    mtext(bquote(alpha == .(aSignificance)), side = 3, at = aSignificance, col = "red")
+    abline(v = sigAlpha, lty = 5)
+    mtext(bquote(alpha == .(sigAlpha)), side = 3, at = sigAlpha, col = "red")
 }
 
-#'  @title Enrichment volcano plot
-#'  @author Martin Mestdagh
-#'  @description Creates a volcanoplot from the enrichment.
+#' @title Enrichment volcano plot
+#' @author Martin Mestdagh
+#' @description Creates a volcanoplot from the enrichment.
 #'  
-#'  @param enrich The file enrichment from which the plot will be create.
-#'  @param aRisk=0.05 The alpha risk, by default 0.05.
-#'  @param sigDisplayQuantile=0.95 quantile used to define the maximal value for the
-#'  Y axis, based on a quantile. 
-#'  @param coloration="Accent" Allows you to use colorBrewer palettes.
+#' @param enrich The file enrichment from which the plot will be create.
+#' @param aRisk=0.05 The alpha risk, by default 0.05.
+#' @param sigDisplayQuantile=0.95 quantile used to define the maximal value for the
+#' Y axis, based on a quantile. 
+#' @param coloration="Accent" Allows you to use colorBrewer palettes.
 #'
-#'  @export
+#' @export
 VolcanoPlot <- function(enrich,
                                   sigDisplayQuantile = 0.95,
                                   aRisk = 0.05,
