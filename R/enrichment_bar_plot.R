@@ -1,23 +1,40 @@
 #' @title Enrichment bar plot
 #' @author Martin Mestdagh
-#' @description Creates a barplot from the enrichment.
+#' @description Creates a barplot from the enrichment(category=f(q.significance))
 #'  
 #' @param enrich The enrichment data frame from which the plot will be created.
 #' @param lengthData=10 The number of category for the plot.
 #' @param main=c("Significance of first", lengthData, "category"). Allows to choose the title of the plot.
 #' @param aRisk=0.05 The alpha risk, by default 0.05.
 #' @param sigDisplayQuantile=0.95 quantile used to define the maximal value for the
-#' Y axis, based on a quantile.
+#' Y-axis, based on a quantile.
 #' @param col=c("#6699ff","#ff5050") Palette of coloration for the histogram 
 #'  with personnal color or RColorBrewer palette.
+#' @param xlim=c(min(enrich$q.significance), max(enrich$q.significance)).
+#' Change the length of x-axis.
+#' @param xlab="Significance" change the label of x-axis.
+#' @param horiz=TRUE Flip axis.
+#' @param beside=TRUE Juxtaposing bar or not.
+#' @param space=0.2 Allows to change size bar.
+#' @param cex.names=1 Allows to change size of x-axis (flipped).
+#' @param border=NA Allows to change the border of each bar. 
+#' 
 #' @export
 EnrichmentBarPlot <- function(enrich, 
-                              lengthData = 20,
+                              lengthData = 10,
                               main = c("Significance of first", lengthData, "category"),
-                              sigDisplayQuantile = 0.95,
-                              xlim=c(min(enrich$q.significance), max(enrich$q.significance)),
                               aRisk = 0.05,
-                              col = c("#6699ff","#ff5050")) {
+                              sigDisplayQuantile = 0.95,
+                              col = c("#6699ff","#ff5050"),
+                              xlim = c(min(enrich$q.significance), max(enrich$q.significance)),
+                              xlab = "Significance",
+                              horiz = TRUE, 
+                              beside = TRUE, 
+                              space = 0.1,
+                              cex.names = 0.8,
+                              border = NA,
+                              las = 1,
+                              ...) {
     
     # Creation of matrix with column adapted and with the length selected.
     qSignificanceEnrichment <- enrich$q.significance
@@ -26,53 +43,36 @@ EnrichmentBarPlot <- function(enrich,
     qSignificanceEnrichment <- 
         qSignificanceEnrichment[(length(qSignificanceEnrichment)-lengthData):length(qSignificanceEnrichment)]
 
-    # Create the coloring palette.
+    # Create the coloring palette
     # (Personnal coloration such as c("#FEE0D2","#FC9272") or a RColorBrewer such as brewer.pal(5,"Reds").
     colorFunction <- paste(colorRampPalette(col)(lengthData+1))
 
-      # Create barplot with legend.
+    
+    #Create the ymax with sigdisplayQuantile.
+    y <- enrich$q.significance
+    yMax <- quantile(x = y, probs = sigDisplayQuantile)
+    outsiders <- y > yMax
+    y[outsiders] <- yMax
+    
     barplot(qSignificanceEnrichment,
             main      = main,
-            xlab      = "Significance",
+            xlab      = xlab,
             col       = colorFunction,
             xlim      = xlim,
-            horiz     = TRUE, 
-            beside    = TRUE, 
-            space     = 0.5,
-            width     = 0.5,
-            cex.names = 1,
-            las       = 2
+            horiz     = horiz, 
+            beside    = beside, 
+            space     = space,
+            cex.names = cex.names,
+            border    = border,
+            las       = las,
+            ...
             )
     
     # Calculate the new alpha risk.
     sigAlpha <- -log10(aRisk)
-    sigAlpha <- round(sigAlpha, 4)
+    sigAlpha <- round(sigAlpha, 3)
     
-    # Add a line that shows the alpha risk.
+    # Add a line that shows the new alpha risk.
     abline(v = sigAlpha, lty = 5)
     mtext(bquote(alpha == .(sigAlpha)), side = 3, at = sigAlpha, col = "red")
-}
-
-
-#-----------------------Suspendu---------------------------------
-
-#'  Create a pie from the enrichment
-#'  @param enrich The file enrichment from which the plot will be create.
-#'  @param lengthData The number of category for the plot.
-#'  @export
-PiePlot <- function(enrich, lengthData = 10,coloration = "Reds")
-{
-    dataPie <- enrich$nb.overlaps
-    names(dataPie) <- enrich$category
-    dataPie <- dataPie[(length(dataPie)-lengthData):length(dataPie)]
-    labelPie <- names(dataPie)
-    percentPie <- round(dataPie/sum(dataPie)*100)
-    labelPie <- paste(labelPie, percentPie)
-    labelPie <- paste(labelPie, "%", sep="")
-    colorFunction <- colorRampPalette(c("royalblue", "red"))
-    titlePie <- c("Percent of overlap of first", lengthData, "category")
-    pie(dataPie,
-        main   = titlePie,
-        col    = coloration,
-        labels = labelPie)
 }
