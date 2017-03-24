@@ -21,7 +21,7 @@
 #' 
 #' @export
 EnrichmentBarPlot <- function(enrich, 
-                              lengthData = 20,
+                              lengthData = 10,
                               main = c("Significance of first", lengthData, "category"),
                               aRisk = 0.05,
                               sigDisplayQuantile = 0.95,
@@ -30,9 +30,10 @@ EnrichmentBarPlot <- function(enrich,
                               xlab = "Significance",
                               horiz = TRUE, 
                               beside = TRUE, 
-                              space = 0.2,
-                              cex.names = 1,
+                              space = 0.1,
+                              cex.names = 0.8,
                               border = NA,
+                              las = 1,
                               ...) {
     
     # Creation of matrix with column adapted and with the length selected.
@@ -46,6 +47,13 @@ EnrichmentBarPlot <- function(enrich,
     # (Personnal coloration such as c("#FEE0D2","#FC9272") or a RColorBrewer such as brewer.pal(5,"Reds").
     colorFunction <- paste(colorRampPalette(col)(lengthData+1))
 
+    
+    #Create the ymax with sigdisplayQuantile.
+    y <- enrich$q.significance
+    yMax <- quantile(x = y, probs = sigDisplayQuantile)
+    outsiders <- y > yMax
+    y[outsiders] <- yMax
+    
     barplot(qSignificanceEnrichment,
             main      = main,
             xlab      = xlab,
@@ -56,6 +64,7 @@ EnrichmentBarPlot <- function(enrich,
             space     = space,
             cex.names = cex.names,
             border    = border,
+            las       = las,
             ...
             )
     
