@@ -15,20 +15,25 @@
 #' @param pch=pch Allows to choose shape of points outside quantile.
 #' @param cex=0.8 Allows to choose the diamater of the points.
 #' @export
-    EnrichmentVolcanoPlot <-function(enrich,
-                                     main = c("Volcanoplot of category"),
-                                     aRisk = 0.05,
-                                     sigDisplayQuantile = 0.95,
-                                     col = c("#6699ff","#ff5050"),
-                                     ylim = c(0,yMax),
-                                     xlab = "Effect size",
-                                     ylab = "Significance",
-                                     pch  = pch,
-                                     cex  = 0.8,
-                                     ...) {
+EnrichmentVolcanoPlot <-function(enrich,
+                                 main = c("Volcanoplot of category"),
+                                 aRisk = 0.05,
+                                 sigDisplayQuantile = 0.95,
+                                 col = c("#6699ff","#ff5050"),
+                                 ylim = c(0,yMax),
+                                 xlab = "Effect size",
+                                 ylab = "Significance",
+                                 pch = pch,
+                                 cex = 0.8,
+                                 las = 1,
+                                 ...) {
         
+        # Sort the dataframe by q.significance decreasing.
+        enrich <- enrich[order(enrich$q.significance, decreasing = TRUE),]
+        enrich$category <- factor(enrich$category, 
+                                  levels = enrich$category[order(enrich$q.significance)])
         # Create a gradient stain.
-        colorFunction <- paste(colorRampPalette(col)(length(enrich$q.significance)))
+        colorFunction <- c(colorRampPalette(col)(length(enrich$category)))
         
         #Create the ymax with sigdisplayQuantile.
         y <- enrich$q.significance
@@ -36,7 +41,7 @@
         outsiders <- y > yMax
         y[outsiders] <- yMax 
         
-        # Transform point outsied quantile with triangle.
+        # Transform point outside quantile with triangle.
         pch <- rep(x = 19, length.out=nrow(enrich))
         pch[outsiders] <- 6
         
@@ -46,20 +51,19 @@
              main = main,
              xlab = xlab,
              ylab = ylab,
-             col  = col,
+             col  = colorFunction,
              pch  = pch,
              cex  = cex,
+             las  = las,
              ...)
         
         # Calculate the new alpha risk.
         sigAlpha <- -log10(aRisk)
         sigAlpha <- round(sigAlpha, 3)
-        if (!is.finite(sigAlpha))
-            stop("The alpha risk is too small to be computed.")
         
         # Add a line that shows the alpha risk.
-        abline(h = sigAlpha, lty = 5)
-        mtext(bquote(alpha == .(sigAlpha)), side = 3, at = sigAlpha, adj =sigAlpha, col = "red")
+        abline(h = sigAlpha, lty = 5, col = "Red")
+        mtext(bquote(alpha == .(sigAlpha)), side = 4, at = sigAlpha,las = 3, col = "Red")
     }
     
     
