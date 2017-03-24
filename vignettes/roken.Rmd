@@ -137,8 +137,15 @@ EnrichmentBarPlot(enrichment)
 # Demo using ENCODE data as query
 
 # Demo using CODEX and DENdb as catalogues 
+Both CODEX and DENdb can be used as cataloguse just like ReMap as been used in the step-by-step quick example. 
 
-# Demo CTCF peaks enrihced in repeats
+CODEX [@SanchezCastillo:2015ev] provides access to processed and curated NGS experiments, including ChIP-Seq (transcription factors and histones), RNA-Seq and DNase-Seq. 
+
+DENdb [@Ashoor:2015ey] is a repository of predicted enhancers derived from multiple human cell-lines. DENdb integrates enhancers predicted by five different methods (ChromHMM, Segway, RFECS, CSI-ANN, and ENCODE integrated annotation)
+
+
+
+# Demo CTCF peaks enriched in repeats
 
 
 # Homepage
