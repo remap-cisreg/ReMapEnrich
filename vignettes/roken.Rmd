@@ -1,5 +1,5 @@
 ---
-title: "Roken: enrichment of genomic regions"
+title: "Roken: Genomic region enrichment analyses for large genomic catalogues"
 author: "Vignette Author"
 date: "`r Sys.Date()`"
 package: "`r pkg_ver('BiocStyle')`"
@@ -134,6 +134,15 @@ EnrichmentVolcanoPlot(enrichment)
 EnrichmentBarPlot(enrichment)
 ```
 
+# Demo using ENCODE data as query
+
+# Demo using CODEX and DENdb as catalogues 
+
+# Demo CTCF peaks enrihced in repeats
+
+
+# Homepage
+Please visit 'Roken homepage' for more informations and demo.
 
 # Session Info
 Here is the output of `sessionInfo()` on the system on which this document was compiled:
