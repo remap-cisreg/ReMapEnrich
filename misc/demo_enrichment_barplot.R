@@ -15,4 +15,4 @@ print(system.time(enrich <- demo_time()))
 
 
 
-print(system.time(enrich <- demo_time(queryFile = "big_data/SOX2_peaks.bed")))
+#print(system.time(enrich <- demo_time(queryFile = "big_data/SOX2_peaks.bed")))
