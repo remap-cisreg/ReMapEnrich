@@ -16,10 +16,12 @@
 BedEnrichment <- function(queryFile, catalogFile, chromFile = ImportChromFile("hg19"),
                           fractionQuery = 0.1, fractionCatalog = 0.1, shuffles = 6, lower = FALSE) {
     # Retrieves all the categories from the catalog for future calculations.
-    categories <- unique(BedImport(catalogFile)$name)
+    catalog <- BedToGranges(catalogFile)
+    categories <- unique(catalog@elementMetadata$id)
+    categoriesCount <- lengths(split(catalog@elementMetadata$id, catalog@elementMetadata$id))
     # Gets the counts list containing the number of overlaps for the query and the mean number of overlaps for the shuffles.
     countsList <- ComputeEnrichment(queryFile, catalogFile, chromFile, fractionQuery, fractionCatalog, shuffles,
                                     BedIntersect, BedShuffleTempFile, categories)
     # Returns all the information from the counts list.
-    return(ExtractEnrichment(categories, lower, countsList[[1]], countsList[[2]]))
+    return(ExtractEnrichment(categories, lower, countsList[[1]], countsList[[2]], categoriesCount))
 }
