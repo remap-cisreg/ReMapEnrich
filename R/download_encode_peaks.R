@@ -1,14 +1,13 @@
-#' @title Download Remap catalogue
+#' @title Download ENCODE peaks
 #' @author Zacharie Menetrier
-#' @description Download and import in a data frame the Remap catalogue for transcriptions factors.
-#' The file is donwloaded at the given file path and is a gzipped .bed file.
+#' @description Download or import in a data frame an ENCODE set of peaks.
 #' 
-#' @param targetDir The name of the directory to download the catalogue in.
-#' @param fileName="nrPeaks_all.bed.gz" The name of the file to be created after the downloaded catalogue.
+#' @param targetDir The name of the directory to download the peaks in.
+#' @param fileName=paste(id,".bed",sep="") The name of the file to be created after the downloaded peaks.
 #' @param force=FALSE If FALSE (default), then no file is overwrited and the user is given confirmation message.
 #' @param store=TRUE If TRUE (default) then a file is downloaded and written on the disk else it is only loaded as an R object.
 #' 
-#' @return A data frame containing the Remap genomic regions if store = FALSE else the path to the catalog file.
+#' @return A data frame containing the genomic regions if store = FALSE else the path to the peaks file.
 #' 
 #' @export
 DownloadEncodePeaks <- function(id, targetDir, fileName = paste(id,".bed",sep=""), force = FALSE, store = TRUE) {
@@ -32,7 +31,7 @@ DownloadEncodePeaks <- function(id, targetDir, fileName = paste(id,".bed",sep=""
         } else {
             tempZipFile <- paste(tempfile(),".bed.gz", sep = "")
             url <- paste("https://www.encodeproject.org/files/",id, "/@@download/", id, ".bed.gz", sep = "")
-            download.file(url, tempZipFile)
+            download.file(url, tempZipFile, method = "wget")
             R.utils::gunzip(tempZipFile, filePath, overwrite = force)
             unlink(tempZipFile)
             message("A file has been created at ", filePath)

@@ -1,7 +1,6 @@
 #' @title Download Remap catalogue
 #' @author Zacharie Menetrier
-#' @description Download and import in a data frame the Remap catalogue for transcriptions factors.
-#' The file is donwloaded at the given file path and is a gzipped .bed file.
+#' @description Download or import in a data frame the Remap catalogue for transcriptions factors.
 #' 
 #' @param targetDir The name of the directory to download the catalogue in.
 #' @param fileName="nrPeaks_all.bed.gz" The name of the file to be created after the downloaded catalogue.
