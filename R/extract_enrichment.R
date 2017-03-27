@@ -36,7 +36,7 @@ ExtractEnrichment <- function (categories, lower, categoriesOverlaps, theoricalM
     logC <- log(sum(1/(1:catNumber)))
 
     # This is the logarithm of the q values.
-    logQVals <- ((logPVals + logN) - logI) + logC
+    logQVals <- ((logPVals + logN) - logI)
     logQVals <- cummax(logQVals)
     
     # This is the logarithm of the e values.
