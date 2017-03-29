@@ -10,7 +10,14 @@
 #' @param categoriesCount A vector representing the number of time a category is found in the catalog.
 #' 
 #' @return A data frame containing the enrichment informations.
-ExtractEnrichment <- function (categories, lower, categoriesOverlaps, theoricalMeans, categoriesCount) {
+ExtractEnrichment <- function (categories, lower, categoriesOverlaps, theoricalMeans, categoriesCount, pAdjust) {
+    
+    # Matching the arguments for the p values correction.
+    pAdjust <- match.arg(pAdjust, c("BH","BY","fdr","bonferroni"))
+    if (pAdjust == "fdr") {
+        pAdjust = "BH"
+    }
+    
     catNumber <-length(categories)
 
     # The p values are get with log transformation for computing extreme values.
@@ -22,22 +29,32 @@ ExtractEnrichment <- function (categories, lower, categoriesOverlaps, theoricalM
                        categoriesOverlaps[categories],
                        theoricalMeans[categories],
                        categoriesOverlaps[categories] / categoriesCount[categories])
-
-    # The data frame is sorted for the calculation of the q values.
-    enrichment = enrichment[order(logPVals[categories]),]
     
-    logPVals <- sort(logPVals)
+    # Used to adjust the logarithmic p values.
+    logN <- log(catNumber)
+    # If the adjustment method is Benjamini & Hochberg or Benjamini & Yekutieli.
+    if (pAdjust == "BH" || pAdjust == "BY") {
+        # The data frame is sorted for the calculation of the q values.
+        enrichment = enrichment[order(logPVals[categories]),]
+        logPVals <- sort(logPVals)
+        # Different logarithmic values are calculated for the q value.
+        logI <- log(1:catNumber)
+        logC <- log(sum(1/(1:catNumber)))
+    } else {
+        logI <- 0
+        logC <- 0
+    }
+	# This is the logarithm of the q values.
+	logQVals <- ((logPVals + logN) - logI) + logC
+	if (pAdjust == "BY") {
+	    logQVals <- cummax(logQVals)
+	}
+	# If the p values are greater than 1 due to bonferroni correction then they are adjusted to 1.
+	logQVals[logQVals > 0] = 0
+    
+	# The datas are retrieved after sorting if it was necessary.
     theoricalMeans <- enrichment[,3]
     categoriesOverlaps <- enrichment[,2]
-    
-    # Different logarithmic values are calculated for the q value.
-    logN <- log(catNumber)
-    logI <- log(1:catNumber)
-    logC <- log(sum(1/(1:catNumber)))
-
-    # This is the logarithm of the q values.
-    logQVals <- ((logPVals + logN) - logI)
-    logQVals <- cummax(logQVals)
     
     # This is the logarithm of the e values.
     logEVals <- logPVals + log(catNumber)

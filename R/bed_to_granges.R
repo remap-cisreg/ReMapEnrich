@@ -24,9 +24,9 @@ BedToGranges <- function(path) {
         bedData$strand <- gsub(pattern= "[^+-]+", replacement = '*', x = bedData$strand)
     # Construct the grangesanges object depending on the number of columns.
     if (ncol(bedData) == 3) {
-        grangesanges <- with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd)))
+        granges <- with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd)))
     } else if (ncol(bedData)==4) {
-        grangesanges = with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd), id=name))
+        granges = with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd), id=name))
     } else if (ncol(bedData)==5) {
         granges <- with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd), id=name, score=score))
     } else if (ncol(bedData)==6) {

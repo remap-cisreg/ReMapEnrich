@@ -13,8 +13,8 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-GrEnrichment <- function(query, catalog, chromSizes = ImportChromSizes("hg19"), fractionQuery = 0.1,
-                         fractionCatalog = 0.1, shuffles = 6, lower = FALSE) {
+GrEnrichment <- function(query, catalog, chromSizes = LoadChromSizes("hg19"), fractionQuery = 0.1,
+                         fractionCatalog = 0.1, shuffles = 6, lower = FALSE, pAdjust = "BY") {
     # The categories are extracted from the catalog.
     categories <- unique(catalog@elementMetadata$id)
     categoriesCount <- lengths(split(catalog@elementMetadata$id, catalog@elementMetadata$id))
@@ -22,5 +22,5 @@ GrEnrichment <- function(query, catalog, chromSizes = ImportChromSizes("hg19"), 
     countsList <- ComputeEnrichment(query, catalog, chromSizes, fractionQuery, fractionCatalog, shuffles,
                                     GrIntersect, GrShuffle, categories)
     # Returns all the information from the counts list.
-    return(ExtractEnrichment(categories, lower, countsList[[1]], countsList[[2]], categoriesCount))
+    return(ExtractEnrichment(categories, lower, countsList[[1]], countsList[[2]], categoriesCount, pAdjust))
 }

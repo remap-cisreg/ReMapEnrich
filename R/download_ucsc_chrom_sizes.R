@@ -1,4 +1,4 @@
-#' @title Import ucsc chromosomes sizes
+#' @title Download ucsc chromosomes sizes
 #' @author Zacharie Menetrier
 #' @description Download and import the chromosome sizes from any species in the ucsc data base.
 #' 
@@ -8,7 +8,7 @@
 #' @return A vector that contains the chromosome lengths.
 #' 
 #' @export
-ImportUcscChromSizes <- function(id, all = FALSE) {
+DownloadUcscChromSizes <- function(id, all = FALSE) {
     # Connection with the ucsc database.
     connection <- dbConnect(RMySQL::MySQL(), username = "genome", host = "genome-mysql.cse.ucsc.edu", dbname = id)
     # Requesting the chromosome names and their sizes.

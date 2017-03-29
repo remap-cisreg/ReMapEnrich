@@ -9,7 +9,7 @@
 #' @return A data frame containing the new shuffled chromosic regions or the path to a file containing this informations.
 #' 
 #' @export
-BedShuffle <- function(bedFile, chromFile = ImportChromFile("hg19"), outputFile = "") {
+BedShuffle <- function(bedFile, chromFile = LoadChromFile("hg19"), outputFile = "") {
     # If no output file is given then the file path will be a temporary file.
     path <- outputFile
     if(outputFile == "")

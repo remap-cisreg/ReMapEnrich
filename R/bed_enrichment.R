@@ -13,8 +13,8 @@
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @export
-BedEnrichment <- function(queryFile, catalogFile, chromFile = ImportChromFile("hg19"),
-                          fractionQuery = 0.1, fractionCatalog = 0.1, shuffles = 6, lower = FALSE) {
+BedEnrichment <- function(queryFile, catalogFile, chromFile = LoadChromFile("hg19"),
+                          fractionQuery = 0.1, fractionCatalog = 0.1, shuffles = 6, lower = FALSE, pAdjust = "BY") {
     # Retrieves all the categories from the catalog for future calculations.
     catalog <- BedToGranges(catalogFile)
     categories <- unique(catalog@elementMetadata$id)
@@ -23,5 +23,5 @@ BedEnrichment <- function(queryFile, catalogFile, chromFile = ImportChromFile("h
     countsList <- ComputeEnrichment(queryFile, catalogFile, chromFile, fractionQuery, fractionCatalog, shuffles,
                                     BedIntersect, BedShuffleTempFile, categories)
     # Returns all the information from the counts list.
-    return(ExtractEnrichment(categories, lower, countsList[[1]], countsList[[2]], categoriesCount))
+    return(ExtractEnrichment(categories, lower, countsList[[1]], countsList[[2]], categoriesCount, pAdjust))
 }
