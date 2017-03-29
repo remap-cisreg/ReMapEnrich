@@ -9,7 +9,7 @@
 #' @return A random generated genomic ranges object.
 #' 
 #' @export
-GenRegions <- function(n, size, chromSizes = ImportChromSizes("hg19")) {
+GenRegions <- function(n, size, chromSizes = LoadChromSizes("hg19")) {
     # Random chromosomes are sampled.
     chroms <- sample(rownames(chromSizes), size = n, replace = TRUE)
     # The most extreme starts are retrived from the chromosome sizes.

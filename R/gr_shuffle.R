@@ -8,7 +8,7 @@
 #' @return A genomic ranges containing the new shuffled chromosic regions.
 #' 
 #' @export
-GrShuffle <- function(regions, chromSizes = ImportChromSizes("hg19")) {
+GrShuffle <- function(regions, chromSizes = LoadChromSizes("hg19")) {
     # Gets all the regions lengths from the query.
     regionsLength <- regions@ranges@width
     # The possible starts are the chromosome sizes - the regions lengths.

@@ -1,15 +1,14 @@
-#' @title Import chromosome sizes
+#' @title Import chromosomes sizes
 #' @author Zacharie Menetrier
-#' @description Import preloaded chromosome sizes file into a table.
+#' @description Import chromosome sizes file into a table.
 #' 
-#' @param genome The name of the species to import the chromosomes from.
+#' @param filePath The path of the file containing the chromsomes sizes.
 #' 
-#' @return A table that contains the chromosome lengths.
+#' @return A table that contains the chromosome sizes.
 #' 
 #' @export
-ImportChromSizes <- function(genome) {
-    chromFile <- ImportChromFile(genome)
-    chromSizes <- read.table(chromFile, header = FALSE, sep = "\t",stringsAsFactors = FALSE, quote = "", row.names = 1)
-    colnames(chromSizes) = "size"
-    return(chromSizes)
+ImportChromSizes <- function(filePath) {
+	chromSizes <- read.table(filePath, header = FALSE, sep = "\t",stringsAsFactors = FALSE, quote = "", row.names = 1)
+	colnames(chromSizes) = "size"
+	return(chromSizes)
 }
