@@ -30,7 +30,7 @@ EnrichmentBarPlot <- function(enrich,
                               col = c("#6699ff","#ff5050"),
                               sigType = "q",
                               xlim = c(min(enrich[sigType]), max(enrich[sigType])),
-                              xlab = sigType,
+                              xlab = sigTypeTitle,
                               horiz = TRUE, 
                               beside = TRUE, 
                               space = 0.1,
@@ -39,7 +39,11 @@ EnrichmentBarPlot <- function(enrich,
                               las = 1,
                               ...) {
     
+    # blablabla
+    sigTypeTitle <- paste(sigType,"-significance",sep = "")
     sigType = paste(sigType,".significance",sep = "")
+    
+    
     
     # Creation of matrix with column adapted and with the length selected.
     SignificanceEnrichment <- enrich[,sigType]
