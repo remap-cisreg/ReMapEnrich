@@ -29,7 +29,6 @@ EnrichmentBarPlot <- function(enrich,
                               sigDisplayQuantile = 0.95,
                               col = c("#6699ff","#ff5050"),
                               sigType = "q",
-                              xlim = c(min(enrich[sigType]), max(enrich[sigType])),
                               xlab = sigTypeTitle,
                               horiz = TRUE, 
                               beside = TRUE, 
@@ -39,33 +38,29 @@ EnrichmentBarPlot <- function(enrich,
                               las = 1,
                               ...) {
     
-    # blablabla
+    # Creation of the two strings containing the right value to get from the enrichment.
     sigTypeTitle <- paste(sigType,"-significance",sep = "")
     sigType = paste(sigType,".significance",sep = "")
     
-    
-    
     # Creation of matrix with column adapted and with the length selected.
-    SignificanceEnrichment <- enrich[,sigType]
-    names(SignificanceEnrichment) <- enrich$category
-    SignificanceEnrichment <- sort(SignificanceEnrichment)
-    SignificanceEnrichment <- 
-        SignificanceEnrichment[(length(SignificanceEnrichment)-lengthData):length(SignificanceEnrichment)]
+    sig <- vector()
+    sig[enrich$category] <- enrich[,sigType]
+    sig <- sort(sig)
+    sig <- sig[(length(sig)-lengthData):length(sig)]
 
     # Create the coloring palette
     # (Personnal coloration such as c("#FEE0D2","#FC9272") or a RColorBrewer such as brewer.pal(5,"Reds").
     colorFunction <- paste(colorRampPalette(col)(lengthData+1))
 
     #Create the xmax with sigdisplayQuantile.
-    x <- enrich[,sigType]
-    xMax <- quantile(x = x, probs = sigDisplayQuantile)
-    x[x > xMax] = xMax
+    xMax <- quantile(x = sig, probs = sigDisplayQuantile)
+    dispSig <- sig
+    dispSig[sig > xMax] = xMax
 
-    barplot(x,
+    midPoints <- barplot(dispSig,
             main      = main,
             xlab      = xlab,
             col       = colorFunction,
-            xlim      = xlim,
             horiz     = horiz, 
             beside    = beside, 
             space     = space,
@@ -75,6 +70,8 @@ EnrichmentBarPlot <- function(enrich,
             xlim = c(0,xMax),
             ...
             )
+    labSig <- as.character(round(sig[sig>xMax]))
+    TextOutline(y = midPoints[sig>xMax], x = rep(xMax - (xMax*0.01),length(labSig)), adj = 1, labels = labSig, cex = 1.1)
     
     # Calculate the new alpha risk.
     sigAlpha <- -log10(aRisk)
