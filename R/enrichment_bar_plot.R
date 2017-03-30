@@ -29,7 +29,6 @@ EnrichmentBarPlot <- function(enrich,
                               sigDisplayQuantile = 0.95,
                               col = c("#6699ff","#ff5050"),
                               sigType = "q",
-                              xlim = c(min(enrich[sigType]), max(enrich[sigType])),
                               xlab = sigType,
                               horiz = TRUE, 
                               beside = TRUE, 
@@ -52,23 +51,22 @@ EnrichmentBarPlot <- function(enrich,
     # (Personnal coloration such as c("#FEE0D2","#FC9272") or a RColorBrewer such as brewer.pal(5,"Reds").
     colorFunction <- paste(colorRampPalette(col)(lengthData+1))
 
-    #Create the ymax with sigdisplayQuantile.
-    y <- enrich[,sigType]
-    yMax <- quantile(x = y, probs = sigDisplayQuantile)
-    outsiders <- y > yMax
-    y[outsiders] <- yMax
-    
-    barplot(SignificanceEnrichment,
+    #Create the xmax with sigdisplayQuantile.
+    x <- enrich[,sigType]
+    xMax <- quantile(x = x, probs = sigDisplayQuantile)
+    x[x > xMax] = xMax
+
+    barplot(x,
             main      = main,
             xlab      = xlab,
             col       = colorFunction,
-            xlim      = xlim,
             horiz     = horiz, 
             beside    = beside, 
             space     = space,
             cex.names = cex.names,
             border    = border,
             las       = las,
+            xlim = c(0,xMax),
             ...
             )
     
