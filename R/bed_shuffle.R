@@ -8,6 +8,12 @@
 #' 
 #' @return A data frame containing the new shuffled chromosic regions or the path to a file containing this informations.
 #' 
+#' @usage BedShuffle(bedFile, chromFile = LoadChromFile("hg19"), outputFile = "")
+#' 
+#' @example
+#' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "roken")
+#' shuffle <- BedShuffle(queryFile)
+#' 
 #' @export
 BedShuffle <- function(bedFile, chromFile = LoadChromFile("hg19"), outputFile = "") {
     # If no output file is given then the file path will be a temporary file.

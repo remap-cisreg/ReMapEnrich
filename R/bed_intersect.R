@@ -12,6 +12,15 @@
 #' 
 #' @return A data frame (empty if no intersections have been found) containing the intersections and their lengths in base pairs.
 #' 
+#' @usage 
+#' BedIntersect(queryFile, catalogFile, fractionQuery = 0.1,
+#' fractionCatalog = 0.1, categories = unique(BedImport(catalogFile)$name))
+#' 
+#' @example 
+#' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "roken")
+#' catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", package = "roken")
+#' intersections <- BedIntersect(queryFile, catalogFile)
+#' 
 #' @export
 BedIntersect <- function(queryFile, catalogFile, fractionQuery = 0.1,
                          fractionCatalog = 0.1, categories = unique(BedImport(catalogFile)$name)) {
