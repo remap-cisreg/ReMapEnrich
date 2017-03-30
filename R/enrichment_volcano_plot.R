@@ -18,20 +18,22 @@
 #' @param las=1 Allows to change the angle of label y-axis.
 #' @export
 EnrichmentVolcanoPlot <-function(enrich,
-                                 main = "Volcanoplot of category",
+                                 main = "Volcano plot",
                                  aRisk = 0.05,
                                  sigDisplayQuantile = 0.95,
-                                 col = c("#6699ff","#ff5050"),
+                                 col = c("#6699ff", "#ff5050"),
                                  sigType = "q",
                                  ylim = c(0,yMax),
                                  xlab = "Effect size",
-                                 ylab = sigType,
+                                 ylab = sigTypeTitle,
                                  pch = pch,
                                  cex = 0.8,
                                  las = 1,
                                  ...) {
     
     sigType = paste(sigType,".significance",sep = "")
+    sigTypeTitle <- paste(sigType,"-significance",sep = "")
+    
     
     # Sort the dataframe by q.significance decreasing.
     enrich <- enrich[order(enrich[,sigType], decreasing = TRUE),]

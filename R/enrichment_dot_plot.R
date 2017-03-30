@@ -20,11 +20,43 @@
 #' @param border=NA Allows to change the border of each bar. 
 #' 
 #' @export
-EnrichmentDotPlot <- function(enrich) {
+EnrichmentDotPlot <- function(enrich, 
+                              lengthData = 10,
+                              main = c("Significance of first", lengthData, "category"),
+                              sigType = "q",
+                              col = c("#6699ff","#ff5050"),
+                              staincol = "Black") {
     
     
     
+    layout(matrix(1:2,ncol=2), width = c(2,1),height = c(1,1))
+    # Allows to take the significance chosen.
+    sigTypeTitle <- paste(sigType,"-significance",sep = "")
+    sigType <- paste(sigType,".significance",sep = "")
     
     
+    # Transform the dataframe which the length chosen by user.
+    enrich <- enrich [order(enrich[,sigType], decreasing = TRUE),]
     
+    # Create the coloring palette
+    # (Personnal coloration such as c("#FEE0D2","#FC9272") or a RColorBrewer such as brewer.pal(5,"Reds").
+    colorFunction <- paste(colorRampPalette(col)(lengthData+1))
+    
+    # Creation of the dot plot.
+    with(enrich[1:lengthData,], symbols(x = mapped.peaks.ratio, 
+                                        y = 1:lengthData, 
+                                        circles = nb.overlaps, 
+                                        inches = 1/4, 
+                                        bg = colorFunction, 
+                                        fg = staincol,
+                                        main = main,
+                                        xlab = "Mapped peaks ratio",
+                                        ylab = "Category",
+                                        las = 1))
+ 
+    
+    # Legend of the plot.
+    plot(c(0,2),c(0,1),type = 'n', axes = F,xlab = '', ylab = '', main = sigTypeTitle)
+    gradientLegend <- as.raster(matrix(colorFunction), ncol = 1)
+    rasterImage(gradientLegend, 0,0,0.3,0.3)
 }
