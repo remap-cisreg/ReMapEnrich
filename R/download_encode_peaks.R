@@ -12,7 +12,19 @@
 #' @examples
 #' 
 #' ## Download peaks from ENCODE for the histone acetylation mark H3K27ac in MCF7 cells
-#' DownloadEncodePeaks(id = "ENCFF001VCU", targetDir = "~/roken_demo/data/encode_peaks")
+#' encodeFile <- DownloadEncodePeaks(id = "ENCFF001VCU", 
+#'    targetDir = "~/roken_demo/data/encode_peaks")
+#' 
+#' ## Load the bed file into a GenomicRange object
+#' encodeGR <- BedToGranges(encodeFile)
+#' 
+#' ## Download remap catalogue
+#' remapFile <- DownloadRemapCatalog(targetDir = "~/roken_demo/data/ReMap")
+#' remap <- BedToGranges(remapFile)
+#' 
+#' ## Test enrichment of the ENCODE peaks against ReMap catalogue
+#' enrich <- GrEnrichment(query = encodeGR, catalog = remap, shuffle = 5)
+#' EnrichmentBarPlot(enrich, lengthData = 20, sigDisplayQuantile = 0.95)
 #' 
 #' @export
 DownloadEncodePeaks <- function(id, targetDir, fileName = paste(id,".bed",sep=""), force = FALSE, store = TRUE) {
