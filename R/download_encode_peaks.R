@@ -24,7 +24,9 @@
 #' 
 #' ## Test enrichment of the ENCODE peaks against ReMap catalogue
 #' enrich <- GrEnrichment(query = encodeGR, catalog = remap, shuffle = 5)
-#' EnrichmentBarPlot(enrich, lengthData = 20, sigDisplayQuantile = 0.95)
+#' EnrichmentBarPlot(enrich, lengthData = 20, 
+#'   sigDisplayQuantile = 0.95,
+#'   main="H3K27ac MCF7 versus ReMap enrichment")
 #' 
 #' @export
 DownloadEncodePeaks <- function(id, targetDir, fileName = paste(id,".bed",sep=""), force = FALSE, store = TRUE) {
