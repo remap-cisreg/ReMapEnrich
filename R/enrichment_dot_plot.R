@@ -6,18 +6,9 @@
 #' @param top=10 The number of category for the plot.
 #' @param main=c("Significance of first", top, "category"). Allows to choose the title of the plot.
 #' @param aRisk=0.05 The alpha risk, by default 0.05.
-#' @param sigDisplayQuantile=0.95 quantile used to define the maximal value for the
-#' Y-axis, based on a quantile.
 #' @param col=c("#6699ff","#ff5050") Palette of coloration for the histogram 
 #'  with personnal color or RColorBrewer palette.
-#' @param xlim=c(min(enrich$q.significance), max(enrich$q.significance)).
-#' Change the length of x-axis.
-#' @param xlab="Significance" change the label of x-axis.
-#' @param horiz=TRUE Flip axis.
-#' @param beside=TRUE Juxtaposing bar or not.
-#' @param space=0.2 Allows to change size bar.
-#' @param cex.names=1 Allows to change size of x-axis (flipped).
-#' @param border=NA Allows to change the border of each bar. 
+#' 
 #' 
 #' @examples
 #' EnrichmentDotPlot(enrich = enrich)
@@ -31,17 +22,17 @@ EnrichmentDotPlot <- function(enrich,
     
     
     defPar <- par(no.readonly = TRUE)
-    layout(matrix(c(1,1,2,3),2,2))
+    layout(matrix(c(1,1,2,3),2,2), widths = c(0.8,0.2))
     # Allows to take the significance chosen.
     sigTypeTitle <- paste(sigType,"-significance",sep = "")
     sigType <- paste(sigType,".significance",sep = "")
     
     
     # Transform the dataframe which the length chosen by user.
-    enrich <- enrich [order(enrich[,sigType], decreasing = TRUE),]
+    enrich <- enrich [order(enrich[,sigType]),]
     
     # Create a matrix to take the names of category.
-    enrich <- enrich[1:lengthData,]
+    enrich <- enrich[1:top,]
     sig <- enrich[,sigType]
     names(sig) <- enrich$category
     
@@ -54,52 +45,59 @@ EnrichmentDotPlot <- function(enrich,
     
     # Create the coloring palette
     # (Personnal coloration such as c("#FEE0D2","#FC9272") or a RColorBrewer such as brewer.pal(5,"Reds").
-<<<<<<< HEAD
+
     colorFunction <- colorRamp(col)
 
     # Creation of the dot plot.
     with(enrich, symbols(x       = mapped.peaks.ratio,
-                                        y       = 1:lengthData,
+                                        y       = 1:top,
                                         circles = nb.overlaps,
                                         inches  = 1/4,
-                                        bg      = rgb(colorFunction((sig - minSigLim) / maxSigLim), maxColorValue = 255),
+                                        bg      = rgb(colorFunction(1 - ((sig - minSigLim) / (maxSigLim - minSigLim))), maxColorValue = 255),
                                         fg      = staincol,
                                         main    = main,
                                         xlab    = "Mapped peaks ratio",
                                         ylab    = "",
                                         las     = 1,
-                                        yaxt    ='n',
-                                        ann     =FALSE))
+                                        yaxt    ='n'))
 
     # Create the axis with name's category.
-    axis(2, at =1:lengthData, labels = enrich$category, las = 1, cex.axis=0.8)
-=======
-    colorFunction <- paste(colorRampPalette(col)(top+1))
-    
-    # Creation of the dot plot.
-    with(enrich[1:top,], symbols(x = mapped.peaks.ratio, 
-                                        y = 1:top, 
-                                        circles = nb.overlaps, 
-                                        inches = 1/4, 
-                                        bg = colorFunction, 
-                                        fg = staincol,
-                                        main = main,
-                                        xlab = "Mapped peaks ratio",
-                                        ylab = "Category",
-                                        las = 1))
- 
->>>>>>> 106a313ac2abcfe4853126a708e2b85dcda956f8
-    
+    axis(2, at =1:top, labels = names(sig), las = 1, cex.axis=0.8)
+
+    par(mar=c(0, 0, 4, 0))
     # Legend of the plot.
-   
-    plot(c(0,2),c(minSig,maxSig),type = 'n', axes = FALSE, xlab = "", ylab = "", main = sigTypeTitle)
-    text(x = 0.5, y = seq(minSig,maxSig, l = 5), labels = round(seq(minSigLim,maxSigLim,l = 5)), adj = 0)
-    gradientLegend <- as.raster(matrix(colorFunction(20)), ncol = 1)
-    rasterImage(gradientLegend, 0,minSig,0.25,maxSig)
-    #plot(c(1,2), c(0,1), type ='n',axes = FALSE, xlab = "", ylab = "" , main = "Nb Overlaps")
-    #minOverlaps <- min(enrich$nb.overlaps)
-    #maxOverlpas <- max(enrich$nb.overlaps)
-    #legend("topleft", legend = round(seq(minOverlaps,maxOverlpas, l = 5)), pch = 20, cex = 2)
+    colorMatrix <- colorRampPalette(col)
+    plot(c(0,2),c(minSigLim,maxSigLim),type = 'n', axes = FALSE, ylab = "", xlab = sigTypeTitle)
+    text(x = 0.5, y = seq(minSigLim,maxSigLim, l = 5), labels = round(seq(minSigLim,maxSigLim,l = 5)), adj = 0)
+    gradientLegend <- as.raster(matrix(colorMatrix(20)), ncol = 1)
+    rasterImage(gradientLegend, 0,minSigLim,0.3,maxSigLim)
+    
+    par(mar=c(5, 0, 0, 0))
+    ## Circles
+    nCircles <- 5
+    #plot(c(0,1), c(0,1), type ='n',axes = FALSE, xlab = "", ylab = "" , main = "Nb Overlaps")
+    minOverlaps <- min(enrich$nb.overlaps)
+    maxOverlpas <- max(enrich$nb.overlaps)
+    sizes <- seq(minOverlaps,maxOverlpas, l = nCircles)
+    yCircles <- c(1:nCircles/nCircles)
+    circles <- data.frame(sizes,yCircles)
+    with (circles, symbols(
+        x = rep(0,nCircles),
+        y = yCircles,
+        circles = sizes,
+        inches  = 1/4,
+        ylab = "",
+        xlab = "",
+        bty = 'n',
+        xaxt = 'n',
+        yaxt = 'n',
+        fg = "black",
+        bg = "black",
+        xlim = c(-0.01,0.05)
+        )
+    )
+    text(0,0.1,labels = "Number of overlaps")
+    
     
     par(defPar)
 }
