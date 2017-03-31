@@ -9,6 +9,12 @@
 #' 
 #' @return A genomic ranges object containing the informations from the given bed file.
 #' 
+#' @usage BedToGranges(path)
+#' 
+#' @example 
+#' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "roken")
+#' granges <- BedToGranges(queryFile)
+#' 
 #' @export
 BedToGranges <- function(path) {
     # Imports the bed file in a data frame.

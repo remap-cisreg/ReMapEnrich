@@ -3,8 +3,8 @@
 #' @description Creates a dotplot from the enrichment(category=f(q.significance))
 #'  
 #' @param enrich The enrichment data frame from which the plot will be created.
-#' @param lengthData=10 The number of category for the plot.
-#' @param main=c("Significance of first", lengthData, "category"). Allows to choose the title of the plot.
+#' @param top=10 The number of category for the plot.
+#' @param main=c("Significance of first", top, "category"). Allows to choose the title of the plot.
 #' @param aRisk=0.05 The alpha risk, by default 0.05.
 #' @param sigDisplayQuantile=0.95 quantile used to define the maximal value for the
 #' Y-axis, based on a quantile.
@@ -19,10 +19,12 @@
 #' @param cex.names=1 Allows to change size of x-axis (flipped).
 #' @param border=NA Allows to change the border of each bar. 
 #' 
+#' @examples
+#' EnrichmentDotPlot(enrich = enrich)
 #' @export
 EnrichmentDotPlot <- function(enrich, 
-                              lengthData = 10,
-                              main = c("Significance of first", lengthData, "category"),
+                              top = 10,
+                              main = paste("Significance, top", top, "categories"),
                               sigType = "q",
                               col = c("#ff5050","#6699ff"),
                               staincol = NULL) {
@@ -52,6 +54,7 @@ EnrichmentDotPlot <- function(enrich,
     
     # Create the coloring palette
     # (Personnal coloration such as c("#FEE0D2","#FC9272") or a RColorBrewer such as brewer.pal(5,"Reds").
+<<<<<<< HEAD
     colorFunction <- colorRamp(col)
 
     # Creation of the dot plot.
@@ -70,6 +73,22 @@ EnrichmentDotPlot <- function(enrich,
 
     # Create the axis with name's category.
     axis(2, at =1:lengthData, labels = enrich$category, las = 1, cex.axis=0.8)
+=======
+    colorFunction <- paste(colorRampPalette(col)(top+1))
+    
+    # Creation of the dot plot.
+    with(enrich[1:top,], symbols(x = mapped.peaks.ratio, 
+                                        y = 1:top, 
+                                        circles = nb.overlaps, 
+                                        inches = 1/4, 
+                                        bg = colorFunction, 
+                                        fg = staincol,
+                                        main = main,
+                                        xlab = "Mapped peaks ratio",
+                                        ylab = "Category",
+                                        las = 1))
+ 
+>>>>>>> 106a313ac2abcfe4853126a708e2b85dcda956f8
     
     # Legend of the plot.
    

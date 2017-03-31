@@ -22,6 +22,7 @@ library(dplyr)
 ```
 
 # Abstract
+
 Current next generation sequencing studies generate a large variety of genomic regions ranging from regulatory regions with transcription factors or histone marks ChIP-seq to variant calls or coding/non-coding transcripts. Also, the number of complex catalogues from large-scale integrative efforts are increasing[@Griffon:2015en; @Ashoor:2015ey; @Amin:2015jm] and large sequencing projects[@RoadmapEpigenomicsConsortium:2015in; @ENCODEProjectConsortium:2012gc; @Fernandez:2016do].  To facilitate the interpretation of functional genomics, epigenomics and genomics data we have developed a R-software package ‘Roken’ to identify significantly enriched regions from user defined catalogues. Roken provide functions to import any in-house catalogue, automate and plot the enrichment analysis for genomic regions. 
 
 
