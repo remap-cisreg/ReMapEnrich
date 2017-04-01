@@ -3,7 +3,7 @@
 
 
 
-required.packages <- c("R.utils", "data.table")
+required.packages <- c("R.utils", "data.table", 'RMySQL')
 for (pkg in required.packages) {
     if (! require(pkg, character.only = TRUE)) {
         install.packages(pkg)
