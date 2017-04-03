@@ -32,15 +32,16 @@ EnrichmentVolcanoPlot <-function(enrich,
                                  ...) {
    
     
-    sigTypeTitle <- paste(sigType,"-significance",sep = "")     
-    sigType = paste(sigType,".significance",sep = "")
+   sigTypeTitle <- paste(toupper(sigType), "-significance", sep = "")     
+   sigType = paste(sigType, ".significance", sep = "")
     
    
-   # Sort the dataframe by q.significance decreasing.
+   # Sort the dataframe by sigType decreasing.
    enrich <- enrich[order(enrich[,sigType], decreasing = TRUE),]
    enrich$category <- factor(enrich$category, 
                              levels = enrich$category[order(enrich[,sigType])])
-   # Create a gradient stain.
+   
+   # Create the coloring palette.
    colorFunction <- c(colorRampPalette(col)(length(enrich$category)))
     
    #Create the ymax with sigdisplayQuantile.
@@ -66,7 +67,7 @@ EnrichmentVolcanoPlot <-function(enrich,
         ...)
    
    # Calculate the new alpha risk.
-   sigAlpha <- -log10(aRisk)
+   sigAlpha <- - log10(aRisk)
    sigAlpha <- round(sigAlpha, 3)
     
    # Add a line that shows the alpha risk.
