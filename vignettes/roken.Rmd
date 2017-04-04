@@ -2,7 +2,7 @@
 title: "Roken: Genomic region enrichment analyses for large genomic catalogues"
 author: "Vignette Author"
 date: "`r Sys.Date()`"
-package: "`r pkg_ver('Roken')`"
+package: "`r pkg_ver('roken')`"
 vignette: >
     %\VignetteIndexEntry{Roken}
     %\VignetteEngine{knitr::rmarkdown}
