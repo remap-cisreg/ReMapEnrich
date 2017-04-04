@@ -1,4 +1,4 @@
-Package: roken
+Package: Roken
 Title: Bioinformatic tools for computing enrichment
 Version: 0.1
 Authors@R: c(person("Zacharie", "Menetrier", email = "zacharie.menetrier@gmail.com",
