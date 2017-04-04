@@ -14,7 +14,7 @@
 #' 
 #' @usage BedEnrichment(queryFile, catalogFile, chromFile = LoadChromFile("hg19"),fractionQuery = 0.1, fractionCatalog = 0.1, shuffles = 6, lower = FALSE, pAdjust = "BY")
 #' 
-#' @example 
+#' @examples 
 #' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "roken")
 #' catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", package = "roken")
 #' enrichment <- BedEnrichment(queryFile, catalogFile)

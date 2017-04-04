@@ -10,7 +10,6 @@
 #' @return A data frame containing the genomic regions if store = FALSE else the path to the peaks file.
 #' 
 #' @examples
-#' 
 #' ## Download peaks from ENCODE for the histone acetylation mark H3K27ac in MCF7 cells
 #' encodeFile <- DownloadEncodePeaks(id = "ENCFF001VCU", 
 #'    targetDir = "~/roken_demo/data/encode_peaks")

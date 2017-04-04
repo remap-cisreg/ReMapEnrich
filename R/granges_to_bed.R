@@ -7,6 +7,9 @@
 #' 
 #' @return A data frame containing the informations from the given genomic ranges object.
 #' 
+#' @examples 
+#' 
+#' 
 #' @export
 GrangesToBed <- function(granges) {
     chrom <- granges@seqnames

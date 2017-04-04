@@ -8,7 +8,7 @@
 #' 
 #' @usage BedImport(path)
 #' 
-#' @example 
+#' @examples 
 #' chromFile <- system.file("extdata", "hg19.genome", package = "roken")
 #' chromSizes <- BedImport(chromFile)
 #' 

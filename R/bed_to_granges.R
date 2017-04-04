@@ -11,7 +11,7 @@
 #' 
 #' @usage BedToGranges(path)
 #' 
-#' @example 
+#' @examples 
 #' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "roken")
 #' granges <- BedToGranges(queryFile)
 #' 

@@ -10,7 +10,7 @@
 #' 
 #' @usage BedShuffle(bedFile, chromFile = LoadChromFile("hg19"), outputFile = "")
 #' 
-#' @example
+#' @examples
 #' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "roken")
 #' shuffle <- BedShuffle(queryFile)
 #' 

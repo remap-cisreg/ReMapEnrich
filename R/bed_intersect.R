@@ -16,7 +16,7 @@
 #' BedIntersect(queryFile, catalogFile, fractionQuery = 0.1,
 #' fractionCatalog = 0.1, categories = unique(BedImport(catalogFile)$name))
 #' 
-#' @example 
+#' @examples 
 #' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "roken")
 #' catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", package = "roken")
 #' intersections <- BedIntersect(queryFile, catalogFile)
