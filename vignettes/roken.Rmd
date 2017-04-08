@@ -152,12 +152,12 @@ EnrichmentBarPlot(enrichment)
 
 In this example we are using some H3K27ac ChIP-seq histone mark from ENCODE as a query against the ReMap catalogue. H3K27ac is associated with the higher activation of transcription and therefore defined as an active enhancer mark. H3K27ac is found at both proximal and distal regions of transcription start site (TSS). 
 
-```{text}
+
 ENCFF001SUX H1-hESC
 ENCFF575WAS HCT116
 ENCFF023EER Right_lobe_liver
 ENCFF826VBA Lung
-```
+
 ```{r}
 dat<-data.frame(encode=c("ENCFF001SUX","ENCFF575WAS", "ENCFF023EER", "ENCFF826VBA"), 
                 assay=c("H1-hESC","HCT116","Right_lobe_liver","Lung") )
