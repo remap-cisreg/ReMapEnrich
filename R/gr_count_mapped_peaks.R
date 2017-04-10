@@ -8,6 +8,15 @@
 #' 
 #' @return An integer that represents the number of peaks mapped.
 #' 
+#' @usage GrCountMappedPeaks(query, catalog)
+#' 
+#' @examples 
+#' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "roken")
+#' catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", package = "roken")
+#' query <- BedToGranges(queryFile)
+#' catalog <- BedToGranges(catalogFile)
+#' countMappedPeaks <- GrCountMappedPeaks(query, catalog)
+#' 
 #' @export
 GrCountMappedPeaks <- function(query, catalog) {
     # Sets an id for each element of the query.

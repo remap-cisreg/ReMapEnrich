@@ -12,6 +12,16 @@
 #' 
 #' @return A data frame containing the enrichment informations.
 #' 
+#' @usage GrEnrichment(query, catalog, chromSizes = LoadChromSizes("hg19"), fractionQuery = 0.1,
+#' fractionCatalog = 0.1, shuffles = 6, lower = FALSE, pAdjust = "BY")
+#' 
+#' @examples 
+#' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "roken")
+#' catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", package = "roken")
+#' query <- BedToGranges(queryFile)
+#' catalog <- BedToGranges(catalogFile)
+#' enrichment <- GrEnrichment(query, catalog)
+#' 
 #' @export
 GrEnrichment <- function(query, catalog, chromSizes = LoadChromSizes("hg19"), fractionQuery = 0.1,
                          fractionCatalog = 0.1, shuffles = 6, lower = FALSE, pAdjust = "BY") {

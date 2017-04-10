@@ -18,6 +18,25 @@
 #' @param border=NA Allows to change the border of each bar.
 #' @param las=1 Allows to change the angle of label y-axis.
 #' 
+#' @usage EnrichmentBarPlot(enrich, 
+#' top = 10,
+#' main = paste("Significance, top", top, "categories"),
+#' aRisk = 0.05,
+#' sigDisplayQuantile = 0.95,
+#' col = c("#6699ff", "#ff5050"),
+#' sigType = "q",
+#' xlab = sigTypeTitle,
+#' beside = TRUE, 
+#' space = 0.1,
+#' cex.names = 0.8,
+#' border = NA,
+#' las = 1,
+#' ...)
+#' 
+#' @examples 
+#' data("enrichment_example", package = "roken")
+#' EnrichmentBarPlot(enrichment_example)
+#' 
 #' @export
 EnrichmentBarPlot <- function(enrich, 
                               top = 10,

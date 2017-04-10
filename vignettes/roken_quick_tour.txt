@@ -8,6 +8,25 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+#########################################################################################
+#' ## Download peaks from ENCODE for the histone acetylation mark H3K27ac in MCF7 cells
+#' encodeFile <- DownloadEncodePeaks(id = "ENCFF001VCU", 
+#'    targetDir = "~/roken_demo/data/encode_peaks")
+#' 
+#' ## Load the bed file into a GenomicRange object
+#' encodeGR <- BedToGranges(encodeFile)
+#' 
+#' ## Download remap catalogue
+#' remapFile <- DownloadRemapCatalog(targetDir = "~/roken_demo/data/ReMap")
+#' remap <- BedToGranges(remapFile)
+#' 
+#' ## Test enrichment of the ENCODE peaks against ReMap catalogue
+#' enrich <- GrEnrichment(query = encodeGR, catalog = remap, shuffle = 5)
+#' EnrichmentBarPlot(enrich, lengthData = 20, 
+#'   sigDisplayQuantile = 0.95,
+#'   main="H3K27ac MCF7 versus ReMap enrichment")
+#'
+############################################################################################
 
 Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
 

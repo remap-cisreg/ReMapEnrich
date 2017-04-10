@@ -14,8 +14,21 @@
 #' @param stainCol=rgb(colorFunction(((sig - minSigLim) / (maxSigLim - minSigLim))), maxColorValue = 255)
 #' Changes the color of perimeter of each point, by défault the coloration for the plot.#' 
 #' 
-#' @examples
-#' EnrichmentDotPlot(enrich = enrich)
+#' @usage EnrichmentDotPlot(enrich, 
+#' top = 20,
+#' main = paste("Significance, top", top, "categories"),
+#' sigType = "q",
+#' col = c("#6699ff", "#ff5050"),
+#' minCircleSize = 0.5,
+#' inches = 1 / 4,
+#' xlab    = "Mapped peaks ratio",
+#' stainCol = rgb(colorFunction(((sig - minSigLim) / (maxSigLim - minSigLim))), maxColorValue = 255),
+#' ...) 
+#' 
+#' @examples 
+#' data("enrichment_example", package = "roken")
+#' EnrichmentDotPlot(enrichment_example)
+#' 
 #' @export
 EnrichmentDotPlot <- function(enrich, 
                               top = 20,

@@ -7,6 +7,13 @@
 #' 
 #' @return A genomic ranges containing the new shuffled chromosic regions.
 #' 
+#' @usage GrShuffle(regions, chromSizes = LoadChromSizes("hg19"))
+#' 
+#' @examples 
+#' regionsFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", package = "roken")
+#' regions <- BedToGranges(regionsFile)
+#' shuffledRegions <- GrShuffle(regions)
+#' 
 #' @export
 GrShuffle <- function(regions, chromSizes = LoadChromSizes("hg19")) {
     # Gets all the regions lengths from the query.

@@ -11,6 +11,15 @@
 #' 
 #' @return A vector containing the numbers of hits for each category of the catalog.
 #' 
+#' @usage GrIntersect(query, catalog, fractionQuery = 0.1, fractionCatalog = 0.1, categories = unique(catalog@elementMetadata$id))
+#' 
+#' @examples
+#' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "roken")
+#' catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", package = "roken")
+#' query <- BedToGranges(queryFile)
+#' catalog <- BedToGranges(catalogFile)
+#' intersects <- GrIntersect(query catalog)
+#' 
 #' @export
 GrIntersect <- function(query, catalog, fractionQuery = 0.1, fractionCatalog = 0.1, categories = unique(catalog@elementMetadata$id)) {
     # Creation of the vector that will contain all the number of overlaps for each category.
