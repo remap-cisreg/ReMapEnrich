@@ -6,6 +6,8 @@
 #' 
 #' @return A table that contains the chromosome lengths.
 #' 
+#' @usage LoadChromSizes <- function(genome)
+#' 
 #' @examples 
 #' hg19ChromSizes <- LoadChromSizes("hg19")
 #' 

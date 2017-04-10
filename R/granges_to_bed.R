@@ -7,8 +7,13 @@
 #' 
 #' @return A data frame containing the informations from the given genomic ranges object.
 #' 
-#' @examples 
+#' @usage GrangesToBed <- function(granges)
 #' 
+#' @examples 
+#' catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", package = "roken")
+#' catalog <- BedToGranges(catalogFile)
+#' catalog <- GrangesToBed(catalogFile)
+#' View(catalog)
 #' 
 #' @export
 GrangesToBed <- function(granges) {
@@ -17,7 +22,7 @@ GrangesToBed <- function(granges) {
     chromEnd <- granges@ranges@start + granges@ranges@width
     name <- granges@elementMetadata$id
     strand <- as.vector(granges@strand)
-    strand <-gsub(pattern = "[*]", replacement = ".", strand)
+    strand <- gsub(pattern = "[*]", replacement = ".", strand)
     score <- granges@elementMetadata$score
     return(data.frame(chrom, chromStart, chromEnd, name, score, strand))
 }

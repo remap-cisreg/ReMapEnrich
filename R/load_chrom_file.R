@@ -6,6 +6,8 @@
 #' 
 #' @return The path to a file that contains the chromosome lengths.
 #' 
+#' @usage LoadChromFile <- function(genome)
+#' 
 #' @examples 
 #' hg19ChromFile <- LoadChromFile("hg19")
 #' 
