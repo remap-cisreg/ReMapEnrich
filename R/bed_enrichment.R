@@ -13,9 +13,10 @@
 #'  must exceed to be accounted.
 #' @param shuffles=6 The number of shuffled genomic regions to be created for
 #'  theorical distribution (higher means more accurate).
-#' @param lower=FALSE If FALSE (default), 
-#' probabilities are P[X > x], otherwise, P[X <= x].
-#' 
+#' @param tail="lower" If "lower" then, probabilities are P[X > x], 
+#'  if "higher", P[X <= x], if "both" then higher or lower is selected
+#'  depending on the number of overlaps vs the theorical mean.
+#'  
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @usage BedEnrichment(queryFile, catalogFile, 
@@ -35,7 +36,7 @@ BedEnrichment <- function(queryFile, catalogFile,
                           fractionQuery = 0.1,
                           fractionCatalog = 0.1, 
                           shuffles = 6,
-                          lower = FALSE,
+                          tail = "lower",
                           pAdjust = "BY") {
     # Retrieves all the categories from the catalog for future calculations.
     catalog <- BedToGranges(catalogFile)
@@ -49,6 +50,6 @@ BedEnrichment <- function(queryFile, catalogFile,
                                     BedIntersect, BedShuffleTempFile, 
                                     categories)
     # Returns all the information from the counts list.
-    return(ExtractEnrichment(categories, lower, countsList[[1]], 
+    return(ExtractEnrichment(categories, tail, countsList[[1]], 
                              countsList[[2]], categoriesCount, pAdjust))
 }

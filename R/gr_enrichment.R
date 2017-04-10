@@ -13,8 +13,9 @@
 #'  must exceed to be accounted.
 #' @param shuffles=6 The number of shuffled genomic regions to be created for 
 #' theorical distribution (higher means more accurate).
-#' @param lower=FALSE If FALSE (default), probabilities are P[X > x], 
-#'  otherwise, P[X <= x].
+#' @param tail="lower" If "lower" then, probabilities are P[X > x], 
+#'  if "higher", P[X <= x], if "both" then higher or lower is selected
+#'  depending on the number of overlaps vs the theorical mean.
 #' 
 #' @return A data frame containing the enrichment informations.
 #' 
@@ -34,7 +35,7 @@
 #' @export
 GrEnrichment <- function(query, catalog, chromSizes = LoadChromSizes("hg19"),
                          fractionQuery = 0.1,fractionCatalog = 0.1, 
-                         shuffles = 6, lower = FALSE, pAdjust = "BY") {
+                         shuffles = 6, tail = "lower", pAdjust = "BY") {
     # The categories are extracted from the catalog.
     categories <- unique(catalog@elementMetadata$id)
     categoriesCount <- lengths(split(catalog@elementMetadata$id, 
@@ -45,6 +46,6 @@ GrEnrichment <- function(query, catalog, chromSizes = LoadChromSizes("hg19"),
                                     fractionCatalog, shuffles,
                                     GrIntersect, GrShuffle, categories)
     # Returns all the information from the counts list.
-    return(ExtractEnrichment(categories, lower, countsList[[1]], 
+    return(ExtractEnrichment(categories, tail, countsList[[1]], 
                              countsList[[2]], categoriesCount, pAdjust))
 }

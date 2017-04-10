@@ -6,8 +6,9 @@
 #'  The categories contained in the catalog.
 #' This option is leaved for faster calculation when this function 
 #'  is runned multiple times.
-#' @param lower=FALSE If FALSE (default), probabilities are P[X > x], 
-#'  otherwise, P[X <= x].
+#' @param tail If "lower" then, probabilities are P[X > x], 
+#'  if "higher", P[X <= x], if "both" then higher or lower is selected
+#'  depending on the number of overlaps vs the theorical mean.
 #' @param categoriesOverlaps The number of overlaps for each category.
 #' @param theoricalMeans The mean number of overlaps for each category.
 #' @param categoriesCount A vector representing the number of time a category 
@@ -15,12 +16,14 @@
 #' 
 #' @return A data frame containing the enrichment informations.
 ExtractEnrichment <- function (categories,
-                               lower, 
+                               tail, 
                                categoriesOverlaps, 
                                theoricalMeans,
                                categoriesCount, 
                                pAdjust) {
     
+    # Matching the arguments for the tail selection.
+    tail <- match.arg(tail, c("lower","higher","both"))
     # Matching the arguments for the p values correction.
     pAdjust <- match.arg(pAdjust, c("BH","BY","fdr","bonferroni"))
     if (pAdjust == "fdr") {
@@ -29,9 +32,27 @@ ExtractEnrichment <- function (categories,
     
     catNumber <-length(categories)
 
-    # The p values are get with log transformation for computing extreme values.
-    logPVals <- ppois(categoriesOverlaps, theoricalMeans, lower = lower, 
-                      log = TRUE)
+    # Computing the one or two tailed test.
+    if (tail == "both") {
+        # The p values are get with log transformation for computing extreme values.
+        logLowerPVals <- ppois(categoriesOverlaps, theoricalMeans, lower = TRUE, 
+                          log = TRUE)
+        logHigherPvals <- ppois(categoriesOverlaps, theoricalMeans, lower = FALSE, 
+                                log = TRUE)
+        logPVals <- ifelse(logLowerPVals > logHigherPvals, logHigherPvals, logLowerPVals)
+    } else {
+        if (tail == "lower") {
+            lowers <- FALSE
+        } else if (tail == "higher") {
+            lowers <- TRUE
+        }
+        # The p values are get with log transformation for computing extreme values.
+        logPVals <- ppois(categoriesOverlaps, theoricalMeans, lower = lowers, 
+                          log = TRUE)
+    }
+
+    
+  
     
     # Creation of the data frame with all the enrichment informations.
     enrichment <- data.frame(categories, stringsAsFactors = FALSE)

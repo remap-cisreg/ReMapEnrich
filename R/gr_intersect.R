@@ -43,10 +43,10 @@ GrIntersect <- function(query,
     # and fractionCatalog parameters.
     overlaps <- GenomicRanges::pintersect(catalog[queryHits(hits)], 
                                           query[subjectHits(hits)])
-    percentQuery <- width(overlaps) / width(query[subjectHits(hits)])
-                    >= fractionQuery
-    percentCatalog <- width(overlaps) / width(catalog[queryHits(hits)])
-                    >= fractionCatalog
+    percentQuery <- 
+        width(overlaps) / width(query[subjectHits(hits)]) >= fractionQuery
+    percentCatalog <- 
+        width(overlaps) / width(catalog[queryHits(hits)]) >= fractionCatalog
     percent <- percentQuery & percentCatalog
     hits <- hits[percent]
     catOverlaps <- catalog[queryHits(hits),]
