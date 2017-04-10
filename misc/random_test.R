@@ -35,13 +35,13 @@ for (category in catalog.names) {
     x.values <- 0:max.x
     exp.overlaps <- dpois(x = x.values, lambda = mean.nb.overlaps) * sum(histogram$counts)
     
-    plot(h$mids-0.5, h$counts, type="h", col="#888888", lwd=3, 
+    plot(h$mids-0.5, h$counts, type="h", col="#BBBBBB", lwd=3, 
          xlab="overlap", ylab="occurrences")
     abline(h=5, col="red")
     abline(v=mean.nb.overlaps, col="darkgreen")
     exp.colors <- rep(x = "#008800", length.out = length(h$counts))
     exp.colors[exp.overlaps < 5] <- "#FF7777"
-    lines(x.values, exp.overlaps, col=exp.colors, type="p", pch="-", lwd=3) # show the oundary for the chi2 assumption
+    lines(x.values, exp.overlaps, col=exp.colors, type="p", pch="+", lwd=3) # show the oundary for the chi2 assumption
     
     ## Compute cumulative occurrences
     exp.cum <- cumsum(exp.overlaps)
