@@ -1,16 +1,20 @@
 #' @title Granges to bed
 #' @author Zacharie Menetrier
-#' @description This function creates a bed data frame from a genomic ranges object.
-#' The data frame will be ordered as 'chrom', 'chromStart', 'chromEnd', 'name', 'score', 'strand'.
+#' @description This function creates a bed data frame from a 
+#'  genomic ranges object.
+#' The data frame will be ordered as 'chrom', 'chromStart', 'chromEnd',
+#'  'name', 'score', 'strand'.
 #' 
 #' @param granges The genomic ranges object to convert.
 #' 
-#' @return A data frame containing the informations from the given genomic ranges object.
+#' @return A data frame containing the informations from the given 
+#'  genomic ranges object.
 #' 
 #' @usage GrangesToBed <- function(granges)
 #' 
 #' @examples 
-#' catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", package = "roken")
+#' catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", 
+#'                             package = "roken")
 #' catalog <- BedToGranges(catalogFile)
 #' catalog <- GrangesToBed(catalogFile)
 #' View(catalog)

@@ -5,11 +5,12 @@
 #' @param enrich The file enrichment from which the plot will be create.
 #' @param main=c("Volcanoplot of category") change the plot title.
 #' @param aRisk=0.05 The alpha risk, by default 0.05.
-#' @param sigDisplayQuantile=0.95 quantile used to define the maximal value for the
-#' Y axis, based on a quantile. 
+#' @param sigDisplayQuantile=0.95 quantile used to define the maximal value for
+#' the Y axis, based on a quantile. 
 #' @param col=c("#6699ff","#ff5050") Palette of coloration for the histogram 
 #' with personnal color or RColorBrewer palette.
-#' @param sigType="q" Allows to choose between Q-significance or P-significance or E-significance.
+#' @param sigType="q" Allows to choose between Q-significance or P-significance
+#'  or E-significance.
 #' @param ylim=c(0,yMax) Create the ylim with the quantile selected.
 #' @param xlab="Effect size" Allows to change label of x-axis.
 #' @param ylab="Significance" Allows to change label of y-axis.
@@ -91,5 +92,6 @@ EnrichmentVolcanoPlot <-function(enrich,
     
    # Add a line that shows the alpha risk.
    abline(h = sigAlpha, lty = 5, col = "Red")
-   mtext(bquote(alpha == .(sigAlpha)), side = 4, at = sigAlpha,las = 3, col = "Red")
+   mtext(bquote(alpha == .(sigAlpha)), side = 4, at = sigAlpha,las = 3, 
+         col = "Red")
 }

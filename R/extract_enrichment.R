@@ -2,15 +2,24 @@
 #' @author Zacharie Menetrier
 #' @description Extracts the information for genomic enrichment.
 #' 
-#' @param categories=unique(catalog@elementMetadata$id) The categories contained in the catalog.
-#' This option is leaved for faster calculation when this function is runned multiple times.
-#' @param lower=FALSE If FALSE (default), probabilities are P[X > x], otherwise, P[X <= x].
+#' @param categories=unique(catalog@elementMetadata$id) 
+#'  The categories contained in the catalog.
+#' This option is leaved for faster calculation when this function 
+#'  is runned multiple times.
+#' @param lower=FALSE If FALSE (default), probabilities are P[X > x], 
+#'  otherwise, P[X <= x].
 #' @param categoriesOverlaps The number of overlaps for each category.
 #' @param theoricalMeans The mean number of overlaps for each category.
-#' @param categoriesCount A vector representing the number of time a category is found in the catalog.
+#' @param categoriesCount A vector representing the number of time a category 
+#'  is found in the catalog.
 #' 
 #' @return A data frame containing the enrichment informations.
-ExtractEnrichment <- function (categories, lower, categoriesOverlaps, theoricalMeans, categoriesCount, pAdjust) {
+ExtractEnrichment <- function (categories,
+                               lower, 
+                               categoriesOverlaps, 
+                               theoricalMeans,
+                               categoriesCount, 
+                               pAdjust) {
     
     # Matching the arguments for the p values correction.
     pAdjust <- match.arg(pAdjust, c("BH","BY","fdr","bonferroni"))
@@ -21,14 +30,16 @@ ExtractEnrichment <- function (categories, lower, categoriesOverlaps, theoricalM
     catNumber <-length(categories)
 
     # The p values are get with log transformation for computing extreme values.
-    logPVals <- ppois(categoriesOverlaps, theoricalMeans, lower = lower, log = TRUE)
+    logPVals <- ppois(categoriesOverlaps, theoricalMeans, lower = lower, 
+                      log = TRUE)
     
     # Creation of the data frame with all the enrichment informations.
     enrichment <- data.frame(categories, stringsAsFactors = FALSE)
     enrichment = cbind(enrichment,
                        categoriesOverlaps[categories],
                        theoricalMeans[categories],
-                       categoriesOverlaps[categories] / categoriesCount[categories])
+                       categoriesOverlaps[categories] / 
+                           categoriesCount[categories])
     
     # Used to adjust the logarithmic p values.
     logN <- log(catNumber)
@@ -49,7 +60,8 @@ ExtractEnrichment <- function (categories, lower, categoriesOverlaps, theoricalM
 	if (pAdjust == "BY") {
 	    logQVals <- cummax(logQVals)
 	}
-	# If the p values are greater than 1 due to bonferroni correction then they are adjusted to 1.
+	# If the p values are greater than 1 due to bonferroni correction 
+	# then they are adjusted to 1.
 	logQVals[logQVals > 0] = 0
     
 	# The datas are retrieved after sorting if it was necessary.
@@ -79,10 +91,13 @@ ExtractEnrichment <- function (categories, lower, categoriesOverlaps, theoricalM
 
     # Computation of the effecct size.
     effectSizes <- log(categoriesOverlaps / theoricalMeans, base = 2)
-    enrichment <- cbind(enrichment, effectSizes, sigPVals, pVals, sigQVals, qVals, sigEVals, eVals)
+    enrichment <- cbind(enrichment, effectSizes, sigPVals, pVals, sigQVals,
+                        qVals, sigEVals, eVals)
     # Naming of the columns and reordering the data frame.
-    colnames(enrichment) <- c("category", "nb.overlaps", "random.average", "mapped.peaks.ratio", "effect.size",
-                              "p.significance", "p.value", "q.significance", "q.value", "e.significance", "e.value")
+    colnames(enrichment) <- c("category", "nb.overlaps", "random.average", 
+                              "mapped.peaks.ratio", "effect.size",
+                              "p.significance", "p.value", "q.significance",
+                              "q.value", "e.significance", "e.value")
     enrichment <- enrichment[order(enrichment$q.significance, decreasing = TRUE),]
     return(enrichment)
 }
