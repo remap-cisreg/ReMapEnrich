@@ -7,6 +7,11 @@
 #' 
 #' @return A vector that contains the chromosome lengths.
 #' 
+#' @usage DownloadUcscChromSizes(id, all = FALSE)
+#' 
+#' @examples 
+#' rn5ChromSizes <- DonwloadUcscsChromSizes("rn5")
+#' 
 #' @export
 DownloadUcscChromSizes <- function(id, all = FALSE) {
     # Connection with the ucsc database.

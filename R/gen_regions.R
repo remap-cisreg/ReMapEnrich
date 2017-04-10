@@ -8,6 +8,11 @@
 #' 
 #' @return A random generated genomic ranges object.
 #' 
+#' @usage GenRegions(n, size, chromSizes = LoadChromSizes("hg19"))
+#' 
+#' @examples 
+#' randomRegions <- GenRegions(1000,1000)
+#' 
 #' @export
 GenRegions <- function(n, size, chromSizes = LoadChromSizes("hg19")) {
     # Random chromosomes are sampled.

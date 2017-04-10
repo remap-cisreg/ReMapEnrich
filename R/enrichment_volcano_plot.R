@@ -16,6 +16,25 @@
 #' @param pch=pch Allows to choose shape of points outside quantile.
 #' @param cex=0.8 Allows to choose the diamater of the points.
 #' @param las=1 Allows to change the angle of label y-axis.
+#' 
+#' @usage EnrichmentVolcanoPlot(enrich,
+#' main = "Volcano plot",
+#' aRisk = 0.05,
+#' sigDisplayQuantile = 0.95,
+#' col = c("#ff5050", "#6699ff"),
+#' sigType = "q",
+#' ylim = c(0,yMax),
+#' xlab = "Effect size",
+#' ylab = sigTypeTitle,
+#' pch = pch,
+#' cex = 0.8,
+#' las = 1,
+#' ...)
+#' 
+#' @examples 
+#' data("enrichment_example", package = "roken")
+#' EnrichmentDotPlot(enrichment_example)
+#' 
 #' @export
 EnrichmentVolcanoPlot <-function(enrich,
                                  main = "Volcano plot",
