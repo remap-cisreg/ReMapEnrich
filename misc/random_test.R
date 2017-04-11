@@ -8,8 +8,8 @@ catalog.names <- unique(catalog@elementMetadata$id)
 result <- data.frame(matrix(nrow=iterations, ncol=length(catalog.names)))
 colnames(result) <- catalog.names
 dim(result)
-region.nb <- 1000
-region.size <- 5000
+region.nb <- 10000
+region.size <- 500
 for (i in 1:iterations) {
     cat("\r", i, "/", iterations)
     flush.console()
@@ -35,15 +35,7 @@ for (category in catalog.names) {
     x.values <- 0:max.x
     exp.overlaps <- dpois(x = x.values, lambda = mean.nb.overlaps) * sum(histogram$counts)
     
-    plot(h$mids-0.5, h$counts, type="h", col="#BBBBBB", lwd=3, 
-         xlab="overlap", ylab="occurrences")
-    abline(h=5, col="red")
-    abline(v=mean.nb.overlaps, col="darkgreen")
-    exp.colors <- rep(x = "#008800", length.out = length(h$counts))
-    exp.colors[exp.overlaps < 5] <- "#FF7777"
-    lines(x.values, exp.overlaps, col=exp.colors, type="p", pch="+", lwd=3) # show the oundary for the chi2 assumption
-    
-    ## Compute cumulative occurrences
+   ## Compute cumulative occurrences
     exp.cum <- cumsum(exp.overlaps)
     obs.cum <- cumsum(histogram$counts)
 
@@ -75,25 +67,27 @@ for (category in catalog.names) {
             exp = exp.overlaps[exp.overlaps > 5])
     }
     
-    abline(v=x.values[c(left.tail.start, right.tail.start)], col="orange")
-    
-    
     ## Compute chi2 statistics (manually)
     grouped$chi2.obs <- (grouped$obs - grouped$exp)^2 /grouped$exp
     chi2.obs <- sum(grouped$chi2.obs)
     chi2.df <- nrow(grouped) - 1
     chi2.p <- pchisq(q=chi2.obs-1, df=chi2.df, lower.tail = FALSE)
-    
-    ## Compute overlap classes on the right tail
-    
-    
-    classmax <- which(cumsum(exp.overlaps) > 5)[1]
-    exp <- sum(exp.overlaps[1:classmax])
-    obs <- sum(histogram$counts[1:classmax])
-    chi2 <- (exp - obs)^2/exp
 
+    ## Draw a plot to illustrate the fitting
+    draw.plot <- FALSE ## Will become a parameter of the fit function
+    if (draw.plot) {
+        plot(h$mids-0.5, h$counts, type="h", col="#BBBBBB", lwd=3, 
+             xlab="overlap", ylab="occurrences")
+        abline(h=5, col="red")
+        abline(v=mean.nb.overlaps, col="darkgreen")
+        exp.colors <- rep(x = "#008800", length.out = length(h$counts))
+        exp.colors[exp.overlaps < 5] <- "#FF7777"
+        lines(x.values, exp.overlaps, col=exp.colors, type="p", pch="+", lwd=3) # show the oundary for the chi2 assumption
+        
+        abline(v=x.values[c(left.tail.start, right.tail.start)], col="orange")
+    }        
     
-
+    
 
     ## Goodness of fit test with a chi2 conformity test.
     ## Before this, we need to merge the tails of the theoretical distribution in order to meet 
