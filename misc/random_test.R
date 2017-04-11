@@ -1,32 +1,94 @@
 #query <- BedToGranges("big_data/ENCFF001VCU.bed")
 catalog <- BedToGranges("big_data/nrPeaks_all.bed")
+# For JvH: catalog <- BedToGranges("~/roken_demo/data/ReMap/nrPeaks_all.bed")
 
 ## Instantiate result table
-iterations <- 1000
-result <- data.frame()
+iterations <- 500
+catalog.names <- unique(catalog@elementMetadata$id)
+result <- data.frame(matrix(nrow=iterations, ncol=length(catalog.names)))
+colnames(result) <- catalog.names
+dim(result)
+region.nb <- 10000
+region.size <- 500
 for (i in 1:iterations) {
     cat("\r", i, "/", iterations)
     flush.console()
-    overlaps <- GrIntersect(GenRegions(10000,500), catalog)
-    df <- data.frame(names(overlaps), overlaps)
-    result <- rbind(result, df)
+    overlaps <- GrIntersect(GenRegions(n = region.nb, size = region.size), catalog)
+    result[i, catalog.names] <- overlaps[catalog.names]
+#    df <- data.frame(names(overlaps), overlaps)
+#    result <- rbind(result, df)
 }
 
-rm(df, iterations, overlaps, i)
+rm(iterations, overlaps, i)
 
 df.cat <- data.frame()
-for (category in unique(result[,1])) {
-    cat.result <- result[result[,1] == category,]
+category <- catalog.names[1]
+for (category in catalog.names) {
+    cat.result <- result[,category]
     # Estimate the lambda as the mean of overlaps over all iterations.
-    mean.nb.overlaps <- mean(cat.result[,2])
+    mean.nb.overlaps <- mean(cat.result)
     # Draw the empirical density of overlaps.
-    max.x <- max(cat.result[,2])
-    histogram <- hist(cat.result[,2], breaks = 0:(max.x+1), 
-                      col="grey", border = "grey")
+    max.x <- max(cat.result)
+    h <- hist(cat.result, breaks = 0:(max.x+1), plot=FALSE)
+
     ## Fit a Poisson onto the empirical density
     x.values <- 0:max.x
     exp.overlaps <- dpois(x = x.values, lambda = mean.nb.overlaps) * sum(histogram$counts)
-    lines(x.values, exp.overlaps, col="blue")
+    
+   ## Compute cumulative occurrences
+    exp.cum <- cumsum(exp.overlaps)
+    obs.cum <- cumsum(histogram$counts)
+
+    
+    # plot(x.values, obs.cum, type="p", pch=20, ylab="Cumulative occurrences",
+    #      xlab="overlaps", panel.first=grid())
+    # lines(x.values, exp.cum, type="l", col="blue")
+    # abline(v=mean.nb.overlaps)
+
+    
+    ## If not a single value has exp >5, group values starting from the median
+    if (sum(exp.overlaps > 5) < 1) {
+        ## identify the expected (Integer) value cosest to the median
+        median.index <- which.min(abs(exp.cum - sum(exp.overlaps)/2))
+        median.value <- x.values[median.index]
+        abline(v=median.value, col="pink")
+        median.exp.cum <- exp.cum[median.index]
+        abline(h=median.exp.cum, col="pink")
+        right.tail.start <- median.index + 1
+        left.tail.start <- median.index
+        grouped <- data.frame()
+    } else {
+        left.tail.start <- which(diff(exp.overlaps > 5) == 1) + 1
+        right.tail.start <- which(diff(exp.overlaps > 5) == -1) + 1
+
+        grouped <- data.frame(
+            values = x.values[exp.overlaps > 5],
+            obs = histogram$counts[exp.overlaps > 5],
+            exp = exp.overlaps[exp.overlaps > 5])
+    }
+    
+    ## Compute chi2 statistics (manually)
+    grouped$chi2.obs <- (grouped$obs - grouped$exp)^2 /grouped$exp
+    chi2.obs <- sum(grouped$chi2.obs)
+    chi2.df <- nrow(grouped) - 1
+    chi2.p <- pchisq(q=chi2.obs-1, df=chi2.df, lower.tail = FALSE)
+
+    ## Draw a plot to illustrate the fitting
+    draw.plot <- FALSE ## Will become a parameter of the fit function
+    if (draw.plot) {
+        plot(h$mids-0.5, h$counts, type="h", col="#BBBBBB", lwd=3, 
+             xlab="overlap", ylab="occurrences")
+        abline(h=5, col="red")
+        abline(v=mean.nb.overlaps, col="darkgreen")
+        exp.colors <- rep(x = "#008800", length.out = length(h$counts))
+        exp.colors[exp.overlaps < 5] <- "#FF7777"
+        lines(x.values, exp.overlaps, col=exp.colors, type="p", pch="+", lwd=3) # show the oundary for the chi2 assumption
+        
+        abline(v=x.values[c(left.tail.start, right.tail.start)], col="orange")
+    }        
+    
+    
+
     ## Goodness of fit test with a chi2 conformity test.
     ## Before this, we need to merge the tails of the theoretical distribution in order to meet 
     ## the required condition for chi2 test: all expected values must be > 5. 
