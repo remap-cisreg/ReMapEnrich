@@ -37,7 +37,6 @@ BedIntersect <- function(queryFile,
     ##
     ## WARNING THE LAST VERSION OF BEDTOOLS MUST BE INSTALLED SO THE -F 
     ## PARAMETER IS IMPLEMENTED AS THE FRACTION QUERY.
-    ## FOR NOW THE FRACTION QUERY PARAMETER DOES NOTHING.
     ##
     
     # Creation of the vector that will contain the number of overlaps 
@@ -47,7 +46,7 @@ BedIntersect <- function(queryFile,
     tempPath <- tempfile()
     # Calls bedtools with the corresponding parameters.
     command <- paste("intersectBed -a", catalogFile, "-b", queryFile,
-                     "-f", fractionCatalog, ">", tempPath)
+                     "-f", fractionCatalog, "-F", fractionQuery, ">", tempPath)
     system(command)
     # If the file contains nothing then an empty data frame is returned.
     size <- file.info(tempPath)$size

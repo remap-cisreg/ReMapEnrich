@@ -33,6 +33,7 @@
 #' @export
 BedEnrichment <- function(queryFile, catalogFile, 
                           chromFile = LoadChromFile("hg19"),
+                          universe = NULL,
                           fractionQuery = 0.1,
                           fractionCatalog = 0.1, 
                           shuffles = 6,

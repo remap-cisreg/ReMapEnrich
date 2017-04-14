@@ -7,11 +7,17 @@
 #'  chromosome lengths for the species in consideration.
 #' 
 #' @return A temporary file containing the new shuffled chromosic regions.
-BedShuffleTempFile <- function(bedFile, chromFile = LoadChromFile("hg19")) {
+BedShuffleTempFile <- function(bedFile, universe = NULL, chromFile = LoadChromFile("hg19")) {
     tempPath <- tempfile()
     # Calls bedtools with the corresponding parameters.
-    command <- paste("shuffleBed -i", bedFile, "-g", chromFile, "-chrom >", 
-                     tempPath)
+    if (is.null(universe)) {
+        command <- paste("shuffleBed -i", bedFile, "-g", chromFile, "-chrom >", 
+                         tempPath)
+    } else {
+        command <- paste("shuffleBed -i", bedFile, "-g", chromFile, "-incl", universe, "-chrom >", 
+                         tempPath)
+    }
+
     system(command)
     return(tempPath)
 }

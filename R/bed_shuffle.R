@@ -21,6 +21,7 @@
 #' 
 #' @export
 BedShuffle <- function(bedFile,
+                       universe = NULL,
                        chromFile = LoadChromFile("hg19"),
                        outputFile = "") {
     # If no output file is given then the file path will be a temporary file.
@@ -28,8 +29,13 @@ BedShuffle <- function(bedFile,
     if(outputFile == "")
         path <- tempfile()
     # Calls bedtools with the corresponding parameters.
-    command <- paste("shuffleBed -i", bedFile, "-g", 
-                     chromFile, "-chrom >", path)
+    if (is.null(universe)) {
+        command <- paste("shuffleBed -i", bedFile, "-g", 
+                         chromFile, "-chrom >", path)
+    } else {
+        command <- paste("shuffleBed -i", bedFile, "-g", 
+                         chromFile, "-incl", universe, "-chrom >", path)
+    }
     system(command)
     # If an output file has been given then return the new file.
     if(outputFile != "")

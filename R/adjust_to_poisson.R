@@ -1,3 +1,22 @@
+#' @title Adjust to poisson
+#' @author Zacharie Menetrier
+#' @description Adjust random tests to the poisson distribution
+#' through goodness of fit test whith chi2.
+#' 
+#' @param randomIntersections This is a data frame with each row containing
+#' a number of overlap for each category in the columns.
+#' @param pAdjust Correction method. Can be abbreviated.
+#' 
+#' @return A data frame containing all the chi2 test informations.
+#' 
+#' @usage AdjustToPoisson(randomIntersections, pAdjust = "fdr")
+#' 
+#' @examples
+#' catalog <- BedToGranges(system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
+#'                           package = "roken"))
+#' randoms <- RandomIntersections(catalog, 500, 1000, 1000)
+#' chi2results <- AdjustToPoisson(randoms)
+#' 
 #' @export
 AdjustToPoisson <- function(randomIntersections, pAdjust = "fdr") {
     # Creating the chi square result data frame.
