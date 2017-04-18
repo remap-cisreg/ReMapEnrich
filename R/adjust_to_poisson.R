@@ -20,14 +20,15 @@
 #' @export
 AdjustToPoisson <- function(randomIntersections, pAdjust = "fdr") {
     # Creating the chi square result data frame.
-    chisq.result <- data.frame(matrix(nrow = ncol(randomIntersections), ncol = 4))
+    chisq.result <- data.frame(matrix(nrow = ncol(randomIntersections), ncol = 3))
     row.names(chisq.result) <- colnames(randomIntersections)
     colnames(chisq.result) <- c("chi2.p", "chi2.df", "chi2.obs")
     for (category in colnames(randomIntersections)) {
+        print(category)
         # Gets the result of the current category.
         cat.result <- randomIntersections[,category]
         # Creates the histogram for getting the counts of it.
-        h <- hist(cat.result, breaks = 0:(max(cat.result)+1), plot=FALSE)
+        h <- hist(cat.result, breaks = 0:(max(cat.result)+1), plot = FALSE)
         # The expected overlaps are created from the Poisson distribution.
         exp.overlaps <- dpois(x = 0:max(cat.result), lambda = mean(cat.result)) * sum(h$counts)
         # The median index is calculated to begin the groupment from the middle of the distribution.
@@ -93,9 +94,8 @@ AdjustToPoisson <- function(randomIntersections, pAdjust = "fdr") {
         chi2.obs <- sum((obs.to.analyze - exp.to.analyze)^2 / exp.to.analyze)
         chi2.p <- pchisq(q=chi2.obs-1, df=chi2.df, lower.tail = FALSE)
         chisq.result[category, 1] <- chi2.p
-        chisq.result[category, 2] <- p.adjust(chi2.p, pAdjust)
-        chisq.result[category, 3] <- chi2.df
-        chisq.result[category, 4] <- chi2.obs
+        chisq.result[category, 2] <- chi2.df
+        chisq.result[category, 3] <- chi2.obs
     }
     return(chisq.result)
 }
