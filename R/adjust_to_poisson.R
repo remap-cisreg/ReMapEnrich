@@ -20,9 +20,9 @@
 #' @export
 AdjustToPoisson <- function(randomIntersections, pAdjust = "fdr") {
     # Creating the chi square result data frame.
-    chisq.result <- data.frame(matrix(nrow = ncol(randomIntersections), ncol = 3))
+    chisq.result <- data.frame(matrix(nrow = ncol(randomIntersections), ncol = 4))
     row.names(chisq.result) <- colnames(randomIntersections)
-    colnames(chisq.result) <- c("chi2.p", "chi2.df", "chi2.obs")
+    colnames(chisq.result) <- c("chi2.p", "chi2.df", "chi2.obs", "lambda")
     for (category in colnames(randomIntersections)) {
         cat(category, "\n")
         # Gets the result of the current category.
@@ -96,6 +96,7 @@ AdjustToPoisson <- function(randomIntersections, pAdjust = "fdr") {
         chisq.result[category, 1] <- chi2.p
         chisq.result[category, 2] <- chi2.df
         chisq.result[category, 3] <- chi2.obs
+        chisq.result[category, 4] <- mean(cat.result)
     }
     return(chisq.result)
 }
