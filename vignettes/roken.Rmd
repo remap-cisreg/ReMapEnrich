@@ -62,7 +62,7 @@ enrichment <- GrEnrichment(query, catalog, shuffles = 10)
 ```
 
 The data frame enrichment now contains all the features of the catalogue with their enrichment values.
-The column "adjusted.significance" is the one ordering the data frame.
+The column "p.significance" is the one ordering the data frame.
 It is important to specify that this example is only relevant for the hg19 assembly.
 If any other assembly is computed, the parameter "chromSizes" should be acknowledged consequently.
 
@@ -94,7 +94,7 @@ A file has also been downloaded at "~/roken_demo/nrpeaks_all.bed.gz" (0.544 GB w
 To compute enrichement we first need to load the genome file for the species and assembly of interest. This can be done with `LoadUcscChromSizes` using standard UCSC short names for assemblies (eg. hg19, hg38, mm10, mm9, rn5, etc..). 
 ```{r}
 # This call will not create any file but only load the data in a vector.
-hg19ChromSizes <- ImportUcscChromSizes("hg19")
+hg19ChromSizes <- DownloadUcscChromSizes("hg19")
 
 ```
 ```{r}
@@ -108,7 +108,7 @@ A file has also been downloaded at "~/roken_demo/hg19_chrom_sizes.txt".
 Alterntivaly, one can directly load a genome file from a file. 
 ```{r}
 # It is also possible to load the chromosomes sizes of any species from a file.
-hg19ChromSizes <- ImportChromFile("hg19", "hg19_chrom_sizes.txt")
+hg19ChromSizes <- LoadChromFile("hg19")
 
 ```
 
@@ -126,13 +126,13 @@ shuffledEnrichment <- GrEnrichment(shuffledQuery, catalog)
 
 
 # Displaying the results
-
+enrichment <- na.omit(enrichment)
 ## P-value histogram
 
 ```{r}
 par(mfrow = c(2,1))
-hist(enrichment$adjusted.p.value, breaks=20)
-hist(shuffledEnrichment$adjusted.p.value, breaks=20)
+hist(enrichment$p.value, breaks=20)
+hist(shuffledEnrichment$p.value, breaks=20)
 par(mfrow = c(1,1))
 ```
 
@@ -146,6 +146,12 @@ EnrichmentVolcanoPlot(enrichment)
 
 ```{r}
 EnrichmentBarPlot(enrichment)
+```
+
+## Dot plot 
+
+```{r}
+EnrichmentDotPlot(enrichment)
 ```
 
 # Example using ENCODE data as query
