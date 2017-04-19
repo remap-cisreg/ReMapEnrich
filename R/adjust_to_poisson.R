@@ -24,7 +24,7 @@ AdjustToPoisson <- function(randomIntersections, pAdjust = "fdr") {
     row.names(chisq.result) <- colnames(randomIntersections)
     colnames(chisq.result) <- c("chi2.p", "chi2.df", "chi2.obs")
     for (category in colnames(randomIntersections)) {
-        print(category)
+        cat(category, "\n")
         # Gets the result of the current category.
         cat.result <- randomIntersections[,category]
         # Creates the histogram for getting the counts of it.
