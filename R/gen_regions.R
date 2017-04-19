@@ -15,7 +15,7 @@
 #' randomRegions <- GenRegions(1000,1000)
 #' 
 #' @export
-GenRegions <- function(n, size, chromSizes = LoadChromSizes("hg19")) {
+GenRegions <- function(n, size, chromSizes = LoadChromSizes("hg19"), ...) {
     # Random chromosomes are sampled.
     chroms <- sample(rownames(chromSizes), size = n, replace = TRUE)
     # The most extreme starts are retrived from the chromosome sizes.
@@ -28,6 +28,6 @@ GenRegions <- function(n, size, chromSizes = LoadChromSizes("hg19")) {
     if(sum(randomStarts[randomStarts < 0]) > 0)
         stop("The given size for random chromosomic regions is too large and
              outpass one of the chromosome size.")
-    granges <- GRanges(chroms, IRanges(start = randomStarts, width = size))
+    granges <- GenomicRanges::GRanges(chroms, IRanges::IRanges(start = randomStarts, width = size))
     return(granges)
 }

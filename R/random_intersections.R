@@ -25,12 +25,18 @@
 RandomIntersections <- function(catalog, iterations, regionNb, regionSize, chromSizes = LoadChromSizes("hg19")) {
     ## Instantiate result table
     categories <- unique(catalog@elementMetadata$id)
+    nCores <- parallel::detectCores() - 1
+    cluster <- parallel::makeCluster(nCores)
+    parallel::clusterEvalQ(cluster, library(S4Vectors))
+    parallel::clusterEvalQ(cluster, library(IRanges))
+    parallel::clusterEvalQ(cluster, library(GenomicRanges))
     # Creating all the replicates, this should be quick.
     cat("Generating random regions.\n")
-    randomRegions <- pbapply::pbreplicate(iterations, GenRegions(regionNb, regionSize, chromSizes))
+    randomRegions <- parallel::parSapply(cl = cluster, X = integer(iterations), FUN = GenRegions, n = regionNb, size = regionSize, chromSizes = chromSizes)
     # Creating all the intersections may take a long time.
     cat("Computing intersections.\n")
-    result <- pbapply::pblapply(randomRegions, GrIntersect, catalog = catalog, categories = categories)
+    result <- parallel::parLapply(cluster, randomRegions, GrIntersect, catalog = catalog, categories = categories)
+    stopCluster(cluster)
     result <- matrix(unlist(result), ncol = length(categories), byrow = TRUE)
     colnames(result) <- categories
     return(result)
