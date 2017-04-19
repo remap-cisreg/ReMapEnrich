@@ -28,7 +28,7 @@ AdjustToPoisson <- function(randomIntersections, pAdjust = "fdr") {
         # Gets the result of the current category.
         cat.result <- randomIntersections[,category]
         # Creates the histogram for getting the counts of it.
-        h <- hist(cat.result, breaks = 0:(max(cat.result)+1), plot = FALSE)
+        h <- hist(cat.result, breaks = -1:(max(cat.result)+1), plot = FALSE)
         # The expected overlaps are created from the Poisson distribution.
         exp.overlaps <- dpois(x = 0:max(cat.result), lambda = mean(cat.result)) * sum(h$counts)
         # The median index is calculated to begin the groupment from the middle of the distribution.
