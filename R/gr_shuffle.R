@@ -40,11 +40,12 @@ GrShuffleUniverseByChrom <- function(regions, chromSizes, universe, included) {
     chroms <- rownames(chromSizes)
     results <- GRanges()
     for (chrom in chroms) {
+        print(chrom)
         regionsChrom <- regions[regions@seqnames == chrom]
         universeChrom <- universe[universe@seqnames == chrom]
         if (length(regionsChrom) > 0) {
-            if (length(universeChrom > 0)) {
-                results <- c(results, GrShuffleUniverse(regionsChrom, chromSizes[chrom,], universeChrom, included))
+            if (length(universeChrom) > 0) {
+                results <- c(results, GrShuffleUniverse(regionsChrom, chromSizes, universeChrom, included))
             } else {
                 stop(paste("The universe does not contain regions for", chrom, "but the query regions does."))
             }
@@ -102,10 +103,12 @@ GrShuffleUniverse <- function(regions, chromSizes, universe, included) {
     # The random values are rounded to become random starts positions.
     randomStarts <- round(randomValues)
     starts <-sampledRegions@ranges@start + randomStarts
+    # The starts and ends of each shuffled regions are corrected if they fell outside of the chromosome.
     starts[starts < 0] <- 0
     ends <- starts + queryWidths
-    overIndexes <- ends > chromSizes[as.character(sampledRegions@seqnames),]
-    overWidths <- chromSizes[as.character(sampledRegions[overIndexes]@seqnames),] - ends[overIndexes]
+    chromWidths <- chromSizes[as.character(sampledRegions@seqnames),]
+    overIndexes <- ends > chromWidths
+    overWidths <- ends[overIndexes] - chromWidths[overIndexes]
     starts[overIndexes] <- starts[overIndexes] - overWidths
     if (sum(starts < 0) > 0) {
        warning("Some query regions are longer than the chromosome they fell in. They will be shortened.")
