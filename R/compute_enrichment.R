@@ -28,7 +28,9 @@ ComputeEnrichment <- function(query,
                                intersectFunction,
                               shuffleFunction, 
                               categories,
-                              universe) {
+                              universe,
+                              byChrom,
+                              included) {
     catNumber <- length(categories)
     if(catNumber < 1)
         stop("The catalog does not comprize any category.")
@@ -41,7 +43,7 @@ ComputeEnrichment <- function(query,
     for(i in 1:shuffles) {
         cat("Shuffle # ", i, "\n")
         flush.console()
-        shuffle <- shuffleFunction(query, chromSizes, universe)
+        shuffle <- shuffleFunction(query, chromSizes, universe, included, byChrom)
         # Computes the intersections betwen shuffle and catalog.
         count <- intersectFunction(shuffle, catalog, fractionQuery,
                                    fractionCatalog, categories)

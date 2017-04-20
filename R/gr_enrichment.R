@@ -35,7 +35,7 @@
 #' @export
 GrEnrichment <- function(query, catalog, universe = NULL, chromSizes = LoadChromSizes("hg19"),
                          fractionQuery = 0.1,fractionCatalog = 0.1, 
-                         shuffles = 6, tail = "lower", pAdjust = "BY") {
+                         shuffles = 6, tail = "lower", pAdjust = "BY", byChrom = FALSE, included = 1) {
     # The categories are extracted from the catalog.
     categories <- unique(catalog@elementMetadata$id)
     categoriesCount <- lengths(split(catalog@elementMetadata$id, 
@@ -44,7 +44,7 @@ GrEnrichment <- function(query, catalog, universe = NULL, chromSizes = LoadChrom
     # and the mean number of overlaps for the shuffles.
     countsList <- ComputeEnrichment(query, catalog, chromSizes, fractionQuery,
                                     fractionCatalog, shuffles,
-                                    GrIntersect, GrShuffle, categories, universe)
+                                    GrIntersect, GrShuffle, categories, universe, byChrom, included)
     # Returns all the information from the counts list.
     return(ExtractEnrichment(categories, tail, countsList[[1]], 
                              countsList[[2]], categoriesCount, pAdjust))
