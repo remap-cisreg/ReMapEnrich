@@ -25,6 +25,7 @@ GrShuffle <- function(regions, chromSizes = LoadChromSizes("hg19"), universe = N
                                     width = as.vector(chromSizes[,1]))
                             )
     }
+    universe <- reduce(universe)
     if (included < 0 || included > 1) {
         stop("The parameter included should be comprised between 0 and 1.")
     }
@@ -51,7 +52,6 @@ GrShuffleUniverseByChrom <- function(regions, chromSizes, universe, included) {
     }
     return(results)
 }
-
 
 GrShuffleUniverse <- function(regions, chromSizes, universe, included) {
     # Sorting the universe in order to pick only the universe regions that are large enough for the regions.
