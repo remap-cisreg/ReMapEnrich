@@ -73,7 +73,7 @@ If any other assembly is computed, the parameter "chromSizes" should be acknowle
 ```{r, echo=TRUE}
 # Create a local directory for the tutorial
 demo.dir <- "~/roken_demo"
-dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE, force = TRUE)
+dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
 setwd(demo.dir)
 # Use the function DowloadRemapCatalog
 remapCatalog <- DownloadRemapCatalog("nrpeaks_all.bed.gz")
@@ -139,7 +139,7 @@ par(mfrow = c(1,1))
 ## Volcano plot
 
 ```{r}
-#EnrichmentVolcanoPlot(enrichment)
+EnrichmentVolcanoPlot(enrichment)
 ```
 
 ## Bar plot
