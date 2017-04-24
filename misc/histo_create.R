@@ -3,8 +3,8 @@ for (category in colnames(randoms)) {
     pdf(file = paste("~/Bureau/roken/graph/Histograms/",category,".pdf",sep = ""))
     catChi2 = chi2[category,]
     catResults <- randoms[,category]
-    h <- hist(catResults, breaks = 0:(max(catResults)+1), plot = FALSE)
-    expOverlaps <- dpois(x = 0:max(catResults), lambda = mean(catResults)) * sum(h$counts)
+    h <- hist(catResults, breaks = -1:(max(catResults)+1), plot = FALSE)
+    expOverlaps <- dpois(x = 0:(max(catResults)+1), lambda = mean(catResults)) * sum(h$counts)
     plot(h$counts, col ="red", type = 'h', xaxt = 'nt',
          xlab = "Nombre d'intersections", ylab = "Nombre d'occurences",
          main = paste(category)
