@@ -1,6 +1,6 @@
 ---
 title: "Roken: Genomic region enrichment analyses for large genomic catalogues"
-author: "Vignette Author"
+author: "Martin Mestdagh"
 date: "`r Sys.Date()`"
 package: "`r pkg_ver('roken')`"
 vignette: >
@@ -16,7 +16,7 @@ csl:
 ---
 
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>", eval=FALSE)
+knitr::opts_chunk$set(collapse = T, comment = "#>", eval=TRUE)
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
 ```
@@ -73,7 +73,7 @@ If any other assembly is computed, the parameter "chromSizes" should be acknowle
 ```{r, echo=TRUE}
 # Create a local directory for the tutorial
 demo.dir <- "~/roken_demo"
-dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
+dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE, force = TRUE)
 setwd(demo.dir)
 # Use the function DowloadRemapCatalog
 remapCatalog <- DownloadRemapCatalog("nrpeaks_all.bed.gz")
@@ -139,7 +139,7 @@ par(mfrow = c(1,1))
 ## Volcano plot
 
 ```{r}
-EnrichmentVolcanoPlot(enrichment)
+#EnrichmentVolcanoPlot(enrichment)
 ```
 
 ## Bar plot

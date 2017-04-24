@@ -1,10 +1,10 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: "Vignette quick tour"
+author: "Martin Mestdagh"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Vignette quick tour}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -22,7 +22,7 @@ vignette: >
 #' 
 #' ## Test enrichment of the ENCODE peaks against ReMap catalogue
 #' enrich <- GrEnrichment(query = encodeGR, catalog = remap, shuffle = 5)
-#' EnrichmentBarPlot(enrich, lengthData = 20, 
+#' EnrichmentBarPlot(enrich, top = 20, 
 #'   sigDisplayQuantile = 0.95,
 #'   main="H3K27ac MCF7 versus ReMap enrichment")
 #'
