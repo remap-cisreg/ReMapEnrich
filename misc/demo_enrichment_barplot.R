@@ -13,6 +13,3 @@ demo_time <- function(queryFile = "big_data/ENCFF001SUX.bed",
 
 print(system.time(enrich <- demo_time()))
 
-
-# ceci est un test
-#print(system.time(enrich <- demo_time(queryFile = "big_data/SOX2_peaks.bed")))

@@ -1,10 +1,10 @@
 ---
-title: "Roken: Genomic region enrichment analyses for large genomic catalogues"
+title: "roken: Genomic region enrichment analyses for large genomic catalogues"
 author: "Martin Mestdagh"
 date: "`r Sys.Date()`"
 package: "`r pkg_ver('roken')`"
 vignette: >
-    %\VignetteIndexEntry{Roken}
+    %\VignetteIndexEntry{roken}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 
@@ -16,14 +16,14 @@ csl:
 ---
 
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>", eval=TRUE)
+knitr::opts_chunk$set(collapse = T, comment = "#>", eval=FALSE)
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
 ```
 
 # Abstract
 
-Current next generation sequencing studies generate a large variety of genomic regions ranging from regulatory regions with transcription factors or histone marks ChIP-seq to variant calls or coding/non-coding transcripts. Also, the number of complex catalogues from large-scale integrative efforts are increasing[@Griffon:2015en; @Ashoor:2015ey; @Amin:2015jm] and large sequencing projects[@RoadmapEpigenomicsConsortium:2015in; @ENCODEProjectConsortium:2012gc; @Fernandez:2016do].  To facilitate the interpretation of functional genomics, epigenomics and genomics data we have developed a R-software package ‘Roken’ to identify significantly enriched regions from user defined catalogues. Roken provide functions to import any in-house catalogue, automate and plot the enrichment analysis for genomic regions. 
+Current next generation sequencing studies generate a large variety of genomic regions ranging from regulatory regions with transcription factors or histone marks ChIP-seq to variant calls or coding/non-coding transcripts. Also, the number of complex catalogues from large-scale integrative efforts are increasing[@Griffon:2015en; @Ashoor:2015ey; @Amin:2015jm] and large sequencing projects[@RoadmapEpigenomicsConsortium:2015in; @ENCODEProjectConsortium:2012gc; @Fernandez:2016do].  To facilitate the interpretation of functional genomics, epigenomics and genomics data we have developed a R-software package ‘roken’ to identify significantly enriched regions from user defined catalogues. Roken provide functions to import any in-house catalogue, automate and plot the enrichment analysis for genomic regions. 
 
 
 # Quick example
@@ -139,7 +139,7 @@ par(mfrow = c(1,1))
 ## Volcano plot
 
 ```{r}
-EnrichmentVolcanoPlot(enrichment)
+EnrichmentVolcanoPlot(na.omit(enrichment))
 ```
 
 ## Bar plot
@@ -196,11 +196,11 @@ http://www.gtexportal.org/home/tissueSummaryPage
 
 
 # Homepage
-Please visit 'Roken homepage' for more informations and demo.
+Please visit 'roken homepage' for more informations and demo.
 
 # Session Info
 Here is the output of `sessionInfo()` on the system on which this document was compiled:
-```{r, include=FALSE}
+```{r}
 sessionInfo() 
 ```
 

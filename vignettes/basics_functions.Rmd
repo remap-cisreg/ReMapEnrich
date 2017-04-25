@@ -1,0 +1,104 @@
+---
+title: "Roken: basics functions"
+author: "Martin Mestdagh, Zacharie Ménétrier"
+date: "`r Sys.Date()`"
+package: "`r pkg_ver('roken')`"
+vignette: >
+    %\VignetteIndexEntry{roken-basics-functions}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+output: 
+    BiocStyle::html_document
+bibliography: 
+    bibliography.bib
+csl:
+    biomed-central.csl
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>", eval=FALSE)
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+library(dplyr)
+```
+
+# Abstract
+
+Current next generation sequencing studies generate a large variety of genomic regions ranging from regulatory regions with transcription factors or histone marks ChIP-seq to variant calls or coding/non-coding transcripts. Also, the number of complex catalogues from large-scale integrative efforts are increasing[@Griffon:2015en; @Ashoor:2015ey; @Amin:2015jm] and large sequencing projects[@RoadmapEpigenomicsConsortium:2015in; @ENCODEProjectConsortium:2012gc; @Fernandez:2016do].  To facilitate the interpretation of functional genomics, epigenomics and genomics data we have developed a R-software package ‘roken’ to identify significantly enriched regions from user defined catalogues. Roken provide functions to import any in-house catalogue, automate and plot the enrichment analysis for genomic regions. 
+
+# Quick example
+
+This example is based on pet datasets released with the roken package. 
+
+It will go through the folowing steps. 
+
+1. Load a minimal example
+
+    - a query set of genomic regions. 
+    - (reduced) catalogue of reference genomic regions. 
+
+2. Compute the enrichment of intersections between the query and each entry of the catalogue. 
+
+```{r}
+# Load the roken library
+library(roken) 
+
+# Load the example dataset
+query <- BedToGranges(system.file(
+    "extdata",                                    
+    "ReMap_nrPeaks_public_chr22_SOX2.bed",
+    package = "roken"))
+
+catalog <- BedToGranges(system.file("extdata",
+                                    "ReMap_nrPeaks_public_chr22.bed",
+                                    package = "roken"))
+```
+
+We now dispose of two genomic ranges object.
+The catalogue contains features names.
+
+```{r}
+enrichment <- GrEnrichment(query, catalog, shuffles = 10)
+```
+
+The data frame enrichment now contains all the features of the catalogue with their enrichment values.
+The column "p.significance" is the one ordering the data frame.
+It is important to specify that this example is only relevant for the hg19 assembly.
+If any other assembly is computed, the parameter "chromSizes" should be acknowledged consequently.
+
+# Enrichment analysis
+The data frame is composed of eleven columns with differents informations about the enrichment.
+
+1. Category:
+This column contains features names of each category that have been found in the catalogue.
+
+2. Number of overlaps:
+This column contains the number of overlaps between the query and each categories of the catalogue.
+
+3. Random average:
+This column contains the mean number of overlaps between all the shuffles and the catalogue.
+
+4. Mapped peaks ratio:
+The mapped peaks ratio represents the percentage of covering of each categories of the catalogue by the query.
+
+5. Effect size:
+The effect size is simply the log value of the number of overlaps divided by the random average.
+
+6. P-significance:
+The p-significance column is a rescaled value of the p-value, obtained by -log10(Pval).
+
+7. P-value:
+The p-value is the probability that random overlaps gived, at least, results as extremes as the number of overlaps following the Poisson distribution.
+
+8. Q-significance:
+The q-significance column is a rescaled value of the p-value, obtained by -log10(Qval).
+
+9. Q-value:
+The q-value is the corrected p-value given multiple comparisons testing. It is possible to choose the correction method (fdr by default).
+
+10. E-significance:
+The e-significance column is a rescaled value of the p-value, obtained by -log10(Eval).
+
+11. E-value:
+This last column contains the expected numbers of false discoveries for each categories.
+
+# References

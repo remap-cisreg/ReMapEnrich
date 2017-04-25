@@ -30,8 +30,8 @@ op <- par(mfrow = c(1, 2))
 
 EnrichmentVolcanoPlot(enrich,aRisk = 0.05)
 
-#EnrichmentBarPlot(enrich,lengthData = 10, col=cols)
-EnrichmentBarPlot(enrich,lengthData = 30)
+
+EnrichmentBarPlot(enrich,top = 30)
 
 par(op) # Reset default parameters
 
