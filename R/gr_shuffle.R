@@ -40,7 +40,6 @@ GrShuffleUniverseByChrom <- function(regions, chromSizes, universe, included) {
     chroms <- rownames(chromSizes)
     results <- GRanges()
     for (chrom in chroms) {
-        print(chrom)
         regionsChrom <- regions[regions@seqnames == chrom]
         universeChrom <- universe[universe@seqnames == chrom]
         if (length(regionsChrom) > 0) {

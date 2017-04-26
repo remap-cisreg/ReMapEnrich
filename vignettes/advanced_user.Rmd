@@ -1,5 +1,5 @@
 ---
-title: "Roken: basics functions"
+title: "roken: Advanced user"
 author: "Martin Mestdagh, Zacharie Ménétrier"
 date: "`r Sys.Date()`"
 package: "`r pkg_ver('roken')`"
@@ -78,7 +78,7 @@ The universe is simply another set of genomic regions, in a GeomicRanges format,
 ## Choosing an universe
 
 One of the most diffcult task in using a universe is choosing one that is relevant. No methods are perfect, once you understand what is the purpose of using a universe, it will be up to you to specify which one to use in order to accomplish a specific analysis.
-But in general, the universe could be understood as **bold**the set of regions that could have been used as query.**bold**
+But in general, the universe could be understood as **the set of regions that could have been used as query**.
 
 ## Enrichment with universe
 
