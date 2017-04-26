@@ -135,7 +135,7 @@ randomRegions <- GenRegions(100, 1000)
 
 For now, only the hg19 assembly has been used by default. It is important to know how to make enrichment analysis with other genomes. All functions in the roken package that uses shuffles or random regions generation must ackowledge the sizes of the chromosomes of the species in consideration.
 
-It is possible to load the chromosomes sizes og hg19 in one function.
+It is possible to load the chromosomes sizes of hg19 in one function.
 
 ```{r}
 hg19ChromSizes <- LoadChromSizes("hg19")
