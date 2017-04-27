@@ -10,7 +10,7 @@
 #' 
 #' @return An integer that represents the number of peaks mapped.
 #' 
-#' @usage GrCountMappedPeaks(query, catalog)
+#' @usage CountMappedPeaks(query, catalog)
 #' 
 #' @examples 
 #' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed",
@@ -19,10 +19,10 @@
 #'                             package = "roken")
 #' query <- BedToGranges(queryFile)
 #' catalog <- BedToGranges(catalogFile)
-#' countMappedPeaks <- GrCountMappedPeaks(query, catalog)
+#' countMappedPeaks <- CountMappedPeaks(query, catalog)
 #' 
 #' @export
-GrCountMappedPeaks <- function(query, catalog) {
+CountMappedPeaks <- function(query, catalog) {
     # Sets an id for each element of the query.
     query@elementMetadata$id = 1:length(query)
     # Overlaps the query and catalog and find the number of ids that are 

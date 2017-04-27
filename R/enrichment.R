@@ -1,7 +1,7 @@
-#' @title Genomic Ranges enrichment
+#' @title Enrichment
 #' @author Zacharie Menetrier
 #' @description Gets the value of genomic enrichment for each category of a
-#' genomic ranges object.
+#' genomic ranges object against a catalogue.
 #' 
 #' @param query The genomic ranges object containing the genomic regions to analyze.
 #' @param catalog The genomic ranges object containing the database used for annotation.
@@ -27,7 +27,7 @@
 #' 
 #' @return A data frame containing the enrichment informations.
 #' 
-#' @usage GrEnrichment(query, catalog, chromSizes = LoadChromSizes("hg19"),
+#' @usage Enrichment(query, catalog, chromSizes = LoadChromSizes("hg19"),
 #'                     fractionQuery = 0.1,
 #' fractionCatalog = 0.1, shuffles = 6, lower = FALSE, pAdjust = "BY")
 #' 
@@ -38,10 +38,10 @@
 #'                            package = "roken")
 #' query <- BedToGranges(queryFile)
 #' catalog <- BedToGranges(catalogFile)
-#' enrichment <- GrEnrichment(query, catalog)
+#' enrichment <- Enrichment(query, catalog)
 #' 
 #' @export
-GrEnrichment <- function(query, catalog, universe = NULL, chromSizes = LoadChromSizes("hg19"),
+Enrichment <- function(query, catalog, universe = NULL, chromSizes = LoadChromSizes("hg19"),
                          fractionQuery = 0.1,fractionCatalog = 0.1, 
                          shuffles = 6, tail = "lower", pAdjust = "BY", byChrom = FALSE, included = 1) {
     # The categories are extracted from the catalog.
@@ -52,7 +52,7 @@ GrEnrichment <- function(query, catalog, universe = NULL, chromSizes = LoadChrom
     # and the mean number of overlaps for the shuffles.
     countsList <- ComputeEnrichment(query, catalog, chromSizes, fractionQuery,
                                     fractionCatalog, shuffles,
-                                    GrIntersect, GrShuffle, categories, universe, byChrom, included)
+                                    Intersect, Shuffle, categories, universe, byChrom, included)
     # Returns all the information from the counts list.
     return(ExtractEnrichment(categories, tail, countsList[[1]], 
                              countsList[[2]], categoriesCount, pAdjust))

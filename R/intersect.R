@@ -1,4 +1,4 @@
-#' @title Genomic ranges intersections
+#' @title Intersect
 #' @author Zacharie Menetrier
 #' @description Computes the intersections between two genomic ranges object.
 #' 
@@ -15,7 +15,7 @@
 #' 
 #' @return A vector containing the numbers of hits for each category of the catalog.
 #' 
-#' @usage GrIntersect(query, catalog, fractionQuery = 0.1, fractionCatalog = 0.1,
+#' @usage Intersect(query, catalog, fractionQuery = 0.1, fractionCatalog = 0.1,
 #'                    categories = unique(catalog@elementMetadata$id))
 #' 
 #' @examples
@@ -25,10 +25,10 @@
 #'                             package = "roken")
 #' query <- BedToGranges(queryFile)
 #' catalog <- BedToGranges(catalogFile)
-#' intersects <- GrIntersect(query catalog)
+#' intersects <- Intersect(query catalog)
 #' 
 #' @export
-GrIntersect <- function(query,
+Intersect <- function(query,
                         catalog, 
                         fractionQuery = 0.1, 
                         fractionCatalog = 0.1, 

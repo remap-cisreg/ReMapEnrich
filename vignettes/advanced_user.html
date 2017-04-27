@@ -10,7 +10,7 @@
 
 <meta name="author" content="Martin Mestdagh, Zacharie Ménétrier" />
 
-<meta name="date" content="2017-04-26" />
+<meta name="date" content="2017-04-27" />
 
 <title>roken: Advanced user</title>
 
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="header">
 <h1 class="title">roken: Advanced user</h1>
 <h4 class="author"><em>Martin Mestdagh, Zacharie Ménétrier</em></h4>
-<h4 class="date"><em>2017-04-26</em></h4>
+<h4 class="date"><em>2017-04-27</em></h4>
 </div>
 <h4 class="package">Package version: <span style="font-weight: normal">roken 0.1</span></h4>
 
@@ -160,7 +160,7 @@ randomRegions &lt;- GenRegions(100, 1000)</code></pre>
 <div id="other-assemblies" class="section level1">
 <h1><span class="header-section-number">6</span> Other assemblies</h1>
 <p>For now, only the hg19 assembly has been used by default. It is important to know how to make enrichment analysis with other genomes. All functions in the roken package that uses shuffles or random regions generation must ackowledge the sizes of the chromosomes of the species in consideration.</p>
-<p>It is possible to load the chromosomes sizes og hg19 in one function.</p>
+<p>It is possible to load the chromosomes sizes of hg19 in one function.</p>
 <pre class="r"><code>hg19ChromSizes &lt;- LoadChromSizes(&quot;hg19&quot;)</code></pre>
 <p>But you may want to download other assemblies from the UCSC database.</p>
 <pre class="r"><code># Example with rn5

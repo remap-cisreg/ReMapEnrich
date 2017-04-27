@@ -39,6 +39,7 @@ ComputeEnrichment <- function(query,
                                   fractionCatalog, categories)
     # Shuffles are created and computed as the query for bootstrapping.
     shuffleCatCount <- vector()
+    
     shuffleCatCount[categories] <- 0
     for(i in 1:shuffles) {
         cat("Shuffle # ", i, "\n")
