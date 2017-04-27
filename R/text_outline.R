@@ -3,9 +3,9 @@
 #' @description Draw text with an outline.
 #' 
 #' @param x,y numeric vectors of coordinates where the text
-#'  labels should be written.
+#' labels should be written.
 #' @param labels a character vector or expression specifying the text 
-#'  to be written.
+#' to be written.
 #' @param col The color to be used for the front text.
 #' @param outline The color to be used for the outline.
 #' 

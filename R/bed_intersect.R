@@ -7,15 +7,15 @@
 #' @param bedfile1 The first bed file.
 #' @param bedfile2 The second bed file.
 #' @param fractionQuery=0.1 The fraction of coverage (query on catalog) a hit
-#'  must exceed to be accounted.
+#' must exceed to be accounted.
 #' @param fractionCatalog=0.1 The fraction of coverage (catalog on query) a hit
-#'  must exceed to be accounted.
+#' must exceed to be accounted.
 #' @param categories=unique(BedImport(catalogFile)$name) The categories 
-#'  contained in the catalog. This option is leaved for faster calculation when
-#'  this function is runned multiple times.
+#' contained in the catalog. This option is leaved for faster calculation when
+#' this function is runned multiple times.
 #' 
 #' @return A data frame (empty if no intersections have been found) containing 
-#'  the intersections and their lengths in base pairs.
+#' the intersections and their lengths in base pairs.
 #' 
 #' @usage 
 #' BedIntersect(queryFile, catalogFile, fractionQuery = 0.1,

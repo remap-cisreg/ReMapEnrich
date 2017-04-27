@@ -15,7 +15,7 @@
 #' theorical distribution (higher means more accurate).
 #' @param categories The categories contained in the catalog.
 #' This option is leaved for faster calculation when this function is runned
-#'  multiple times.
+#' multiple times.
 #' 
 #' @return A list containing the number of overlaps for the query and the 
 #' mean number of overlaps for the shuffles.

@@ -1,11 +1,11 @@
 #' @title Download ucsc chromosomes sizes
 #' @author Zacharie Menetrier
 #' @description Download and import the chromosome sizes from any species in
-#'  the ucsc data base.
+#' the ucsc data base.
 #' 
 #' @param id The ucsc id of the assembly.
 #' @param all=FALSE If TRUE then all the chromosomes sizes will be returned in
-#'  the data frame, only the ones with no "_" in their names will be returned.
+#' the data frame, only the ones with no "_" in their names will be returned.
 #' 
 #' @return A vector that contains the chromosome lengths.
 #' 

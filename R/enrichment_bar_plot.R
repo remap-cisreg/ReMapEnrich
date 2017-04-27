@@ -11,9 +11,9 @@
 #' the Y-axis, based on a quantile.
 #' @param col=c("#6699ff","#ff5050") Palette of coloration for the plot 
 #' Personnal coloration such as c("#FEE0D2","#FC9272") or a RColorBrewer such 
-#'  as brewer.pal(5,"Reds").
+#' as brewer.pal(5,"Reds").
 #' @param sigType="q" Allows to choose between Q-significance, P-significance
-#'  or E-significance.
+#' or E-significance.
 #' @param xlab=sigTypeTtitle Allows to change the title of x-axis.
 #' @param beside=TRUE Juxtaposing bar or not.
 #' @param space=0.2 Allows to change size bar.

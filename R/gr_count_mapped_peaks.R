@@ -1,12 +1,12 @@
 #' @title Count mapped peaks
 #' @author Zacharie Menetrier
 #' @description This function counts the number of peaks that are mapped with 
-#'  two genomic ranges object.
+#' two genomic ranges object.
 #' It counts the number of peaks in the query that are mapped in the catalog.
 #'
 #' @param query A genomic ranges object containing the peaks to analyze.
 #' @param catalog A genomic ranges object containing the peaks that will be 
-#'  compared to the query.
+#' compared to the query.
 #' 
 #' @return An integer that represents the number of peaks mapped.
 #' 

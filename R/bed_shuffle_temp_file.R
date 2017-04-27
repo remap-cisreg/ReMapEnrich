@@ -4,7 +4,7 @@
 #' 
 #' @param bedFile The bed file containing the genomic regions to shuffle.
 #' @param chromFile=ImportChromFile("hg19") A file containing all the 
-#'  chromosome lengths for the species in consideration.
+#' chromosome lengths for the species in consideration.
 #' 
 #' @return A temporary file containing the new shuffled chromosic regions.
 BedShuffleTempFile <- function(bedFile, universe = NULL, chromFile = LoadChromFile("hg19")) {

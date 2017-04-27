@@ -1,14 +1,14 @@
 #' @title Granges to bed
 #' @author Zacharie Menetrier
 #' @description This function creates a bed data frame from a 
-#'  genomic ranges object.
+#' genomic ranges object.
 #' The data frame will be ordered as 'chrom', 'chromStart', 'chromEnd',
-#'  'name', 'score', 'strand'.
+#' 'name', 'score', 'strand'.
 #' 
 #' @param granges The genomic ranges object to convert.
 #' 
 #' @return A data frame containing the informations from the given 
-#'  genomic ranges object.
+#' genomic ranges object.
 #' 
 #' @usage GrangesToBed <- function(granges)
 #' 

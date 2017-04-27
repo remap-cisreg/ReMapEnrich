@@ -5,7 +5,7 @@
 #' @param n The number of regions.
 #' @param size The width of the regions.
 #' @param chromSizes=ImportChromSizes("hg19") The chromosome sizes for the 
-#'  species in consideration.
+#' species in consideration.
 #' 
 #' @return A random generated genomic ranges object.
 #' 

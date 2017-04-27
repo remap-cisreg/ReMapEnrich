@@ -3,16 +3,17 @@
 #' @description Extracts the information for genomic enrichment.
 #' 
 #' @param categories=unique(catalog@elementMetadata$id) 
-#'  The categories contained in the catalog.
+#' The categories contained in the catalog.
 #' This option is leaved for faster calculation when this function 
-#'  is runned multiple times.
+#' is runned multiple times.
 #' @param tail If "lower" then, probabilities are P[X > x], 
-#'  if "higher", P[X <= x], if "both" then higher or lower is selected
-#'  depending on the number of overlaps vs the theorical mean.
+#' if "higher", P[X <= x], if "both" then higher or lower is selected
+#' depending on the number of overlaps vs the theorical mean.
 #' @param categoriesOverlaps The number of overlaps for each category.
 #' @param theoricalMeans The mean number of overlaps for each category.
 #' @param categoriesCount A vector representing the number of time a category 
-#'  is found in the catalog.
+#' is found in the catalog.
+#' @param pAdjust The method that will be used for correcting the p-values.
 #' 
 #' @return A data frame containing the enrichment informations.
 ExtractEnrichment <- function (categories,

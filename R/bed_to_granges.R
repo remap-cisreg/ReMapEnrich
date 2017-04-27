@@ -1,7 +1,7 @@
 #' @title Bed to GRanges
 #' @author Martin Mestdagh
 #' @description This function loads a bed file and stores it as a genomic 
-#'  ranges object.
+#' ranges object.
 #' The tab-delimited file must be ordered as 'chrom', 'chromStart', 
 #' 'chromEnd', 'name', 'score', 'strand'.
 #' The minimal bed file must have the 'chrom', 'chromStart', 
@@ -11,7 +11,7 @@
 #' @param path Location of your file.
 #' 
 #' @return A genomic ranges object containing the informations from the given
-#'  bed file.
+#' bed file.
 #' 
 #' @usage BedToGranges(path)
 #' 

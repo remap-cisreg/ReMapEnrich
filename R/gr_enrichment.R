@@ -1,21 +1,29 @@
 #' @title Genomic Ranges enrichment
 #' @author Zacharie Menetrier
 #' @description Gets the value of genomic enrichment for each category of a
-#'  genomic ranges object.
+#' genomic ranges object.
 #' 
 #' @param query The genomic ranges object containing the genomic regions to analyze.
 #' @param catalog The genomic ranges object containing the database used for annotation.
 #' @param chromSizes=LoadChromSizes("hg19") A vector containing all the chromosome 
-#'  lengths for the species in consideration.
+#' lengths for the species in consideration.
 #' @param fractionQuery=0.1 The fraction of coverage (query on catalog) a hit must 
-#'  exceed to be accounted.
+#' exceed to be accounted.
 #' @param fractionCatalog=0.1 The fraction of coverage (catalog on query) a hit
-#'  must exceed to be accounted.
+#' must exceed to be accounted.
 #' @param shuffles=6 The number of shuffled genomic regions to be created for 
 #' theorical distribution (higher means more accurate).
 #' @param tail="lower" If "lower" then, probabilities are P[X > x], 
-#'  if "higher", P[X <= x], if "both" then higher or lower is selected
-#'  depending on the number of overlaps vs the theorical mean.
+#' if "higher", P[X <= x], if "both" then higher or lower is selected
+#' depending on the number of overlaps vs the theorical mean.
+#' @param pAdjust="BY" The method that will be used for correcting the p-values.
+#' BH, BY and bonferroni are available.
+#' @param universe=NULL A set of genomic regions that prevent shuffles
+#' for occuring outside of it.
+#' @param included=1 Represents the fraction of each regions that can
+#' be outside of the universe.
+#' @param byChrom=FALSE Will the shuffles stay in the chromosome they originate (TRUE)
+#' or can they be placed everywhere on the genome (FALSE)
 #' 
 #' @return A data frame containing the enrichment informations.
 #' 

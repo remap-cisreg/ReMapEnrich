@@ -4,14 +4,14 @@
 #' 
 #' @param targetDir The name of the directory to download the peaks in.
 #' @param fileName=paste(id,".bed",sep="") The name of the file to be created
-#'  after the downloaded peaks.
+#' after the downloaded peaks.
 #' @param force=FALSE If FALSE (default), then no file is overwrited and the 
-#'  user is given confirmation message.
+#' user is given confirmation message.
 #' @param store=TRUE If TRUE (default) then a file is downloaded and written 
-#'  on the disk else it is only loaded as an R object.
+#' on the disk else it is only loaded as an R object.
 #' 
 #' @return A data frame containing the genomic regions if store = FALSE else 
-#'  the path to the peaks file.
+#' the path to the peaks file.
 #' 
 #' @usage DownloadEncodePeaks(id, targetDir, 
 #'                            fileName = paste(id,".bed",sep=""),

@@ -8,7 +8,9 @@
 #' @param regionNb The number of regions to be created for each random query.
 #' @param regionSize The size of each regions for each random query.
 #' @param chromSizes=LoadChromSizes("hg19") A vector containing all the chromosome 
-#'  lengths for the species in consideration.
+#' lengths for the species in consideration.
+#' @param nCores="auto" The number of cores to be used for parallel computations.
+#' By default it is the number of available cores minus one.
 #' 
 #' @return A data frame with each row containing
 #' a number of overlap for each category in the columns.
@@ -22,10 +24,16 @@
 #' randoms <- RandomIntersections(catalog, 500, 1000, 1000)
 #' 
 #' @export
-RandomIntersections <- function(catalog, iterations, regionNb, regionSize, chromSizes = LoadChromSizes("hg19")) {
+RandomIntersections <- function(catalog, iterations, regionNb, regionSize, chromSizes = LoadChromSizes("hg19"), nCores = "auto") {
     ## Instantiate result table
     categories <- unique(catalog@elementMetadata$id)
-    nCores <- parallel::detectCores() - 1
+    # Computing the number of cores available.
+    if(nCores == "auto"){
+        nCores <- parallel::detectCores() - 1
+        if(nCores <= 0){
+            nCores = 1
+        }
+    }
     cluster <- parallel::makeCluster(nCores)
     parallel::clusterEvalQ(cluster, library(S4Vectors))
     parallel::clusterEvalQ(cluster, library(IRanges))

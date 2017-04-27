@@ -5,16 +5,16 @@
 #' @param enrich The enrichment data frame from which the plot will be created.
 #' @param op=20 The number of category for the plot.
 #' @param main=paste("Significance, top", top, "categories"). Allows to choose
-#'  the title of the plot.
+#' the title of the plot.
 #' @param aRisk=0.05 The alpha risk.
 #' @param col=c("#6699ff","#ff5050") Palette of coloration for the plot 
-#'  Personnal coloration such as c("#FEE0D2","#FC9272") or a RColorBrewer 
-#'  such as brewer.pal(5,"Reds").
+#' Personnal coloration such as c("#FEE0D2","#FC9272") or a RColorBrewer 
+#' such as brewer.pal(5,"Reds").
 #' @param minCircleSize=0.5 Change the minimum size of circle for the plot.
 #' @param inches=1/4 Modify the area of points.
 #' @param xlab="Mapped peaks ratio" Allows to change the title of x-axis.
 #' @param stainCol=rgb(colorFunction(((sig - minSigLim) /
-#'  (maxSigLim - minSigLim))), maxColorValue = 255)
+#' (maxSigLim - minSigLim))), maxColorValue = 255)
 #' Changes the color of perimeter of each point. 
 #' 
 #' @usage EnrichmentDotPlot(enrich, 

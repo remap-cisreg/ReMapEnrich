@@ -4,12 +4,12 @@
 #' 
 #' @param bedFile The bed file containing the genomic regions to shuffle.
 #' @param chromFile=ImportChromFile("hg19") A file containing all the
-#'  chromosome lengths for the species in consideration.
+#' chromosome lengths for the species in consideration.
 #' @param outputFile="" A path where the output file will be created,
-#'  if this string is empty then a data frame is returned.
+#' if this string is empty then a data frame is returned.
 #' 
 #' @return A data frame containing the new shuffled chromosic regions
-#'  or the path to a file containing this informations.
+#' or the path to a file containing this informations.
 #' 
 #' @usage BedShuffle(bedFile, chromFile = LoadChromFile("hg19"), 
 #'                   outputFile = "")

@@ -3,9 +3,15 @@
 #' @description Shuffle genomic regions among a defined genome.
 #' 
 #' @param regions The genomic ranges object containing the genomic 
-#'  regions to shuffle.
+#' regions to shuffle.
 #' @param chromSizes=LoadChromSizes("hg19") A vector containing all 
-#'  the chromosome lengths for the species in consideration.
+#' the chromosome lengths for the species in consideration.
+#' @param universe=NULL A set of genomic regions that prevent shuffles
+#' for occuring outside of it.
+#' @param included=1 Represents the fraction of each regions that can
+#' be outside of the universe.
+#' @param byChrom=FALSE Will the shuffles stay in the chromosome they originate (TRUE)
+#' or can they be placed everywhere on the genome (FALSE)
 #' 
 #' @return A genomic ranges containing the new shuffled chromosic regions.
 #' 
@@ -18,7 +24,8 @@
 #' shuffledRegions <- GrShuffle(regions)
 #' 
 #' @export
-GrShuffle <- function(regions, chromSizes = LoadChromSizes("hg19"), universe = NULL, included = 1, byChrom = FALSE) {
+GrShuffle <- function(regions, chromSizes = LoadChromSizes("hg19"), universe = NULL, 
+                      included = 1, byChrom = FALSE) {
     if (is.null(universe)) {
         universe <- GRanges(rownames(chromSizes),
                             IRanges(start = 0,

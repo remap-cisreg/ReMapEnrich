@@ -8,20 +8,20 @@
 #' @param chromFile=LoadChromFile("hg19") A file containing all the chromosome 
 #' lengths for the species in consideration.
 #' @param fractionQuery=0.1 The fraction of coverage (query on catalog) a hit
-#'  must exceed to be accounted.
+#' must exceed to be accounted.
 #' @param fractionCatalog=0.1 The fraction of coverage (catalog on query) a hit
-#'  must exceed to be accounted.
+#' must exceed to be accounted.
 #' @param shuffles=6 The number of shuffled genomic regions to be created for
-#'  theorical distribution (higher means more accurate).
+#' theorical distribution (higher means more accurate).
 #' @param tail="lower" If "lower" then, probabilities are P[X > x], 
-#'  if "higher", P[X <= x], if "both" then higher or lower is selected
-#'  depending on the number of overlaps vs the theorical mean.
+#' if "higher", P[X <= x], if "both" then higher or lower is selected
+#' depending on the number of overlaps vs the theorical mean.
 #'  
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @usage BedEnrichment(queryFile, catalogFile, 
 #' chromFile = LoadChromFile("hg19"),fractionQuery = 0.1, fractionCatalog = 0.1,
-#'  shuffles = 6, lower = FALSE, pAdjust = "BY")
+#' shuffles = 6, lower = FALSE, pAdjust = "BY")
 #' 
 #' @examples 
 #' queryFile <- system.file("extdata", 

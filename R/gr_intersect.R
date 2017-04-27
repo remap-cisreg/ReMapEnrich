@@ -9,9 +9,9 @@
 #' @param fractionCatalog=0.1 The fraction of coverage (catalog on query) a hit
 #'  must exceed to be accounted.
 #' @param categories=unique(catalog@elementMetadata$id) The categories 
-#'  contained in the catalog.
+#' contained in the catalog.
 #' This option is leaved for faster calculation when this function is runned 
-#'  multiple times.
+#' multiple times.
 #' 
 #' @return A vector containing the numbers of hits for each category of the catalog.
 #' 
