@@ -22,7 +22,7 @@ ExtractEnrichment <- function (categories,
                                theoricalMeans,
                                categoriesCount, 
                                pAdjust) {
-    
+    cat("Extracting enrichment.\n")
     # Matching the arguments for the tail selection.
     tail <- match.arg(tail, c("lower","higher","both"))
     # Matching the arguments for the p values correction.

@@ -68,7 +68,7 @@ The ids of the query will not be taken in account for the rest of the enrichment
 The option byChrom is set to TRUE as we are only working on one chromosome for this analysis.
 
 ```{r}
-enrichment <- GrEnrichment(query, catalog, byChrom = TRUE)
+enrichment <- Enrichment(query, catalog, byChrom = TRUE)
 head(enrichment)
 ```
 

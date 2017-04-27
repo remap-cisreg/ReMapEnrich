@@ -15,7 +15,8 @@
 #' 
 #' @return A genomic ranges containing the new shuffled chromosic regions.
 #' 
-#' @usage Shuffle(regions, chromSizes = LoadChromSizes("hg19"))
+#' @usage Shuffle(regions, chromSizes = LoadChromSizes("hg19"), universe = NULL,
+#' included = 1, byChrom = FALSE)
 #' 
 #' @examples 
 #' regionsFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
@@ -25,7 +26,7 @@
 #' 
 #' @export
 Shuffle <- function(regions, chromSizes = LoadChromSizes("hg19"), universe = NULL, 
-                      included = 1, byChrom = FALSE) {
+                      included = 1, byChrom = FALSE, ...) {
     if (is.null(universe)) {
         universe <- GRanges(rownames(chromSizes),
                             IRanges(start = 0,

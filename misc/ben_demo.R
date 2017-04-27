@@ -23,7 +23,7 @@ n <- 10
 cols <- colorRampPalette(brewer.pal(8,"BuPu"))(n)
 
 #-- Compute
-enrich <- GrEnrichment(query, cat, shuffles = 10, lower = FALSE)
+enrich <- Enrichment(query, cat, shuffles = 10, lower = FALSE)
 
 #-- Plots
 op <- par(mfrow = c(1, 2))

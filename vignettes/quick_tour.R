@@ -23,7 +23,7 @@ catalog
 query
 
 ## ------------------------------------------------------------------------
-enrichment <- GrEnrichment(query, catalog, byChrom = TRUE)
+enrichment <- Enrichment(query, catalog, byChrom = TRUE)
 head(enrichment)
 
 ## ------------------------------------------------------------------------

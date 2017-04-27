@@ -86,7 +86,7 @@ But in general, the universe could be understood as **the set of regions that co
 # Download a universe.
 universe <- BedToGranges(DownloadEncodePeaks("ENCFF718QVA", demo.dir))
 # Create the enrichment with the universe.
-enrichment <- GrEnrichment(ENCFF001VCU, remapCatalog, universe)
+enrichment <- Enrichment(ENCFF001VCU, remapCatalog, universe)
 ```
 
 The data frame enrichment now contains the enrichment informations between ENCFF001VCU and the ReMap catalogue given ENCFF718QVA as a universe.
@@ -95,7 +95,7 @@ For more permissive universe you can use the parameter included as the fraction 
 
 ```{r}
 # Create the enrichment with a less restrictive universe.
-enrichment <- GrEnrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1)
+enrichment <- Enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1)
 # 90% of the shuffled regions can now be outside of the universe regions.
 ```
 
@@ -103,7 +103,7 @@ Shuffling regions occurs in the whole genome but it is possible to restrict shuf
 
 ```{r}
 # Create the enrichment with a less restrictive universe.
-enrichment <- GrEnrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE)
+enrichment <- Enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE)
 # 90% of the shuffled regions can now be outside of the universe regions.
 # The shuffled regions are still in the same chromosome where they came from.
 ```
@@ -119,7 +119,7 @@ Shuffling regions consists in randomly reordering the positions of the query reg
 
 ```{r}
 # Shuffling ENCFF001VCU
-shuffledENCFF001VCU <- GrShuffle(ENCFF001VCU, universe = universe, byChrom = TRUE)
+shuffledENCFF001VCU <- Shuffle(ENCFF001VCU, universe = universe, byChrom = TRUE)
 ```
 
 ## Random generations
@@ -149,7 +149,7 @@ rn5ChromSizes <- DownloadUcscChromSizes("rn5")
 # Creation of random regions in the rattus norvegicus genome.
 randomRegions <- GenRegions(100, 1000, rn5ChromSizes)
 # Shuffling of regions in the rattus norvegicus genome.
-shuffledRegions <- GrShuffle(randomRegions, rn5ChromSizes)
+shuffledRegions <- Shuffle(randomRegions, rn5ChromSizes)
 ```
 
 # References

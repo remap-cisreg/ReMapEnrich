@@ -24,12 +24,15 @@
 #' be outside of the universe.
 #' @param byChrom=FALSE Will the shuffles stay in the chromosome they originate (TRUE)
 #' or can they be placed everywhere on the genome (FALSE)
+#' @param nCores=1 The number of cores to be used for parallel computations.
+#' 1 by default will not be using parallel calculations.
 #' 
 #' @return A data frame containing the enrichment informations.
 #' 
 #' @usage Enrichment(query, catalog, chromSizes = LoadChromSizes("hg19"),
-#'                     fractionQuery = 0.1,
-#' fractionCatalog = 0.1, shuffles = 6, lower = FALSE, pAdjust = "BY")
+#'                     fractionQuery = 0.1, fractionCatalog = 0.1,
+#'                     shuffles = 6, lower = FALSE, pAdjust = "BY",
+#'                      byChrom = FALSE, included = 1, nCores = 1)
 #' 
 #' @examples 
 #' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", 
@@ -43,7 +46,7 @@
 #' @export
 Enrichment <- function(query, catalog, universe = NULL, chromSizes = LoadChromSizes("hg19"),
                          fractionQuery = 0.1,fractionCatalog = 0.1, 
-                         shuffles = 6, tail = "lower", pAdjust = "BY", byChrom = FALSE, included = 1) {
+                         shuffles = 6, tail = "lower", pAdjust = "BY", byChrom = FALSE, included = 1, nCores = 1) {
     # The categories are extracted from the catalog.
     categories <- unique(catalog@elementMetadata$id)
     categoriesCount <- lengths(split(catalog@elementMetadata$id, 
@@ -51,8 +54,7 @@ Enrichment <- function(query, catalog, universe = NULL, chromSizes = LoadChromSi
     # Gets the counts list containing the number of overlaps for the query 
     # and the mean number of overlaps for the shuffles.
     countsList <- ComputeEnrichment(query, catalog, chromSizes, fractionQuery,
-                                    fractionCatalog, shuffles,
-                                    Intersect, Shuffle, categories, universe, byChrom, included)
+                                    fractionCatalog, shuffles, categories, universe, byChrom, included, nCores)
     # Returns all the information from the counts list.
     return(ExtractEnrichment(categories, tail, countsList[[1]], 
                              countsList[[2]], categoriesCount, pAdjust))

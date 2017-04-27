@@ -128,15 +128,15 @@ ENCFF001VCU &lt;- BedToGranges(DownloadEncodePeaks(&quot;ENCFF001VCU&quot;, demo
 <pre class="r"><code># Download a universe.
 universe &lt;- BedToGranges(DownloadEncodePeaks(&quot;ENCFF718QVA&quot;, demo.dir))
 # Create the enrichment with the universe.
-enrichment &lt;- GrEnrichment(ENCFF001VCU, remapCatalog, universe)</code></pre>
+enrichment &lt;- Enrichment(ENCFF001VCU, remapCatalog, universe)</code></pre>
 <p>The data frame enrichment now contains the enrichment informations between ENCFF001VCU and the ReMap catalogue given ENCFF718QVA as a universe.</p>
 <p>For more permissive universe you can use the parameter included as the fraction of shuffled regions that must be at least contained in universe regions (1 by default).</p>
 <pre class="r"><code># Create the enrichment with a less restrictive universe.
-enrichment &lt;- GrEnrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1)
+enrichment &lt;- Enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1)
 # 90% of the shuffled regions can now be outside of the universe regions.</code></pre>
 <p>Shuffling regions occurs in the whole genome but it is possible to restrict shuffles to occur only in the chromosome they originate with the parameter byChrom (FALSE by default).</p>
 <pre class="r"><code># Create the enrichment with a less restrictive universe.
-enrichment &lt;- GrEnrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE)
+enrichment &lt;- Enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE)
 # 90% of the shuffled regions can now be outside of the universe regions.
 # The shuffled regions are still in the same chromosome where they came from.</code></pre>
 </div>
@@ -148,7 +148,7 @@ enrichment &lt;- GrEnrichment(ENCFF001VCU, remapCatalog, universe, included = 0.
 <h2><span class="header-section-number">5.1</span> Shuffling</h2>
 <p>Shuffling regions consists in randomly reordering the positions of the query regions within a genome.</p>
 <pre class="r"><code># Shuffling ENCFF001VCU
-shuffledENCFF001VCU &lt;- GrShuffle(ENCFF001VCU, universe = universe, byChrom = TRUE)</code></pre>
+shuffledENCFF001VCU &lt;- Shuffle(ENCFF001VCU, universe = universe, byChrom = TRUE)</code></pre>
 </div>
 <div id="random-generations" class="section level2">
 <h2><span class="header-section-number">5.2</span> Random generations</h2>
@@ -168,7 +168,7 @@ rn5ChromSizes &lt;- DownloadUcscChromSizes(&quot;rn5&quot;)
 # Creation of random regions in the rattus norvegicus genome.
 randomRegions &lt;- GenRegions(100, 1000, rn5ChromSizes)
 # Shuffling of regions in the rattus norvegicus genome.
-shuffledRegions &lt;- GrShuffle(randomRegions, rn5ChromSizes)</code></pre>
+shuffledRegions &lt;- Shuffle(randomRegions, rn5ChromSizes)</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>

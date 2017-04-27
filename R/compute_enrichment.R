@@ -16,6 +16,12 @@
 #' @param categories The categories contained in the catalog.
 #' This option is leaved for faster calculation when this function is runned
 #' multiple times.
+#' @param universe=NULL A set of genomic regions that prevent shuffles
+#' for occuring outside of it.
+#' @param byChrom=FALSE Will the shuffles stay in the chromosome they originate (TRUE)
+#' or can they be placed everywhere on the genome (FALSE)
+#' @param included=1 Represents the fraction of each regions that can
+#' be outside of the universe.
 #' 
 #' @return A list containing the number of overlaps for the query and the 
 #' mean number of overlaps for the shuffles.
@@ -24,37 +30,45 @@ ComputeEnrichment <- function(query,
                               chromSizes,
                               fractionQuery, 
                               fractionCatalog, 
-                              shuffles,
-                               intersectFunction,
-                              shuffleFunction, 
+                              shufflesNumber,
                               categories,
                               universe,
                               byChrom,
-                              included) {
+                              included,
+                              nCores) {
     catNumber <- length(categories)
     if(catNumber < 1)
-        stop("The catalog does not comprize any category.")
+        stop("The catalog does not contain any category.")
     # Computes the intersections betwen query and catalog.
-    catCount <- intersectFunction(query, catalog, fractionQuery, 
+    cat("Computing intersections.\n")
+    catCount <- Intersect(query, catalog, fractionQuery, 
                                   fractionCatalog, categories)
     # Shuffles are created and computed as the query for bootstrapping.
     shuffleCatCount <- vector()
-    
     shuffleCatCount[categories] <- 0
-    for(i in 1:shuffles) {
-        cat("Shuffle # ", i, "\n")
-        flush.console()
-        shuffle <- shuffleFunction(query, chromSizes, universe, included, byChrom)
-        # Computes the intersections betwen shuffle and catalog.
-        count <- intersectFunction(shuffle, catalog, fractionQuery,
-                                   fractionCatalog, categories)
-        # Adds the found overlaps in the count.
-        shuffleCatCount <- shuffleCatCount + count
-        if(is.character(shuffle)){
-            unlink(shuffle)
+    if(nCores == 1){
+        cat("Computing shuffles. May take time.\nConsider using parallelization with the 'nCores' parameter.\n")
+        shuffles <- replicate(shufflesNumber, Shuffle(query, chromSizes, universe, included, byChrom))
+        # The theorical means are calculated from the shuffles overlaps.
+        shuffleCatCount <- sapply(shuffles, Intersect, catalog = catalog, fractionQuery = fractionQuery,
+                                  fractionCatalog = fractionCatalog, categories = categories)
+    }else{
+        cat(paste("Computing shuffles with ", nCores, " cores."," May take time.\n", sep = ""))
+        realNCores <-  parallel::detectCores()
+        if (nCores > realNCores) {
+            warning("The given number of cores is larger than possible on this computer. It will be reduced to its maximum.")
+            nCores <- realNCores
         }
+        cluster <- parallel::makeCluster(nCores)
+        parallel::clusterEvalQ(cluster, library(S4Vectors))
+        parallel::clusterEvalQ(cluster, library(IRanges))
+        parallel::clusterEvalQ(cluster, library(GenomicRanges))
+        shuffles <- parallel::parSapply(cl = cluster, X = integer(shufflesNumber), FUN = Shuffle, regions = query, chromSizes = chromSizes,
+                                        universe = universe, included = included, byChrom = byChrom)
+        shuffleCatCount <- parallel::parSapply(cl = cluster, X = shuffles, FUN = Intersect, catalog = catalog, fractionQuery = fractionQuery,
+                                  fractionCatalog = fractionCatalog, categories = categories)
+        parallel::stopCluster(cluster)
     }
-    # The theorical means are calculated from the shuffles overlaps.
-    theoricalMeans <- shuffleCatCount / shuffles
-    return(list(catCount, theoricalMeans))
+    shuffleCatCount <- rowMeans(shuffleCatCount)
+    return(list(catCount, shuffleCatCount))
 }
