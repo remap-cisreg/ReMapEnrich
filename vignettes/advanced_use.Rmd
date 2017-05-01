@@ -1,10 +1,10 @@
 ---
-title: "roken: Advanced user"
+title: "roken: Advanced use"
 author: "Martin Mestdagh, Zacharie Ménétrier"
 date: "`r Sys.Date()`"
 package: "`r pkg_ver('roken')`"
 vignette: >
-    %\VignetteIndexEntry{roken-advanced-functions}
+    %\VignetteIndexEntry{roken-advanced-use}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 

@@ -1,7 +1,7 @@
 randomCatalog <- GenRegions(10000, 200)
 randomCatalog <- reduce(randomCatalog)
 randomCatalog@elementMetadata$id = "Vert"
-randomsCatalogIntersections <- RandomIntersections(randomCatalog, iterations = 1000, regionNb = 1000, regionSize = 1000)
+randomsCatalogIntersections <- RandomIntersections(randomCatalog, iterations = 2000, regionNb = 1000, regionSize = 1000)
 chi2results <- AdjustToPoisson(randomsCatalogIntersections)
 categories <- unique(randomCatalog@elementMetadata$id)
 for (category in categories) {
