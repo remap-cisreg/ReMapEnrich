@@ -36,9 +36,9 @@ ExtractEnrichment <- function (categories,
     # Computing the one or two tailed test.
     if (tail == "both") {
         # The p values are get with log transformation for computing extreme values.
-        logLowerPVals <- ppois(categoriesOverlaps, theoricalMeans, lower = TRUE, 
+        logLowerPVals <- stats::ppois(categoriesOverlaps, theoricalMeans, lower = TRUE, 
                           log = TRUE)
-        logHigherPvals <- ppois(categoriesOverlaps, theoricalMeans, lower = FALSE, 
+        logHigherPvals <- stats::ppois(categoriesOverlaps, theoricalMeans, lower = FALSE, 
                                 log = TRUE)
         logPVals <- ifelse(logLowerPVals > logHigherPvals, logHigherPvals, logLowerPVals)
     } else {
@@ -48,7 +48,7 @@ ExtractEnrichment <- function (categories,
             lowers <- TRUE
         }
         # The p values are get with log transformation for computing extreme values.
-        logPVals <- ppois(categoriesOverlaps, theoricalMeans, lower = lowers, 
+        logPVals <- stats::ppois(categoriesOverlaps, theoricalMeans, lower = lowers, 
                           log = TRUE)
     }
 

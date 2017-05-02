@@ -68,14 +68,14 @@ EnrichmentBarPlot <- function(enrich,
     sig <- sig[(length(sig) - top) : length(sig)]
 
     # Create the coloring palette
-    colorFunction <- paste(colorRampPalette(col)(top + 1))
+    colorFunction <- paste(grDevices::colorRampPalette(col)(top + 1))
 
     #Create the xmax with sigDisplayQuantile.
-    xMax <- quantile(x = sig, probs = sigDisplayQuantile)
+    xMax <- stats::quantile(x = sig, probs = sigDisplayQuantile)
     dispSig <- sig
     dispSig[sig > xMax] = xMax
 
-    midPoints <- barplot(dispSig,
+    midPoints <- graphics::barplot(dispSig,
                          main      = main,
                          xlab      = xlab,
                          col       = colorFunction,
@@ -98,6 +98,6 @@ EnrichmentBarPlot <- function(enrich,
     sigAlpha <- round(sigAlpha, 3)
     
     # Add a line that shows the new alpha risk.
-    abline(v = sigAlpha, lty = 5, col = "red")
-    mtext(bquote(alpha == .(sigAlpha)), side = 3, at = sigAlpha, col = "red")
+    graphics::abline(v = sigAlpha, lty = 5, col = "red")
+    graphics::mtext(bquote(alpha == .(sigAlpha)), side = 3, at = sigAlpha, col = "red")
 }

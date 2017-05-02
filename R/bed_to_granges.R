@@ -37,16 +37,16 @@ BedToGranges <- function(path) {
                                x = bedData$strand)
     # Construct the grangesanges object depending on the number of columns.
     if (ncol(bedData) == 3) {
-        granges <- with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd)))
+        granges <- with(bedData, GenomicRanges::GRanges(bedData::chrom, IRanges::IRanges(bedData::chromStart, bedData::chromEnd)))
     } else if (ncol(bedData)==4) {
-        granges = with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd),
-                                        id=name))
+        granges = with(bedData, GenomicRanges::GRanges(bedData::chrom, IRanges::IRanges(bedData::chromStart, bedData::chromEnd),
+                                        id=bedData::name))
     } else if (ncol(bedData)==5) {
-        granges <- with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd),
-                                         id=name, score=score))
+        granges <- with(bedData, GenomicRanges::GRanges(bedData::chrom, IRanges::IRanges(bedData::chromStart, bedData::chromEnd),
+                                         id=bedData::name, score=bedData::score))
     } else if (ncol(bedData)==6) {
-        granges <- with(bedData, GRanges(chrom, IRanges(chromStart, chromEnd),
-                                         id=name, score=score, strand=strand))
+        granges <- with(bedData, GenomicRanges::GRanges(bedData::chrom, IRanges::IRanges(bedData::chromStart, bedData::chromEnd),
+                                         id=bedData::name, score=bedData::score, strand=bedData::strand))
     } else {
         stop("Error while constructing the GRanges object. 
              No number of columns have been matched.")

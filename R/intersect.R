@@ -25,7 +25,7 @@
 #'                             package = "roken")
 #' query <- BedToGranges(queryFile)
 #' catalog <- BedToGranges(catalogFile)
-#' intersects <- Intersect(query catalog)
+#' intersects <- Intersect(query, catalog)
 #' 
 #' @export
 Intersect <- function(query,
@@ -41,15 +41,15 @@ Intersect <- function(query,
     hits <- GenomicRanges::findOverlaps(catalog, query, type = "any")
     # Selecting only the hiths that satisfies the fractionQuery 
     # and fractionCatalog parameters.
-    overlaps <- GenomicRanges::pintersect(catalog[queryHits(hits)], 
-                                          query[subjectHits(hits)])
+    overlaps <- GenomicRanges::pintersect(catalog[S4Vectors::queryHits(hits)], 
+                                          query[S4Vectors::subjectHits(hits)])
     percentQuery <- 
-        width(overlaps) / width(query[subjectHits(hits)]) >= fractionQuery
+        IRanges::width(overlaps) / IRanges::width(query[S4Vectors::subjectHits(hits)]) >= fractionQuery
     percentCatalog <- 
-        width(overlaps) / width(catalog[queryHits(hits)]) >= fractionCatalog
+        IRanges::width(overlaps) / IRanges::width(catalog[S4Vectors::queryHits(hits)]) >= fractionCatalog
     percent <- percentQuery & percentCatalog
     hits <- hits[percent]
-    catOverlaps <- catalog[queryHits(hits),]
+    catOverlaps <- catalog[S4Vectors::queryHits(hits),]
     # Fills the counting vector with the selected hits.
     count <- lengths(split(catOverlaps@elementMetadata$id, 
                            catOverlaps@elementMetadata$id))

@@ -28,7 +28,7 @@ CountMappedPeaks <- function(query, catalog) {
     # Overlaps the query and catalog and find the number of ids that are 
     # still existing.
     overlaps <- GenomicRanges::findOverlaps(catalog, query, type = "any")
-    queryOverlaps <- query[subjectHits(overlaps),]
+    queryOverlaps <- query[S4Vectors::subjectHits(overlaps),]
     count <- length(unique(queryOverlaps))
     return(count)
 }

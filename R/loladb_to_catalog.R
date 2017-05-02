@@ -11,9 +11,13 @@
 #' 
 #' @export
 LolaDBToCatalog <- function(regionDB) {
-    catalog <- GRanges()
+    # Creating an empty GR object.
+    catalog <- GenomicRanges::GRanges()
+    # Retrieving the ids from LOLA.
     ids <- regionDB$regionAnno$filename
+    # Retrieving the list of GR from LOLA.
     GRList <- regionDB$regionGRL
+    # Feed the empty GR object in a loop for every id.
     for (i in 1:length(ids)) {
         GR <- GRList[[i]]
         GR@elementMetadata$id <- ids[i]

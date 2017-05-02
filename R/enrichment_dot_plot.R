@@ -42,14 +42,14 @@ EnrichmentDotPlot <- function(enrich,
                               minCircleSize = 0.5,
                               inches = 1 / 4,
                               xlab    = "Mapped peaks ratio",
-                              stainCol = rgb(colorFunction(((sig - minSigLim) / 
+                              stainCol = grDevices::rgb(colorFunction(((sig - minSigLim) / 
                                                             (maxSigLim - minSigLim))),
                                              maxColorValue = 255),
                               ...) {
     
     # Create the grid for the plot and his legend.
-    defPar <- par(no.readonly = TRUE)
-    layout(matrix(c(1,1,2,3),2,2), widths = c(0.8,0.2))
+    defPar <- graphics::par(no.readonly = TRUE)
+    graphics::layout(matrix(c(1,1,2,3),2,2), widths = c(0.8,0.2))
     
     # Allows to take the significance chosen.
     sigTypeTitle <- paste(toupper(sigType), "-significance", sep = "")
@@ -84,19 +84,19 @@ EnrichmentDotPlot <- function(enrich,
     # Create the coloring palette
     # (Personnal coloration such as c("#FEE0D2", "#FC9272") 
     # or a RColorBrewer such as brewer.pal(5,"Reds").
-    colorFunction <- colorRamp(col)
+    colorFunction <- grDevices::colorRamp(col)
 
     # Creation of the dot plot.
-    par(mar=c(5, 5, 4, 0))
+    graphics::par(mar=c(5, 5, 4, 0))
     with(enrich,
-         symbols(
-            x       = mapped.peaks.ratio,
+         graphics::symbols(
+            x       = enrich::mapped.peaks.ratio,
             y       = 1:top,
-            circles = (nb.overlaps - minOverlaps) / (maxOverlapsLim -
+            circles = (enrich::nb.overlaps - minOverlaps) / (maxOverlapsLim -
                                                     minOverlapsLim) + 
                                                     minCircleSize,
             inches  = inches,
-            bg      = rgb(colorFunction(((sig - minSigLim) / (maxSigLim - 
+            bg      = grDevices::rgb(colorFunction(((sig - minSigLim) / (maxSigLim - 
                                                               minSigLim))),
                           maxColorValue = 255),
             fg      = stainCol,
@@ -108,35 +108,35 @@ EnrichmentDotPlot <- function(enrich,
             ...
             )
          )
-    cols = rgb(colorFunction( ((sig - minSigLim) / (maxSigLim - minSigLim))),
+    cols = grDevices::rgb(colorFunction( ((sig - minSigLim) / (maxSigLim - minSigLim))),
                maxColorValue = 255)
     for (i in 1:top) {
-        abline(h = i, lty = 5, lwd = 0.5, col = cols[i])
+        graphics::abline(h = i, lty = 5, lwd = 0.5, col = cols[i])
     }
     
     # Create the axis with name's category.
-    axis(2, at = 1:top, labels = enrich$category, las = 1, cex.axis = 0.8)
+    graphics::axis(2, at = 1:top, labels = enrich$category, las = 1, cex.axis = 0.8)
 
-    par(mar=c(0, 0, 7, 0))
+    graphics::par(mar=c(0, 0, 7, 0))
     # Legend of the plot. Gradient coloration by significance.
-    colorMatrix <- colorRampPalette(rev(col))
-    plot(c(0,1),c(minSigLim, maxSigLim),type = 'n', axes = FALSE, ylab = "",
+    colorMatrix <- grDevices::colorRampPalette(rev(col))
+    graphics::plot(c(0,1),c(minSigLim, maxSigLim),type = 'n', axes = FALSE, ylab = "",
          xlab = sigTypeTitle)
-    text(x = 0.5, y = seq(minSigLim, maxSigLim, l = 5), 
+    graphics::text(x = 0.5, y = seq(minSigLim, maxSigLim, l = 5), 
          labels = round(seq(minSigLim, maxSigLim, l = 5)), adj = 0)
-    gradientLegend <- as.raster(matrix(colorMatrix(20)), ncol = 1)
-    rasterImage(gradientLegend, 0, minSigLim, 0.3, maxSigLim)
-    mtext(sigTypeTitle, 3, cex = 0.8)
+    gradientLegend <- grDevices::as.raster(matrix(colorMatrix(20)), ncol = 1)
+    graphics::rasterImage(gradientLegend, 0, minSigLim, 0.3, maxSigLim)
+    graphics::mtext(sigTypeTitle, 3, cex = 0.8)
     
     
-    par(mar=c(5, 0, 3, 0))
+    graphics::par(mar=c(5, 0, 3, 0))
     # Legend of the plot. Size of plot by number of overlaps.
     nCircles <- 5
     sizes <- seq(minCircleSize, minCircleSize + 1, l = nCircles)
     yCircles <- cumsum((sizes * inches) + minCircleSize ) 
     circles <- data.frame(sizes, yCircles)
     with(circles,
-         symbols(
+         graphics::symbols(
             x = rep(0,nCircles),
             y = yCircles,
             circles = sizes,
@@ -151,10 +151,10 @@ EnrichmentDotPlot <- function(enrich,
             xlim = c( - 0.01, 0.05)
         )
     )
-    text(x = 0.02, y = yCircles, labels = round(seq(minOverlapsLim, 
+    graphics::text(x = 0.02, y = yCircles, labels = round(seq(minOverlapsLim, 
                                                     maxOverlapsLim, l = 5)),
          adj = 0)
-    mtext("Number of overlaps", 3, cex = 0.8)
+    graphics::mtext("Number of overlaps", 3, cex = 0.8)
 
-    par(defPar)
+    graphics::par(defPar)
 }

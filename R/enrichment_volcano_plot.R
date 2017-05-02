@@ -62,11 +62,11 @@ EnrichmentVolcanoPlot <-function(enrich,
                              levels = enrich$category[order(enrich[,sigType])])
    
    # Create the coloring palette.
-   colorFunction <- c(colorRampPalette(col)(length(enrich$category)))
+   colorFunction <- c(grDevices::colorRampPalette(col)(length(enrich$category)))
     
    #Create the ymax with sigdisplayQuantile.
    y <- enrich[,sigType]
-   yMax <- quantile(x = y, probs = sigDisplayQuantile)
+   yMax <- stats::quantile(x = y, probs = sigDisplayQuantile)
    outsiders <- y > yMax
    y[outsiders] <- yMax 
     
@@ -74,7 +74,7 @@ EnrichmentVolcanoPlot <-function(enrich,
    pch <- rep(x = 19, length.out=nrow(enrich))
    pch[outsiders] <- 17
    
-   plot(x    = enrich$effect.size,
+   graphics::plot(x    = enrich$effect.size,
         y    = y,
         ylim = ylim,
         main = main,
@@ -91,7 +91,7 @@ EnrichmentVolcanoPlot <-function(enrich,
    sigAlpha <- round(sigAlpha, 3)
     
    # Add a line that shows the alpha risk.
-   abline(h = sigAlpha, lty = 5, col = "Red")
-   mtext(bquote(alpha == .(sigAlpha)), side = 4, at = sigAlpha,las = 3, 
+   graphics::abline(h = sigAlpha, lty = 5, col = "Red")
+   graphics::mtext(bquote(alpha == .(sigAlpha)), side = 4, at = sigAlpha,las = 3, 
          col = "Red")
 }

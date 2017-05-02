@@ -28,12 +28,12 @@
 Shuffle <- function(regions, chromSizes = LoadChromSizes("hg19"), universe = NULL, 
                       included = 1, byChrom = FALSE, ...) {
     if (is.null(universe)) {
-        universe <- GRanges(rownames(chromSizes),
-                            IRanges(start = 0,
+        universe <- GenomicRanges::GRanges(rownames(chromSizes),
+                            IRanges::IRanges(start = 0,
                                     width = as.vector(chromSizes[,1]))
                             )
     }
-    universe <- reduce(universe)
+    universe <- GenomicRanges::reduce(universe)
     if (included < 0 || included > 1) {
         stop("The parameter included should be comprised between 0 and 1.")
     }
@@ -46,7 +46,7 @@ Shuffle <- function(regions, chromSizes = LoadChromSizes("hg19"), universe = NUL
 
 ShuffleUniverseByChrom <- function(regions, chromSizes, universe, included) {
     chroms <- rownames(chromSizes)
-    results <- GRanges()
+    results <- GenomicRanges::GRanges()
     for (chrom in chroms) {
         regionsChrom <- regions[regions@seqnames == chrom]
         universeChrom <- universe[universe@seqnames == chrom]
@@ -102,7 +102,7 @@ ShuffleUniverse <- function(regions, chromSizes, universe, included) {
     minStarts <- -(regions@ranges@width - (regions@ranges@width * (included)))
     maxStarts <- sampledWidth - queryWidths
     # Random values between 0 and 1.
-    randomValues <- runif(length(regions))
+    randomValues <- stats::runif(length(regions))
     # The random values are multiplied by the range of the query.
     randomValues <- randomValues * (minStarts + maxStarts)
     # The random values are subtracted by the minimum starts.
@@ -121,8 +121,8 @@ ShuffleUniverse <- function(regions, chromSizes, universe, included) {
        warning("Some query regions are longer than the chromosome they fell in. They will be shortened.")
         starts[starts < 0] <- 0
     }
-    shuffles <- GRanges(sampledRegions@seqnames,
-                        IRanges(start = starts,
+    shuffles <- GenomicRanges::GRanges(sampledRegions@seqnames,
+                        IRanges::IRanges(start = starts,
                                 width = queryWidths),
                         strand = sampledRegions@strand)
     return(shuffles)

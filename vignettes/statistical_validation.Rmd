@@ -31,7 +31,7 @@ In this vignette we will discuss about the statistical mechanics implied in this
 
 Let's repeat quickly what happens in an enrichment computation.
 
-1.The query is overlapped against the catalogue and for each entry of the catalogue, the number of time a region of the query overlapped with it is counted and stored.
+1. The query is overlapped against the catalogue and for each entry of the catalogue, the number of time a region of the query overlapped with it is counted and stored.
 
 2. Shuffles regions are created from the query regions and the point 1 is repeated a certain number of time replacing the user's query with a new shuffle each time.
 
@@ -39,15 +39,15 @@ Let's repeat quickly what happens in an enrichment computation.
 
 ## Overlaps number vs. random average
 
-We now have to confront those two properties in a statistical method. From many others, the Poisson distribution has been chosen, first for his simplicity (only takes one parameter - the lambda which is in our case the random average) and secondly because it applies nicely to the genomic overlapping problem considering we don't take in account the width of each overlap but only its absence or presence in a genomic sequence on which oftenly applies time sequence related tools and method (Hidden Markov Model for example).
+We now have to confront those two properties in a statistical method. From many others, the Poisson distribution has been chosen. First for his simplicity (only takes one parameter - the lambda which is in our case the random average) and secondly because it applies nicely to the genomic overlapping problem considering we don't take in account the width of each overlap but only its absence or presence in a genomic sequence on which oftenly applies time sequence related tools and method (Hidden Markov Model for example).
 
 The upper or lower (depending on the given parameter 'tail') Poisson distribution p-value is now simply extracted from the number of overlaps and the random average for each category of the catalogue. Further corrections are applied as multiple p-values are calculated and stored in the q-value column of the enrichment data frame.
 
 # Verifying the statistical distribution
 
-So long, we assumed that overlapping number in a shuffled/random query against a catalogue followed the Poisson distribution. We now have to verify that assumption on previous experiences and on a random catalogue.
+So long, we assumed that overlapping number in a shuffled/random query against a catalogue followed the Poisson distribution. We now have to verify that assumption on previous experimetns and on a random catalogue.
 
-## Poisson distribution on ReMap catalogue
+## Poisson distribution on the ReMap catalogue
 
 The function RandomIntersections is designed to help verifying statistical distribution. All it does is replicating overlaps computations on random regions vs. a given catalogue and returning all the results for each category at every iteration.
 
@@ -58,6 +58,7 @@ demo.dir <- "~/roken_demo"
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
 setwd(demo.dir)
 catalog <- BedToGranges(DownloadRemapCatalog("roken_demo"))
+randomRegionsVsReMap <- RandomIntersections(catalog, iterations = 500, regionNb = 1000, regionSize = 1000)
 ```
 
 As for a solid statistical validation we need to make at least 10,000 iterations and as this will take 30 minutes on a decent computer, results of 10,000 random intersections has been stored in this package and can be easily retrieved.
@@ -70,17 +71,15 @@ head(randomRegionsVsReMap, n = 1)
 We now obtained results of overlapping for 10,000 random regions against the ReMap catalogue. We want to check if such results follow the Poisson distribution. A function has been implemented in the package to get a goodness of fit test of the random intersections vs. the Poisson distribution.
 
 
-```{r, message=FALSE, include=FALSE}
-chi2results <- AdjustToPoisson(randomRegionsVsReMap)
-```
 ```{r}
+chi2results <- AdjustToPoisson(randomRegionsVsReMap, showCategories = FALSE)
 head(chi2results)
 ```
-
 
 The goodness of fit test is obtained with a chi2 comparison for each class of the histogram of the random distribution vs. the Poisson distribution with the corresponding lambda (which is obtained from the mean of the random intersections for each category of the catalogue). This kind of results can be obfuscating for amateur statisticians. That's why we will now present some results in a graphical representation for some of the category (237 in total).
 
 ```{r}
+# An easy to do function to create histogram for any result for a category
 MakeHistogram <- function(results) {
     h <- hist(results, breaks = -1:(max(results)+1), plot = FALSE)
     expOverlaps <- dpois(x = 0:(max(results)+1), lambda = mean(results)) * sum(h$counts)
@@ -113,10 +112,35 @@ MakeHistogram(BRF1)
 After verifying the fit on Poisson distribution for the ReMap catalogue we now want to check on a totally random catalogue to see if the Poisson distribution is still the best to follow.
 
 ```{r, echo=TRUE}
-# Creating a random catalogue with only one category 'Vert'
+# Creating a random catalogue with only one category 'Vert'.
 randomCatalog <- GenRegions(10000, 200)
+# Reduce is a GenomicRanges function designed to merge overlapping regions.
 randomCatalog <- reduce(randomCatalog)
+# Creating one category for each regions.
 randomCatalog@elementMetadata$id = "Vert"
-randomCatalogIntersections <- RandomIntersections(randomCatalog, iterations = 1000, regionNb = 1000, regionSize = 1000)
+randomCatalogIntersections <- RandomIntersections(randomCatalog, iterations = 500, regionNb = 1000, regionSize = 1000)
 MakeHistogram(randomCatalogIntersections)
 ```
+
+On this example, only 500 iterations have been made and we can already see that the Poisson distribution seems to nicely describe our empirical values.
+
+# Statistically validate your experiments
+
+After any enrichment experiments, you may want to ensure that the statistical methods involved, are still valid.
+Let's make an enrichment analysis with further statistical validations. If you don't understand all the parameters in this experiment, please refer to the "Advanced use" vignette before.
+
+```{r, eval = FALSE}
+catalog <- BedToGranges(DownloadRemapCatalog("demo.dir"))
+query <- BedToGranges(DownloadEncodePeaks("ENCFF001VCU", "demo.dir"))
+universe <- BedToGranges(DownloadEncodePeaks("ENCFF718QVA", "demo.dir"))
+enrichment <- Enrichment(query, catalog, universe = universe, byChrom = TRUE, shuffles = 10, included = 0.5, nCores = 7)
+```
+
+To validate such an enrichment we need to apply the function RandomIntersections with the exact same parameters. Most important, we will now obtain our random regions through the parameter 'shuffle' as we want to ensure that the same conditions apply in the experiment which use shuffled regions and not randomly generated regions.
+
+```{r, eval = FALSE}
+randomIntersections <- RandomIntersections(catalog, iterations = 10000, universe = universe, included = 0.5, shuffle = query, byChrom = TRUE)
+chi2results <- AdjustToPoisson(randomIntersections)
+```
+
+This part of the vignette is not evaluated as 10,000 iterations may take a long time even when parallelizing to maximum (refer to parameter 'nCores' for more details). It is only here as an example to reproduce validation with any enrichment computation you want to validate more consequently.

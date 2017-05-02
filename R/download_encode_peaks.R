@@ -51,7 +51,7 @@ DownloadEncodePeaks <- function(id,
             tempZipFile <- paste(tempfile(),".bed.gz", sep = "")
             url <- paste("https://www.encodeproject.org/files/",id,
                          "/@@download/", id, ".bed.gz", sep = "")
-            download.file(url, tempZipFile, method = "wget")
+            utils::download.file(url, tempZipFile, method = "wget")
             R.utils::gunzip(tempZipFile, filePath, overwrite = force)
             unlink(tempZipFile)
             message("A file has been created at ", filePath)

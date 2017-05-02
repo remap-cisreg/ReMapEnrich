@@ -23,7 +23,7 @@
 GenRegions <- function(n, size, chromSizes = LoadChromSizes("hg19"), universe = NULL, included = 1, ...) {
     # Random chromosomes are sampled.
     chroms <- sample(rownames(chromSizes), size = n, replace = TRUE)
-    randomValues <- runif(n)
+    randomValues <- stats::runif(n)
     randomStarts <- round(randomValues * (chromSizes[chroms,] - size))
     if (sum(randomStarts < 0) > 0) {
         warning("Some randomly generated regions are longer than the chromosome they fell in. They will be shortened.")

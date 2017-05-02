@@ -1,0 +1,153 @@
+---
+title: "Developper guide"
+author: "Martin Mestdagh, Zacharie Ménétrier"
+date: "`r Sys.Date()`"
+package: "`r pkg_ver('roken')`"
+output: BiocStyle::html_document
+---
+# Roken - Remap genOmic peaK ENrichment
+
+Roken has been developped in 2017 by a French team of two students in Master 1 BBSG at AMU university in Marseille. It has been ordered by Mr benoit Ballester from the TAGC lab located in Luminy.
+If you want to extend or improve this package please consider reading this guide in which we will try to make roken internal mechanics as clear as possible.
+
+## Previous work
+
+Annotbed is a bash script created by Quentin Barbier. It uses bedtools and R calls to compute enrichment against the ReMap catalogue.
+Annotbed was the base start of this package. This project was first intended to replace and improve this previous work putting it all together in a complete R package with generics functions.
+To consult Annotbed sources and guides please contact Mr Benoit Ballester at benoit.ballester@inserm.fr.
+We also recommend to check for the bedtools software (not used in roken but still relevant to understand): http://bedtools.readthedocs.io/en/latest/
+
+## Tools and versions
+
+Roken has been developped with R 3.4. 
+RStudio 1.0.136 has been used for simplifying the development process. You can work on this package without the help of RStudio but we strongly recommend it, will it be only for the facilities it brings when building the sources files.
+You will need to have git + ssh installed on your machine in order to access the git depository..
+The url of the depository is hosted by SourceSup Renater and is located at : git+ssh://git@git.renater.fr:2222/roken.git
+
+*To open our package for the first time*
+In RStudio you simply need to create a new RStudio project for that directory and then version control features will be automatically enabled. To do this:
+
+1. Execute the New Project command (from the Project menu)
+2. Choose to create a new project from an Existing Directory
+3. Select the appropriate directory and then click Create Project
+
+A new project will be created for the directory and RStudio's version control features will then be available for that directory.
+
+You may encounter errors from the RStudio console. Follow the steps behind in order to get rid of the most frequent errors.
+
+1. Make sure you are correctly registered in SourceSup Renater.
+2. Make sure your public keys are ready to be used by SourceSup Renater (it can take up to 1 hour).
+3. Make sure your private keys are in the correct folders.
+4. Try it outside of RStudio. Sometimes a good old bash command makes better, try: git clone git+ssh://git@git.renater.fr:2222/roken.git
+5. Making public and private keys work as intended can be hard. Please consider uninstalling and reinstalling ssh and git in order to make a fresh start.
+6. Do not use passphrase if possible.
+7. Google it.
+
+# The package
+
+## Structure
+
+We first recommend to follow thos simple instructions for style : https://google.github.io/styleguide/Rguide.xml
+This package follow the R package basic structure: https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Package-structure
+and the BioConductor guide line : https://www.bioconductor.org/developers/package-guidelines/
+
+However, special folders have been created and are ignored by the build. Those are:
+
+1. graph - A folder that contains all graphs and plots from previous analysis.
+2. big_data - A folder that contains large .bed files used to test enrichment.
+3. misc - A miscellanous folder containing prototype R script and some other little things. Feel free to add yours.
+4. DevelopperGuide - The folder you're reading this file from.
+
+Except from those 4 folders, all the rest are included in the final package.
+
+## The Makefile
+
+A Makefile has been added into this package but is no more supported. Its presence is only due to informative purpose.
+The Makefile will maybe help you in future development to bring more control to your builds.
+
+## Documentation
+
+All the documentation above every function is ready to be used by Roxygen2, which is a R package that parse documentations into the proper folders at the correct format automatically (included in RStudio).
+The vignettes uses BiocStyle::html_document to create the corresponding html document. You should also install dplyr package and uses knitr in order to correctly build the vignettes.
+
+# Dependencies
+
+As we worked with RStudio, don't forget to install all the depedencies, necessary to build this package.
+All those depedencies are listed and ready to be installed in roken/misc/install_depedencies.R.
+You maybe have to install more libraries in the future.
+Sometimes some OS libraries will be mandatory to work with some R tools, it really depends of the OS you are working on so we can't be really specific here.
+
+We will now quickly present the most important packages we worked with.
+
+- GenomicRanges
+
+GenomicRanges is a widely used r package to work with genomic regions and positions. It offers great tools to compute overlapping and is the base of our enrichment method.
+
+http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html
+
+- Parallel
+
+Parallel is a R package that simplify making parallel process. As many shuffles are computed for each enrichment analysis, it has been clear that using the functionalities of this package was essential.
+
+https://stat.ethz.ch/R-manual/R-devel/library/parallel/doc/parallel.pdf
+
+- data.table
+
+This package is mandatory when reading large files as in our case when importing a 0.5Gb of genomic regions. It can divide the time used to read large files by 10 compared to the usual R basics functions. It is already implemented in all the importing bed function but you shall remember when creating other import related fucntion to always use this small but efficient tool.
+
+https://cran.r-project.org/web/packages/data.table/data.table.pdf
+
+- RMySql
+
+This package was useful to connect to the ucsc databases in order to retrieve informations about chromosome sizes for any species automatically (see download_ucsc_chrom_sizes.R).
+
+https://cran.r-project.org/web/packages/RMySQL/RMySQL.pdf
+
+# Understanding functions
+
+We recommend for fresh developers to see the 3 vignettes available to fully understand the enrichment mechanics.
+We also spend times commenting and making complete documentations for each fucntions which are all available using a simple R command.
+```{R, message=FALSE}
+# This can only be done after the package has been built.
+library(roken)
+help(package = "roken")
+```
+
+## Enrichment
+
+The R script enrichment.R makes calls to different generics functions. This has been made to ensure readability and debugging more easier.
+
+*Compute enrichment*
+
+First it uses compute_enrichment.R, a script that is designed to get the maximum informations from a query vs. a catalogue.
+What it does is making calls to the proper functions of shuffling and intersecting with the user's parameters.
+Note that this script use parallelization if the argument 'nCore' provided is greater than one. for that instance, the package 'parallel' has been used replacing all the apply functions with their corresponding parallelized.
+The Shuffle and Intersect functions are called within computing enrichment.
+
+*Extract enrichment*
+
+After all the basics informations have been extracted from the user's inputs, the function now calls extract_enrichment.R.
+The purpose of this function is to extract all the enrichment informations and give the user a proper data frame. All the values computed are logarithmics values to avoid reaching 0 when p-values get too small.
+
+## A lot of small functions
+
+There is 24 functions implemented in the 0.99.0 version of roken. 21 of them are available to the users and are listed in the file NAMESPACE at the root of the project folder. The 3 others are designed to work only internally (computing and extracting enrichment for example is not available to the user but part of the larger function enrichment).
+For every function that is available to the user, a minimal example is created in the corresponding script file. This example should work from scratch in a R console with roken installed.
+
+## Data
+
+Data in this package can be observed in two different locations.
+Firstly you will find some small files in inst/extdata. Those files are pet dataset, that you can retrieve using simple R command.
+
+```{R}
+queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "roken")
+catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", package = "roken")
+```
+
+There is also the hg19 chromosome sizes as it is the most frequently used, so it is not downloaded each time an enrichment analysis is done. For other assemby, the function 'DownloadUcscChromSizes' is available for the users to import from UCSC all the chromosome sizes for any species they need to.
+
+You can also find internal data in the data folder. It contains one enrichment example and one large random intersection analysis (see the vignette about statistical validation for more informations). They can be retrieved easily too.
+
+```{R}
+data("enrichment_example", package = "roken")
+```

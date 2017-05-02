@@ -17,11 +17,11 @@
 #' @export
 DownloadUcscChromSizes <- function(id, all = FALSE) {
     # Connection with the ucsc database.
-    connection <- dbConnect(RMySQL::MySQL(), username = "genome",
+    connection <- DBI::dbConnect(RMySQL::MySQL(), username = "genome",
                             host = "genome-mysql.cse.ucsc.edu", dbname = id)
     # Requesting the chromosome names and their sizes.
-    res <- dbSendQuery(connection, "select chrom,size from chromInfo")
-    data <- dbFetch(res)
+    res <- DBI::dbSendQuery(connection, "select chrom,size from chromInfo")
+    data <- DBI::dbFetch(res)
     # If the argument 'all' is true then trim the results.
     if (!all) {
         data <- data[!grepl("_", data$chrom),]

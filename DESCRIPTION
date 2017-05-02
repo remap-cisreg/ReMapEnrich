@@ -1,12 +1,12 @@
 Package: roken
 Title: Bioinformatic tools for computing enrichment
-Version: 0.1
+Version: 0.99.0
 Authors@R: c(person("Zacharie", "Menetrier", email = "zacharie.menetrier@gmail.com",
                   role = c("aut", "cre")),
                   person("Martin", "Mestdagh", email = "martin.mestdagh@gmail.com",
                   role = c("aut")))
 Description: Bioinformatic tools for computing enrichment
-Depends: R (>= 3.3),
+Depends: R (>= 3.4),
     GenomicRanges,
     data.table,
     R.utils,
@@ -18,3 +18,4 @@ License: GNU Affero General Public License
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
+biocViews: c("GeneExpression", "GeneSetEnrichment", "GenomeAnnotation", "Software")
