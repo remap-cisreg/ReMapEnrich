@@ -7,7 +7,7 @@ output: BiocStyle::html_document
 ---
 # Roken - Remap genOmic peaK ENrichment
 
-Roken has been developped in 2017 by a French team of two students in Master 1 BBSG at AMU university in Marseille. It has been ordered by Mr benoit Ballester from the TAGC lab located in Luminy.
+Roken has been developped in 2017 by a French team of two students in Master 1 BBSG at AMU university in Marseille. It has been ordered by PhD Benoit Ballester from the TAGC lab located in Luminy.
 If you want to extend or improve this package please consider reading this guide in which we will try to make roken internal mechanics as clear as possible.
 
 ## Previous work
