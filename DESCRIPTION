@@ -6,7 +6,7 @@ Authors@R: c(person("Zacharie", "Menetrier", email = "zacharie.menetrier@gmail.c
                   person("Martin", "Mestdagh", email = "martin.mestdagh@gmail.com",
                   role = c("aut")))
 Description: Bioinformatic tools for computing enrichment
-Depends: R (>= 3.4),
+Depends: R (>= 3.3),
     GenomicRanges,
     data.table,
     R.utils,
