@@ -22,7 +22,7 @@
 #' @param las=1 Allows to change the angle of label y-axis.
 #' 
 #' @usage EnrichmentBarPlot(enrich, 
-#' top = 10,
+#' top = 20,
 #' main = paste("Significance, top", top, "categories"),
 #' aRisk = 0.05,
 #' sigDisplayQuantile = 0.95,
@@ -42,7 +42,7 @@
 #' 
 #' @export
 EnrichmentBarPlot <- function(enrich, 
-                              top = 10,
+                              top = 20,
                               main = paste("Significance, top", top, "categories"),
                               aRisk = 0.05,
                               sigDisplayQuantile = 0.95,
