@@ -90,9 +90,9 @@ EnrichmentDotPlot <- function(enrich,
     graphics::par(mar=c(5, 5, 4, 0))
     with(enrich,
          graphics::symbols(
-            x       = enrich::mapped.peaks.ratio,
+            x       = mapped.peaks.ratio,
             y       = 1:top,
-            circles = (enrich::nb.overlaps - minOverlaps) / (maxOverlapsLim -
+            circles = (nb.overlaps - minOverlaps) / (maxOverlapsLim -
                                                     minOverlapsLim) + 
                                                     minCircleSize,
             inches  = inches,

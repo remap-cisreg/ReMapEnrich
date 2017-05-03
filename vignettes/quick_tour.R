@@ -34,3 +34,11 @@ EnrichmentBarPlot(enrichment, sigDisplayQuantile = 0.5, top = 20, aRisk = 0.0000
 # Display a volcano plot (na.omit() is mandatory as there is NAs in the enrichment data frame).
 EnrichmentVolcanoPlot(na.omit(enrichment), sigDisplayQuantile = 0.9, aRisk = 0.00001)
 
+## ---- echo=TRUE, fig.height=7--------------------------------------------
+# Display a dot plot.
+EnrichmentDotPlot(enrichment)
+
+## ---- echo=TRUE, fig.height=7--------------------------------------------
+# Display a dot plot without SOX2.
+EnrichmentDotPlot(enrichment[enrichment$category != "SOX2",])
+
