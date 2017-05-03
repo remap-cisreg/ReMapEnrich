@@ -151,3 +151,176 @@ You can also find internal data in the data folder. It contains one enrichment e
 ```{R}
 data("enrichment_example", package = "roken")
 ```
+
+# BioConductor
+
+This package is meant to be relased on BioConductor : https://www.bioconductor.org/
+Remember to always follow the indications defined on their site.
+
+To check for validity of this package, you can launch the following R command from this sources.
+```{R, eval = FALSE}
+## try http:// if https:// URLs are not supported
+source("https://bioconductor.org/biocLite.R")
+biocLite("BiocCheck")
+# Remember to indicate the package root folder.
+BiocCheck::BiocCheck(".")
+```
+Warnings may occur and suppressing them is a good way to have a clean package. No error should occur before new releases are made.
+
+At this date this is what is sent by BiocCheck for this package.
+```{R, eval = FALSE}
+Bioconductor version 3.5 (BiocInstaller 1.26.0), ?biocLite for help
+BioC_mirror: https://bioconductor.org
+Using Bioconductor 3.5 (BiocInstaller 1.26.0), R 3.4.0 (2017-04-21).
+Installing package(s) ‘BiocCheck’
+essai de l'URL 'https://bioconductor.org/packages/3.5/bioc/src/contrib/BiocCheck_1.12.0.tar.gz'
+Content type 'application/x-gzip' length 4136279 bytes (3.9 MB)
+==================================================
+downloaded 3.9 MB
+
+* installing *source* package ‘BiocCheck’ ...
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded
+Failed to copy the script/BiocCheck script to /usr/lib/R/bin. If you
+want to be able to run 'R CMD BiocCheck' you'll need to copy it
+yourself to a directory on your PATH, making sure it is executable. See
+the BiocCheck vignette for more information.
+* DONE (BiocCheck)
+
+The downloaded source packages are in
+	‘/tmp/RtmpezuHnP/downloaded_packages’
+installation path not writeable, unable to update packages: foreign
+This is BiocCheck version 1.12.0. BiocCheck is a work in progress. Output and severity of issues may change. Installing package...
+* Checking if other packages can import this one...
+* Checking to see if we understand object initialization...
+    * NOTE: Consider clarifying how 8 object(s) are initialized. Maybe they are part of a data set loaded with data(), or perhaps part of an
+      object referenced in with() or within().
+    object (function)
+      chrom (BedToGranges)
+      chromStart (BedToGranges)
+      chromEnd (BedToGranges)
+      name (BedToGranges)
+      score (BedToGranges)
+      strand (BedToGranges)
+      mapped.peaks.ratio (EnrichmentDotPlot)
+      nb.overlaps (EnrichmentDotPlot)
+* Checking vignette directory...
+    This is an unknown type of package
+    * WARNING: Remove vignette sources from inst/doc; they belong in vignettes/.
+    # of chunks: 27, # of eval=FALSE: 3 (11%)
+* Checking version number...
+* Checking version number validity...
+    Package version 0.99.0; pre-release
+* Checking R Version dependency...
+* Checking biocViews...
+* Checking that biocViews are present...
+* Checking for non-trivial biocViews...
+* Checking that biocViews come from the same category...
+* Checking biocViews validity...
+    * WARNING: Use valid biocViews. Invalid ones: c("GeneExpression", "GeneSetEnrichment", "GenomeAnnotation", "Software")
+* Checking for recommended biocViews...
+See http://bioconductor.org/developers/how-to/biocViews/
+* Checking build system compatibility...
+* Checking for blank lines in DESCRIPTION...
+* Checking for whitespace in DESCRIPTION field names...
+* Checking that Package field matches directory/tarball name...
+* Checking for Version field...
+* Checking for valid maintainer...
+* Checking unit tests...
+    * NOTE: Consider adding unit tests. We strongly encourage them. See http://bioconductor.org/developers/how-to/unitTesting-guidelines/.
+* Checking native routine registration...
+* Checking for deprecated package usage...
+* Checking parsed R code in R directory, examples, vignettes...
+* Checking for direct slot access...
+    Found @ in vignettes/statistical_validation.Rmd
+    * NOTE: Use accessors; don't access S4 class slots via '@' in examples/vignettes.
+* Checking for T...
+    Found T in vignettes/advanced_use.Rmd
+    Found T in vignettes/quick_tour.Rmd
+    Found T in vignettes/statistical_validation.Rmd
+    * WARNING: Use TRUE instead of T (found in 3 files)
+* Checking for F...
+* Checking for browser()...
+* Checking for <<-...
+* Checking for library/require of roken...
+* Checking DESCRIPTION/NAMESPACE consistency...
+* Checking function lengths................................................
+    The longest function is 124 lines long
+    The longest 5 functions are:
+    EnrichmentDotPlot() (R/enrichment_dot_plot.R, line 37): 124 lines
+    ExtractEnrichment() (R/extract_enrichment.R, line 19): 107 lines
+    AdjustToPoisson() (R/adjust_to_poisson.R, line 23): 84 lines
+    ShuffleUniverse() (R/shuffle.R, line 64): 66 lines
+    EnrichmentBarPlot() (R/enrichment_bar_plot.R, line 44): 60 lines
+* Checking man pages...
+    * WARNING: Add non-empty \value sections to the following man pages: man/EnrichmentBarPlot.Rd, man/EnrichmentDotPlot.Rd,
+      man/EnrichmentVolcanoPlot.Rd, man/ExportEnrichment.Rd, man/TextOutline.Rd
+* Checking exported objects have runnable examples...
+    * NOTE: Consider adding runnable examples to the following man pages which document exported objects:
+      LolaDBToCatalog.Rd
+* Checking package NEWS...
+    * NOTE: Consider adding a NEWS file, so your package news will be included in Bioconductor release announcements.
+* Checking formatting of DESCRIPTION, NAMESPACE, man pages, R source, and vignette source...
+    * NOTE: Consider shorter lines; 191 lines (7%) are > 80 characters long.
+    First 6 lines:
+      R/adjust_to_poisson.R:17 #' catalog <- BedToGranges(system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
+      R/adjust_to_poisson.R:23 AdjustToPoisson <- function(randomIntersections, pAdjust = "fdr", showCategories = TRUE) {
+      R/adjust_to_poisson.R:25     chisq.result <- data.frame(matrix(nrow = ncol(randomIntersections), ncol = 4))
+      R/adjust_to_poisson.R:35         h <- graphics::hist(cat.result, breaks = -1:(max(cat.result)+1), plot = FALSE)
+      R/adjust_to_poisson.R:37         exp.overlaps <- stats::dpois(x = 0:(max(cat.result)+1), lambda = mean(cat.result)) * sum(h$counts)
+      R/adjust_to_poisson.R:38         # The median index is calculated to begin the groupment from the middle of the distribution.
+    * NOTE: Consider 4 spaces instead of tabs; 13 lines (0%) contain tabs.
+    First 6 lines:
+      R/extract_enrichment.R:80 	# This is the logarithm of the q values.
+      R/extract_enrichment.R:81 	logQVals <- ((logPVals + logN) - logI) + logC
+      R/extract_enrichment.R:82 	if (pAdjust == "BY") {
+      R/extract_enrichment.R:83 	    logQVals <- cummax(logQVals)
+      R/extract_enrichment.R:84 	}
+      R/extract_enrichment.R:85 	# If the p values are greater than 1 due to bonferroni correction 
+    * NOTE: Consider multiples of 4 spaces for line indents, 172 lines(6%) are not.
+    First 6 lines:
+      R/bed_import.R:20                                                header = FALSE,
+      R/bed_import.R:21                                                sep = "\t", 
+      R/bed_import.R:22                                                stringsAsFactors = FALSE, 
+      R/bed_import.R:23                                                quote = ""))
+      R/bed_import.R:26                      "strand", "thickStart",
+      R/bed_import.R:27                      "thickEnd", "itemRgb", "blockCount", "blockSizes",
+    See http://bioconductor.org/developers/how-to/coding-style/
+* Checking for canned comments in man pages...
+* Checking if package already exists in CRAN...
+* Checking for support site registration...
+    Maintainer is registered at support site.
+
+
+Summary:
+ERROR count: 0
+WARNING count: 4
+NOTE count: 8
+For detailed information about these checks, see the BiocCheck vignette, available at
+https://bioconductor.org/packages/3.5/bioc/vignettes/BiocCheck/inst/doc/BiocCheck.html#interpreting-bioccheck-output
+$error
+character(0)
+
+$warning
+[1] "Remove vignette sources from inst/doc; they belong in vignettes/."                                                                                                                       
+[2] "Use valid biocViews. Invalid ones: c(\"GeneExpression\", \"GeneSetEnrichment\", \"GenomeAnnotation\", \"Software\")"                                                                     
+[3] "Use TRUE instead of T (found in 3 files)"                                                                                                                                                
+[4] "Add non-empty \\value sections to the following man pages: man/EnrichmentBarPlot.Rd, man/EnrichmentDotPlot.Rd, man/EnrichmentVolcanoPlot.Rd, man/ExportEnrichment.Rd, man/TextOutline.Rd"
+
+$note
+[1] "Consider clarifying how 8 object(s) are initialized. Maybe they are part of a data set loaded with data(), or perhaps part of an object referenced in with() or within()."
+[2] "Consider adding unit tests. We strongly encourage them. See\n  http://bioconductor.org/developers/how-to/unitTesting-guidelines/."                                        
+[3] "Use accessors; don't access S4 class slots via '@' in examples/vignettes."                                                                                                
+[4] "Consider adding runnable examples to the following man pages which document exported objects:"                                                                            
+[5] "Consider adding a NEWS file, so your package news will be included in Bioconductor release announcements."                                                                
+[6] "Consider shorter lines; 191 lines (7%) are > 80 characters long."                                                                                                         
+[7] "Consider 4 spaces instead of tabs; 13 lines (0%) contain tabs."                                                                                                           
+[8] "Consider multiples of 4 spaces for line indents, 172 lines(6%) are not."
+```
+}

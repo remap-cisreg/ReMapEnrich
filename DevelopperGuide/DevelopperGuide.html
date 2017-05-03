@@ -10,7 +10,7 @@
 
 <meta name="author" content="Martin Mestdagh, Zacharie Ménétrier" />
 
-<meta name="date" content="2017-05-02" />
+<meta name="date" content="2017-05-03" />
 
 <title>Developper guide</title>
 
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="header">
 <h1 class="title">Developper guide</h1>
 <h4 class="author"><em>Martin Mestdagh, Zacharie Ménétrier</em></h4>
-<h4 class="date"><em>2017-05-02</em></h4>
+<h4 class="date"><em>2017-05-03</em></h4>
 </div>
 <h4 class="package">Package version: <span style="font-weight: normal">roken 0.99.0</span></h4>
 
@@ -73,12 +73,13 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="#a-lot-of-small-functions"><span class="toc-section-number">4.2</span> A lot of small functions</a></li>
 <li><a href="#data"><span class="toc-section-number">4.3</span> Data</a></li>
 </ul></li>
+<li><a href="#bioconductor"><span class="toc-section-number">5</span> BioConductor</a></li>
 </ul>
 </div>
 
 <div id="roken---remap-genomic-peak-enrichment" class="section level1">
 <h1><span class="header-section-number">1</span> Roken - Remap genOmic peaK ENrichment</h1>
-<p>Roken has been developped in 2017 by a French team of two students in Master 1 BBSG at AMU university in Marseille. It has been ordered by Mr benoit Ballester from the TAGC lab located in Luminy. If you want to extend or improve this package please consider reading this guide in which we will try to make roken internal mechanics as clear as possible.</p>
+<p>Roken has been developped in 2017 by a French team of two students in Master 1 BBSG at AMU university in Marseille. It has been ordered by PhD Benoit Ballester from the TAGC lab located in Luminy. If you want to extend or improve this package please consider reading this guide in which we will try to make roken internal mechanics as clear as possible.</p>
 <div id="previous-work" class="section level2">
 <h2><span class="header-section-number">1.1</span> Previous work</h2>
 <p>Annotbed is a bash script created by Quentin Barbier. It uses bedtools and R calls to compute enrichment against the ReMap catalogue. Annotbed was the base start of this package. This project was first intended to replace and improve this previous work putting it all together in a complete R package with generics functions. To consult Annotbed sources and guides please contact Mr Benoit Ballester at <a href="mailto:benoit.ballester@inserm.fr">benoit.ballester@inserm.fr</a>. We also recommend to check for the bedtools software (not used in roken but still relevant to understand): <a href="http://bedtools.readthedocs.io/en/latest/" class="uri">http://bedtools.readthedocs.io/en/latest/</a></p>
@@ -180,6 +181,172 @@ catalogFile &lt;- system.file(&quot;extdata&quot;, &quot;ReMap_nrPeaks_public_ch
 <p>You can also find internal data in the data folder. It contains one enrichment example and one large random intersection analysis (see the vignette about statistical validation for more informations). They can be retrieved easily too.</p>
 <pre class="r"><code>data(&quot;enrichment_example&quot;, package = &quot;roken&quot;)</code></pre>
 </div>
+</div>
+<div id="bioconductor" class="section level1">
+<h1><span class="header-section-number">5</span> BioConductor</h1>
+<p>This package is meant to be relased on BioConductor : <a href="https://www.bioconductor.org/" class="uri">https://www.bioconductor.org/</a> Remember to always follow the indications defined on their site.</p>
+<p>To check for validity of this package, you can launch the following R command from this sources.</p>
+<pre class="r"><code>## try http:// if https:// URLs are not supported
+source(&quot;https://bioconductor.org/biocLite.R&quot;)
+biocLite(&quot;BiocCheck&quot;)
+# Remember to indicate the package root folder.
+BiocCheck::BiocCheck(&quot;.&quot;)</code></pre>
+<p>Warnings may occur and suppressing them is a good way to have a clean package. No error should occur before new releases are made.</p>
+<p>At this date this is what is sent by BiocCheck for this package.</p>
+<pre class="r"><code>Bioconductor version 3.5 (BiocInstaller 1.26.0), ?biocLite for help
+BioC_mirror: https://bioconductor.org
+Using Bioconductor 3.5 (BiocInstaller 1.26.0), R 3.4.0 (2017-04-21).
+Installing package(s) ‘BiocCheck’
+essai de l'URL 'https://bioconductor.org/packages/3.5/bioc/src/contrib/BiocCheck_1.12.0.tar.gz'
+Content type 'application/x-gzip' length 4136279 bytes (3.9 MB)
+==================================================
+downloaded 3.9 MB
+
+* installing *source* package ‘BiocCheck’ ...
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded
+Failed to copy the script/BiocCheck script to /usr/lib/R/bin. If you
+want to be able to run 'R CMD BiocCheck' you'll need to copy it
+yourself to a directory on your PATH, making sure it is executable. See
+the BiocCheck vignette for more information.
+* DONE (BiocCheck)
+
+The downloaded source packages are in
+    ‘/tmp/RtmpezuHnP/downloaded_packages’
+installation path not writeable, unable to update packages: foreign
+This is BiocCheck version 1.12.0. BiocCheck is a work in progress. Output and severity of issues may change. Installing package...
+* Checking if other packages can import this one...
+* Checking to see if we understand object initialization...
+    * NOTE: Consider clarifying how 8 object(s) are initialized. Maybe they are part of a data set loaded with data(), or perhaps part of an
+      object referenced in with() or within().
+    object (function)
+      chrom (BedToGranges)
+      chromStart (BedToGranges)
+      chromEnd (BedToGranges)
+      name (BedToGranges)
+      score (BedToGranges)
+      strand (BedToGranges)
+      mapped.peaks.ratio (EnrichmentDotPlot)
+      nb.overlaps (EnrichmentDotPlot)
+* Checking vignette directory...
+    This is an unknown type of package
+    * WARNING: Remove vignette sources from inst/doc; they belong in vignettes/.
+    # of chunks: 27, # of eval=FALSE: 3 (11%)
+* Checking version number...
+* Checking version number validity...
+    Package version 0.99.0; pre-release
+* Checking R Version dependency...
+* Checking biocViews...
+* Checking that biocViews are present...
+* Checking for non-trivial biocViews...
+* Checking that biocViews come from the same category...
+* Checking biocViews validity...
+    * WARNING: Use valid biocViews. Invalid ones: c(&quot;GeneExpression&quot;, &quot;GeneSetEnrichment&quot;, &quot;GenomeAnnotation&quot;, &quot;Software&quot;)
+* Checking for recommended biocViews...
+See http://bioconductor.org/developers/how-to/biocViews/
+* Checking build system compatibility...
+* Checking for blank lines in DESCRIPTION...
+* Checking for whitespace in DESCRIPTION field names...
+* Checking that Package field matches directory/tarball name...
+* Checking for Version field...
+* Checking for valid maintainer...
+* Checking unit tests...
+    * NOTE: Consider adding unit tests. We strongly encourage them. See http://bioconductor.org/developers/how-to/unitTesting-guidelines/.
+* Checking native routine registration...
+* Checking for deprecated package usage...
+* Checking parsed R code in R directory, examples, vignettes...
+* Checking for direct slot access...
+    Found @ in vignettes/statistical_validation.Rmd
+    * NOTE: Use accessors; don't access S4 class slots via '@' in examples/vignettes.
+* Checking for T...
+    Found T in vignettes/advanced_use.Rmd
+    Found T in vignettes/quick_tour.Rmd
+    Found T in vignettes/statistical_validation.Rmd
+    * WARNING: Use TRUE instead of T (found in 3 files)
+* Checking for F...
+* Checking for browser()...
+* Checking for &lt;&lt;-...
+* Checking for library/require of roken...
+* Checking DESCRIPTION/NAMESPACE consistency...
+* Checking function lengths................................................
+    The longest function is 124 lines long
+    The longest 5 functions are:
+    EnrichmentDotPlot() (R/enrichment_dot_plot.R, line 37): 124 lines
+    ExtractEnrichment() (R/extract_enrichment.R, line 19): 107 lines
+    AdjustToPoisson() (R/adjust_to_poisson.R, line 23): 84 lines
+    ShuffleUniverse() (R/shuffle.R, line 64): 66 lines
+    EnrichmentBarPlot() (R/enrichment_bar_plot.R, line 44): 60 lines
+* Checking man pages...
+    * WARNING: Add non-empty \value sections to the following man pages: man/EnrichmentBarPlot.Rd, man/EnrichmentDotPlot.Rd,
+      man/EnrichmentVolcanoPlot.Rd, man/ExportEnrichment.Rd, man/TextOutline.Rd
+* Checking exported objects have runnable examples...
+    * NOTE: Consider adding runnable examples to the following man pages which document exported objects:
+      LolaDBToCatalog.Rd
+* Checking package NEWS...
+    * NOTE: Consider adding a NEWS file, so your package news will be included in Bioconductor release announcements.
+* Checking formatting of DESCRIPTION, NAMESPACE, man pages, R source, and vignette source...
+    * NOTE: Consider shorter lines; 191 lines (7%) are &gt; 80 characters long.
+    First 6 lines:
+      R/adjust_to_poisson.R:17 #' catalog &lt;- BedToGranges(system.file(&quot;extdata&quot;, &quot;ReMap_nrPeaks_public_chr22.bed&quot;,
+      R/adjust_to_poisson.R:23 AdjustToPoisson &lt;- function(randomIntersections, pAdjust = &quot;fdr&quot;, showCategories = TRUE) {
+      R/adjust_to_poisson.R:25     chisq.result &lt;- data.frame(matrix(nrow = ncol(randomIntersections), ncol = 4))
+      R/adjust_to_poisson.R:35         h &lt;- graphics::hist(cat.result, breaks = -1:(max(cat.result)+1), plot = FALSE)
+      R/adjust_to_poisson.R:37         exp.overlaps &lt;- stats::dpois(x = 0:(max(cat.result)+1), lambda = mean(cat.result)) * sum(h$counts)
+      R/adjust_to_poisson.R:38         # The median index is calculated to begin the groupment from the middle of the distribution.
+    * NOTE: Consider 4 spaces instead of tabs; 13 lines (0%) contain tabs.
+    First 6 lines:
+      R/extract_enrichment.R:80     # This is the logarithm of the q values.
+      R/extract_enrichment.R:81     logQVals &lt;- ((logPVals + logN) - logI) + logC
+      R/extract_enrichment.R:82     if (pAdjust == &quot;BY&quot;) {
+      R/extract_enrichment.R:83         logQVals &lt;- cummax(logQVals)
+      R/extract_enrichment.R:84     }
+      R/extract_enrichment.R:85     # If the p values are greater than 1 due to bonferroni correction 
+    * NOTE: Consider multiples of 4 spaces for line indents, 172 lines(6%) are not.
+    First 6 lines:
+      R/bed_import.R:20                                                header = FALSE,
+      R/bed_import.R:21                                                sep = &quot;\t&quot;, 
+      R/bed_import.R:22                                                stringsAsFactors = FALSE, 
+      R/bed_import.R:23                                                quote = &quot;&quot;))
+      R/bed_import.R:26                      &quot;strand&quot;, &quot;thickStart&quot;,
+      R/bed_import.R:27                      &quot;thickEnd&quot;, &quot;itemRgb&quot;, &quot;blockCount&quot;, &quot;blockSizes&quot;,
+    See http://bioconductor.org/developers/how-to/coding-style/
+* Checking for canned comments in man pages...
+* Checking if package already exists in CRAN...
+* Checking for support site registration...
+    Maintainer is registered at support site.
+
+
+Summary:
+ERROR count: 0
+WARNING count: 4
+NOTE count: 8
+For detailed information about these checks, see the BiocCheck vignette, available at
+https://bioconductor.org/packages/3.5/bioc/vignettes/BiocCheck/inst/doc/BiocCheck.html#interpreting-bioccheck-output
+$error
+character(0)
+
+$warning
+[1] &quot;Remove vignette sources from inst/doc; they belong in vignettes/.&quot;                                                                                                                       
+[2] &quot;Use valid biocViews. Invalid ones: c(\&quot;GeneExpression\&quot;, \&quot;GeneSetEnrichment\&quot;, \&quot;GenomeAnnotation\&quot;, \&quot;Software\&quot;)&quot;                                                                     
+[3] &quot;Use TRUE instead of T (found in 3 files)&quot;                                                                                                                                                
+[4] &quot;Add non-empty \\value sections to the following man pages: man/EnrichmentBarPlot.Rd, man/EnrichmentDotPlot.Rd, man/EnrichmentVolcanoPlot.Rd, man/ExportEnrichment.Rd, man/TextOutline.Rd&quot;
+
+$note
+[1] &quot;Consider clarifying how 8 object(s) are initialized. Maybe they are part of a data set loaded with data(), or perhaps part of an object referenced in with() or within().&quot;
+[2] &quot;Consider adding unit tests. We strongly encourage them. See\n  http://bioconductor.org/developers/how-to/unitTesting-guidelines/.&quot;                                        
+[3] &quot;Use accessors; don't access S4 class slots via '@' in examples/vignettes.&quot;                                                                                                
+[4] &quot;Consider adding runnable examples to the following man pages which document exported objects:&quot;                                                                            
+[5] &quot;Consider adding a NEWS file, so your package news will be included in Bioconductor release announcements.&quot;                                                                
+[6] &quot;Consider shorter lines; 191 lines (7%) are &gt; 80 characters long.&quot;                                                                                                         
+[7] &quot;Consider 4 spaces instead of tabs; 13 lines (0%) contain tabs.&quot;                                                                                                           
+[8] &quot;Consider multiples of 4 spaces for line indents, 172 lines(6%) are not.&quot;</code></pre>
+<p>}</p>
 </div>
 
 
