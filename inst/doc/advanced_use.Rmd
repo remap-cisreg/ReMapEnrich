@@ -1,0 +1,155 @@
+---
+title: "roken: Advanced use"
+author: "Martin Mestdagh, Zacharie Ménétrier"
+date: "`r Sys.Date()`"
+package: "`r pkg_ver('roken')`"
+vignette: >
+    %\VignetteIndexEntry{roken-advanced-use}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+output: 
+    BiocStyle::html_document
+bibliography: 
+    bibliography.bib
+csl:
+    biomed-central.csl
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, comment = "#>", eval=FALSE)
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+library(dplyr)
+```
+
+# Abstract
+
+In this vignette, we will be discovering more advanced functions and possibilities of this package. You may want to read the basics functions first in order to understand the principles of enrhciment analysis.
+
+# Loading a catalogue
+
+## Custom catalogue
+
+Using a custom catalogue is quite simple starting from a BED file.
+
+```{r}
+# Load the roken library
+library(roken) 
+
+# Load the example catalogue BED file.
+
+catalogFile <- system.file("extdata",
+                                    "ReMap_nrPeaks_public_chr22.bed",
+                                    package = "roken")
+catalog <- BedToGranges(catalogFile)
+
+```
+
+## Download the ReMap catalogue
+
+```{r, echo=TRUE}
+# Create a local directory for the tutorial
+demo.dir <- "~/roken_demo"
+dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
+setwd(demo.dir)
+# Use the function DowloadRemapCatalog
+remapCatalog <- DownloadRemapCatalog("nrpeaks_all.bed.gz")
+
+```
+
+The genomic ranges object remapCatalog now contains the full ReMap catalogue[@Griffon:2015en].
+A file has also been downloaded at "~/roken_demo/nrpeaks_all.bed.gz" (0.544 GB when not compressed).
+
+# Download ENCODE peaks
+
+It is possible to download genomic regions of any ENCODE experiments with its ID.
+
+```{r}
+# Downloading the ENCFF001VCU regions.
+ENCFF001VCU <- BedToGranges(DownloadEncodePeaks("ENCFF001VCU", demo.dir))
+```
+
+The ENCFF001VCU variable now contains all the regions of the given experiment. It is possible to use it in future enrichment analysis.
+
+# Using a universe
+
+Enrichment analysis often surestimate the p-values. Using a universe is setting constraints on the shuffling function, resulting in more reasonable probabilities.
+The universe is simply another set of genomic regions, in a GeomicRanges format, that will prevent shuffles to take place outside of it. Using a universe will reduce the analysis to certain portions of the genome.
+
+## Choosing an universe
+
+One of the most diffcult task in using a universe is choosing one that is relevant. No methods are perfect, once you understand what is the purpose of using a universe, it will be up to you to specify which one to use in order to accomplish a specific analysis.
+But in general, the universe could be understood as **the set of regions that could have been used as query**.
+
+## Enrichment with universe
+
+```{r}
+# Download a universe.
+universe <- BedToGranges(DownloadEncodePeaks("ENCFF718QVA", demo.dir))
+# Create the enrichment with the universe.
+enrichment <- Enrichment(ENCFF001VCU, remapCatalog, universe)
+```
+
+The data frame enrichment now contains the enrichment informations between ENCFF001VCU and the ReMap catalogue given ENCFF718QVA as a universe.
+
+For more permissive universe you can use the parameter included as the fraction of shuffled regions that must be at least contained in universe regions (1 by default).
+
+```{r}
+# Create the enrichment with a less restrictive universe.
+enrichment <- Enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1)
+# 90% of the shuffled regions can now be outside of the universe regions.
+```
+
+Shuffling regions occurs in the whole genome but it is possible to restrict shuffles to occur only in the chromosome they originate with the parameter byChrom (FALSE by default).
+
+```{r}
+# Create the enrichment with a less restrictive universe.
+enrichment <- Enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE)
+# 90% of the shuffled regions can now be outside of the universe regions.
+# The shuffled regions are still in the same chromosome where they came from.
+```
+
+# Shuffling and random generation
+
+As the most basic enrichment function uses random generations in order to estimate the p-values, shuffling functions and random generations are available in this package.
+In this two functions, it is possible to use all the parameters already mentioned (universe, included, byChrom).
+
+## Shuffling
+
+Shuffling regions consists in randomly reordering the positions of the query regions within a genome.
+
+```{r}
+# Shuffling ENCFF001VCU
+shuffledENCFF001VCU <- Shuffle(ENCFF001VCU, universe = universe, byChrom = TRUE)
+```
+
+## Random generations
+
+It is sometimes useful to generate purely random regions, for negatives controls for example.
+
+```{r}
+# Generate 100 random regions with a size of 1000 bases pair.
+randomRegions <- GenRegions(100, 1000)
+```
+
+# Other assemblies
+
+For now, only the hg19 assembly has been used by default. It is important to know how to make enrichment analysis with other genomes. All functions in the roken package that uses shuffles or random regions generation must ackowledge the sizes of the chromosomes of the species in consideration.
+
+It is possible to load the chromosomes sizes of hg19 in one function.
+
+```{r}
+hg19ChromSizes <- LoadChromSizes("hg19")
+```
+
+But you may want to download other assemblies from the UCSC database.
+
+```{r}
+# Example with rn5
+rn5ChromSizes <- DownloadUcscChromSizes("rn5")
+# Creation of random regions in the rattus norvegicus genome.
+randomRegions <- GenRegions(100, 1000, rn5ChromSizes)
+# Shuffling of regions in the rattus norvegicus genome.
+shuffledRegions <- Shuffle(randomRegions, rn5ChromSizes)
+```
+
+# References
