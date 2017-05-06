@@ -28,8 +28,9 @@ The url of the depository is hosted by SourceSup Renater and is located at : git
 In RStudio you simply need to create a new RStudio project for that directory and then version control features will be automatically enabled. To do this:
 
 1. Execute the New Project command (from the Project menu)
-2. Choose to create a new project from an Existing Directory
-3. Select the appropriate directory and then click Create Project
+2. Choose to create a new project from a Version Control.
+3. Enter the correct url when needed.
+4. Select the appropriate directory and then click Create Project
 
 A new project will be created for the directory and RStudio's version control features will then be available for that directory.
 
@@ -41,13 +42,12 @@ You may encounter errors from the RStudio console. Follow the steps behind in or
 4. Try it outside of RStudio. Sometimes a good old bash command makes better, try: git clone git+ssh://git@git.renater.fr:2222/roken.git
 5. Making public and private keys work as intended can be hard. Please consider uninstalling and reinstalling ssh and git in order to make a fresh start.
 6. Do not use passphrase if possible.
-7. Google it.
 
 # The package
 
 ## Structure
 
-We first recommend to follow thos simple instructions for style : https://google.github.io/styleguide/Rguide.xml
+We first recommend to follow those simple instructions for style : https://www.bioconductor.org/developers/how-to/coding-style/
 This package follow the R package basic structure: https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Package-structure
 and the BioConductor guide line : https://www.bioconductor.org/developers/package-guidelines/
 
@@ -63,11 +63,11 @@ Except from those 4 folders, all the rest are included in the final package.
 ## The Makefile
 
 A Makefile has been added into this package but is no more supported. Its presence is only due to informative purpose.
-The Makefile will maybe help you in future development to bring more control to your builds.
+The Makefile will maybe help you in future development to bring more control to your builds. For example to build the vignettes automatically.
 
 ## Documentation
 
-All the documentation above every function is ready to be used by Roxygen2, which is a R package that parse documentations into the proper folders at the correct format automatically (included in RStudio).
+All the documentation above every function is ready to be used by Roxygen2, which is a R package that parse documentations into the proper folders at the correct format automatically (included in RStudio Build & Reload).
 The vignettes uses BiocStyle::html_document to create the corresponding html document. You should also install dplyr package and uses knitr in order to correctly build the vignettes.
 
 # Dependencies
