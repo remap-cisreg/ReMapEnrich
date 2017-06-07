@@ -21,7 +21,7 @@
 #' @param border=NA Allows to change the border of each bar.
 #' @param las=1 Allows to change the angle of label y-axis.
 #' 
-#' @usage EnrichmentBarPlot(enrich, 
+#' @usage enrichmentBarPlot(enrich, 
 #' top = 20,
 #' main = paste("Significance, top", top, "categories"),
 #' aRisk = 0.05,
@@ -38,10 +38,10 @@
 #' 
 #' @examples 
 #' data("enrichment_example", package = "roken")
-#' EnrichmentBarPlot(enrichment_example)
+#' enrichmentBarPlot(enrichment_example)
 #' 
 #' @export
-EnrichmentBarPlot <- function(enrich, 
+enrichmentBarPlot <- function(enrich, 
                               top = 20,
                               main = paste("Significance, top", top, "categories"),
                               aRisk = 0.05,
@@ -89,7 +89,7 @@ EnrichmentBarPlot <- function(enrich,
                          ...
                          )
     labSig <- as.character(round(sig[sig >= xMax]))
-    TextOutline(y = midPoints[sig >= xMax], x = rep(xMax - (xMax*0.01),
+    textOutline(y = midPoints[sig >= xMax], x = rep(xMax - (xMax*0.01),
                                                     length(labSig)), 
                 adj = 1, labels = labSig, cex = 1.1)
     

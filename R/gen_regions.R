@@ -13,14 +13,14 @@
 #' 
 #' @return A random generated genomic ranges object.
 #' 
-#' @usage GenRegions(n, size, chromSizes = LoadChromSizes("hg19")), 
+#' @usage genRegions(n, size, chromSizes = LoadChromSizes("hg19")), 
 #' universe = NULL, included = 1
 #' 
 #' @examples 
-#' randomRegions <- GenRegions(1000,1000)
+#' randomRegions <- genRegions(1000,1000)
 #' 
 #' @export
-GenRegions <- function(n, size, chromSizes = LoadChromSizes("hg19"), universe = NULL, included = 1, ...) {
+genRegions <- function(n, size, chromSizes = loadChromSizes("hg19"), universe = NULL, included = 1, ...) {
     # Random chromosomes are sampled.
     chroms <- sample(rownames(chromSizes), size = n, replace = TRUE)
     randomValues <- stats::runif(n)

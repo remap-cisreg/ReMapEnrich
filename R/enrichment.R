@@ -29,7 +29,7 @@
 #' 
 #' @return A data frame containing the enrichment informations.
 #' 
-#' @usage Enrichment(query, catalog, chromSizes = LoadChromSizes("hg19"),
+#' @usage enrichment(query, catalog, chromSizes = LoadChromSizes("hg19"),
 #'                     fractionQuery = 0.1, fractionCatalog = 0.1,
 #'                     shuffles = 6, lower = FALSE, pAdjust = "BY",
 #'                      byChrom = FALSE, included = 1, nCores = 1)
@@ -39,12 +39,12 @@
 #'                          package = "roken")
 #' catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
 #'                            package = "roken")
-#' query <- BedToGranges(queryFile)
-#' catalog <- BedToGranges(catalogFile)
-#' enrichment <- Enrichment(query, catalog)
+#' query <- bedToGranges(queryFile)
+#' catalog <- bedToGranges(catalogFile)
+#' enrichment <- enrichment(query, catalog)
 #' 
 #' @export
-Enrichment <- function(query, catalog, universe = NULL, chromSizes = LoadChromSizes("hg19"),
+enrichment <- function(query, catalog, universe = NULL, chromSizes = loadChromSizes("hg19"),
                          fractionQuery = 0.1,fractionCatalog = 0.1, 
                          shuffles = 6, tail = "lower", pAdjust = "BY", byChrom = FALSE, included = 1, nCores = 1) {
     # The categories are extracted from the catalog.
@@ -53,9 +53,9 @@ Enrichment <- function(query, catalog, universe = NULL, chromSizes = LoadChromSi
                                      catalog@elementMetadata$id))
     # Gets the counts list containing the number of overlaps for the query 
     # and the mean number of overlaps for the shuffles.
-    countsList <- ComputeEnrichment(query, catalog, chromSizes, fractionQuery,
+    countsList <- computeEnrichment(query, catalog, chromSizes, fractionQuery,
                                     fractionCatalog, shuffles, categories, universe, byChrom, included, nCores)
     # Returns all the information from the counts list.
-    return(ExtractEnrichment(categories, tail, countsList[[1]], 
+    return(extractEnrichment(categories, tail, countsList[[1]], 
                              countsList[[2]], categoriesCount, pAdjust))
 }

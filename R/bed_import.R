@@ -7,14 +7,14 @@
 #' @return A data frame with the corresponding chromosomic regions 
 #' of the bed file.
 #' 
-#' @usage BedImport(path)
+#' @usage bedImport(path)
 #' 
 #' @examples 
 #' chromFile <- system.file("extdata", "hg19.genome", package = "roken")
-#' chromSizes <- BedImport(chromFile)
+#' chromSizes <- bedImport(chromFile)
 #' 
 #' @export
-BedImport <- function(path) {
+bedImport <- function(path) {
     # Gets the data frame from the file path.
     regions <- as.data.frame(data.table::fread(path, 
                                                header = FALSE,

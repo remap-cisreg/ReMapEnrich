@@ -6,14 +6,14 @@
 #' @param fileName="output" Name of the output file.
 #' @param format="tsv" The format of the output file.
 #'      
-#' @usage ExportEnrichment(enrichment, fileName = "output", format = "tsv")
+#' @usage exportEnrichment(enrichment, fileName = "output", format = "tsv")
 #' 
 #' @examples 
 #' data("enrichment_example", "roken")
-#' ExportEnrichment(enrichment_example)
+#' exportEnrichment(enrichment_example)
 #'      
 #' @export
-ExportEnrichment  <- function(enrichment, fileName = "output", format = "tsv") {
+exportEnrichment  <- function(enrichment, fileName = "output", format = "tsv") {
     if(format == "csv") {
         utils::write.csv(enrichment, file = fileName)
     } else {

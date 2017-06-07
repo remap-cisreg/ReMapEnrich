@@ -16,7 +16,7 @@
 #' @param pAdjust The method that will be used for correcting the p-values.
 #' 
 #' @return A data frame containing the enrichment informations.
-ExtractEnrichment <- function (categories,
+extractEnrichment <- function (categories,
                                tail, 
                                categoriesOverlaps, 
                                theoricalMeans,
@@ -51,9 +51,6 @@ ExtractEnrichment <- function (categories,
         logPVals <- stats::ppois(categoriesOverlaps, theoricalMeans, lower = lowers, 
                           log = TRUE)
     }
-
-    
-  
     
     # Creation of the data frame with all the enrichment informations.
     enrichment <- data.frame(categories, stringsAsFactors = FALSE)

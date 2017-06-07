@@ -1,4 +1,4 @@
-catalog <- BedToGranges(DownloadRemapCatalog("big_data"))
-query <- BedToGranges(DownloadEncodePeaks("ENCFF001VCU", "big_data"))
-universe <- BedToGranges(DownloadEncodePeaks("ENCFF718QVA", "big_data"))
-enrichment <- Enrichment(query, catalog, shuffles = 10, nCores = 1)
+catalog <- bedToGranges(downloadRemapCatalog("big_data"))
+query <- bedToGranges(downloadEncodePeaks("ENCFF001VCU", "big_data"))
+universe <- bedToGranges(downloadEncodePeaks("ENCFF718QVA", "big_data"))
+enrichment <- enrichment(query, catalog, shuffles = 10, nCores = 1)

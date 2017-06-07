@@ -18,7 +18,7 @@
 #' @param cex=0.8 Allows to choose the diamater of the points.
 #' @param las=1 Allows to change the angle of label y-axis.
 #' 
-#' @usage EnrichmentVolcanoPlot(enrich,
+#' @usage enrichmentVolcanoPlot(enrich,
 #' main = "Volcano plot",
 #' aRisk = 0.05,
 #' sigDisplayQuantile = 0.95,
@@ -34,10 +34,10 @@
 #' 
 #' @examples 
 #' data("enrichment_example", package = "roken")
-#' EnrichmentDotPlot(enrichment_example)
+#' enrichmentDotPlot(enrichment_example)
 #' 
 #' @export
-EnrichmentVolcanoPlot <-function(enrich,
+enrichmentVolcanoPlot <-function(enrich,
                                  main = "Volcano plot",
                                  aRisk = 0.05,
                                  sigDisplayQuantile = 0.95,

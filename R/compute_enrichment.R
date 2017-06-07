@@ -25,7 +25,7 @@
 #' 
 #' @return A list containing the number of overlaps for the query and the 
 #' mean number of overlaps for the shuffles.
-ComputeEnrichment <- function(query,
+computeEnrichment <- function(query,
                               catalog, 
                               chromSizes,
                               fractionQuery, 
@@ -41,16 +41,16 @@ ComputeEnrichment <- function(query,
         stop("The catalog does not contain any category.")
     # Computes the intersections betwen query and catalog.
     cat("Computing intersections.\n")
-    catCount <- Intersect(query, catalog, fractionQuery, 
+    catCount <- intersect(query, catalog, fractionQuery, 
                                   fractionCatalog, categories)
     # Shuffles are created and computed as the query for bootstrapping.
     shuffleCatCount <- vector()
     shuffleCatCount[categories] <- 0
     if(nCores == 1){
         cat("Computing shuffles. May take time.\nConsider using parallelization with the 'nCores' parameter.\n")
-        shuffles <- replicate(shufflesNumber, Shuffle(query, chromSizes, universe, included, byChrom))
+        shuffles <- replicate(shufflesNumber, shuffle(query, chromSizes, universe, included, byChrom))
         # The theorical means are calculated from the shuffles overlaps.
-        shuffleCatCount <- sapply(shuffles, Intersect, catalog = catalog, fractionQuery = fractionQuery,
+        shuffleCatCount <- sapply(shuffles, intersect, catalog = catalog, fractionQuery = fractionQuery,
                                   fractionCatalog = fractionCatalog, categories = categories)
     }else{
         cat(paste("Computing shuffles with ", nCores, " cores."," May take time.\n", sep = ""))
@@ -63,9 +63,9 @@ ComputeEnrichment <- function(query,
         parallel::clusterEvalQ(cluster, library(S4Vectors))
         parallel::clusterEvalQ(cluster, library(IRanges))
         parallel::clusterEvalQ(cluster, library(GenomicRanges))
-        shuffles <- parallel::parSapply(cl = cluster, X = integer(shufflesNumber), FUN = Shuffle, regions = query, chromSizes = chromSizes,
+        shuffles <- parallel::parSapply(cl = cluster, X = integer(shufflesNumber), FUN = shuffle, regions = query, chromSizes = chromSizes,
                                         universe = universe, included = included, byChrom = byChrom)
-        shuffleCatCount <- parallel::parSapply(cl = cluster, X = shuffles, FUN = Intersect, catalog = catalog, fractionQuery = fractionQuery,
+        shuffleCatCount <- parallel::parSapply(cl = cluster, X = shuffles, FUN = intersect, catalog = catalog, fractionQuery = fractionQuery,
                                   fractionCatalog = fractionCatalog, categories = categories)
         parallel::stopCluster(cluster)
     }

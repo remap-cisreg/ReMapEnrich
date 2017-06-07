@@ -7,10 +7,10 @@
 #' 
 #' @return A GenomicRanges object.
 #' 
-#' @usage LolaDBToCatalog(regionDB)
+#' @usage lolaDBToCatalog(regionDB)
 #' 
 #' @export
-LolaDBToCatalog <- function(regionDB) {
+lolaDBToCatalog <- function(regionDB) {
     # Creating an empty GR object.
     catalog <- GenomicRanges::GRanges()
     # Retrieving the ids from LOLA.

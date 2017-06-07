@@ -6,13 +6,13 @@
 #' 
 #' @return A table that contains the chromosome lengths.
 #' 
-#' @usage LoadChromSizes <- function(genome)
+#' @usage loadChromSizes <- function(genome)
 #' 
 #' @examples 
-#' hg19ChromSizes <- LoadChromSizes("hg19")
+#' hg19ChromSizes <- loadChromSizes("hg19")
 #' 
 #' @export
-LoadChromSizes <- function(genome) {
-    chromFile <- LoadChromFile(genome)
-    return(ImportChromSizes(chromFile))
+loadChromSizes <- function(genome) {
+    chromFile <- loadChromFile(genome)
+    return(importChromSizes(chromFile))
 }

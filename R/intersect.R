@@ -15,7 +15,7 @@
 #' 
 #' @return A vector containing the numbers of hits for each category of the catalog.
 #' 
-#' @usage Intersect(query, catalog, fractionQuery = 0.1, fractionCatalog = 0.1,
+#' @usage intersect(query, catalog, fractionQuery = 0.1, fractionCatalog = 0.1,
 #'                    categories = unique(catalog@elementMetadata$id))
 #' 
 #' @examples
@@ -23,12 +23,12 @@
 #'                           package = "roken")
 #' catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
 #'                             package = "roken")
-#' query <- BedToGranges(queryFile)
-#' catalog <- BedToGranges(catalogFile)
-#' intersects <- Intersect(query, catalog)
+#' query <- bedToGranges(queryFile)
+#' catalog <- bedToGranges(catalogFile)
+#' intersects <- intersect(query, catalog)
 #' 
 #' @export
-Intersect <- function(query,
+intersect <- function(query,
                         catalog, 
                         fractionQuery = 0.1, 
                         fractionCatalog = 0.1, 

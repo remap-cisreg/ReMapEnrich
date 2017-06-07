@@ -17,7 +17,7 @@
 #' (maxSigLim - minSigLim))), maxColorValue = 255)
 #' Changes the color of perimeter of each point. 
 #' 
-#' @usage EnrichmentDotPlot(enrich, 
+#' @usage enrichmentDotPlot(enrich, 
 #' top = 20,
 #' main = paste("Significance, top", top, "categories"),
 #' sigType = "q",
@@ -31,10 +31,10 @@
 #' 
 #' @examples 
 #' data("enrichment_example", package = "roken")
-#' EnrichmentDotPlot(enrichment_example)
+#' enrichmentDotPlot(enrichment_example)
 #' 
 #' @export
-EnrichmentDotPlot <- function(enrich, 
+enrichmentDotPlot <- function(enrich, 
                               top = 20,
                               main = paste("Significance, top", top, "categories"),
                               sigType = "q",

@@ -15,17 +15,17 @@
 #' 
 #' @return A genomic ranges containing the new shuffled chromosic regions.
 #' 
-#' @usage Shuffle(regions, chromSizes = LoadChromSizes("hg19"), universe = NULL,
+#' @usage shuffle(regions, chromSizes = LoadChromSizes("hg19"), universe = NULL,
 #' included = 1, byChrom = FALSE)
 #' 
 #' @examples 
 #' regionsFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
 #'                             package = "roken")
-#' regions <- BedToGranges(regionsFile)
-#' shuffledRegions <- Shuffle(regions)
+#' regions <- bedToGranges(regionsFile)
+#' shuffledRegions <- shuffle(regions)
 #' 
 #' @export
-Shuffle <- function(regions, chromSizes = LoadChromSizes("hg19"), universe = NULL, 
+shuffle <- function(regions, chromSizes = loadChromSizes("hg19"), universe = NULL, 
                       included = 1, byChrom = FALSE, ...) {
     if (is.null(universe)) {
         universe <- GenomicRanges::GRanges(rownames(chromSizes),
@@ -38,13 +38,13 @@ Shuffle <- function(regions, chromSizes = LoadChromSizes("hg19"), universe = NUL
         stop("The parameter included should be comprised between 0 and 1.")
     }
     if (byChrom == FALSE) {
-        return(ShuffleUniverse(regions, chromSizes, universe, included))
+        return(shuffleUniverse(regions, chromSizes, universe, included))
     } else {
-        return(ShuffleUniverseByChrom(regions, chromSizes, universe, included))
+        return(shuffleUniverseByChrom(regions, chromSizes, universe, included))
     }
 }
 
-ShuffleUniverseByChrom <- function(regions, chromSizes, universe, included) {
+shuffleUniverseByChrom <- function(regions, chromSizes, universe, included) {
     chroms <- rownames(chromSizes)
     results <- GenomicRanges::GRanges()
     for (chrom in chroms) {
@@ -52,7 +52,7 @@ ShuffleUniverseByChrom <- function(regions, chromSizes, universe, included) {
         universeChrom <- universe[universe@seqnames == chrom]
         if (length(regionsChrom) > 0) {
             if (length(universeChrom) > 0) {
-                results <- c(results, ShuffleUniverse(regionsChrom, chromSizes, universeChrom, included))
+                results <- c(results, shuffleUniverse(regionsChrom, chromSizes, universeChrom, included))
             } else {
                 stop(paste("The universe does not contain regions for", chrom, "but the query regions does."))
             }
@@ -61,7 +61,7 @@ ShuffleUniverseByChrom <- function(regions, chromSizes, universe, included) {
     return(results)
 }
 
-ShuffleUniverse <- function(regions, chromSizes, universe, included) {
+shuffleUniverse <- function(regions, chromSizes, universe, included) {
     # Sorting the universe in order to pick only the universe regions that are large enough for the regions.
     universe <- universe[order(universe@ranges@width, decreasing = TRUE)]
     # The query widths are shortened by the included parameter.

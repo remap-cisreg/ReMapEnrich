@@ -14,15 +14,15 @@
 #' @return A data frame containing the Remap genomic regions if store = FALSE
 #' else the path to the catalog file.
 #' 
-#' @usage DownloadRemapCatalog(targetDir, fileName = "nrPeaks_all.bed",
+#' @usage downloadRemapCatalog(targetDir, fileName = "nrPeaks_all.bed",
 #' force = FALSE, store = TRUE)
 #' 
 #' @examples
-#' remapFile <- DownloadRemapCatalog(targetDir = "~/roken_demo/data/ReMap")
-#' remap <- BedToGranges(remapFile)
+#' remapFile <- downloadRemapCatalog(targetDir = "~/roken_demo/data/ReMap")
+#' remap <- bedToGranges(remapFile)
 #' 
 #' @export
-DownloadRemapCatalog <- function(targetDir,
+downloadRemapCatalog <- function(targetDir,
                                  fileName = "nrPeaks_all.bed", 
                                  force = FALSE,
                                  store = TRUE) {
@@ -43,7 +43,7 @@ DownloadRemapCatalog <- function(targetDir,
             if (store) {
                 return(filePath) 
             } else {
-                return(BedToGranges(filePath))
+                return(bedToGranges(filePath))
             }
         } else {
             tempZipFile <- paste(tempfile(),".bed.gz", sep = "")
@@ -55,7 +55,7 @@ DownloadRemapCatalog <- function(targetDir,
             if (store) {
                 return(filePath)
             } else {
-                remapCatalog <- BedToGranges(filePath)
+                remapCatalog <- bedToGranges(filePath)
                 unlink(filePath)
                 return(remapCatalog)
             }

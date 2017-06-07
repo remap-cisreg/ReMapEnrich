@@ -13,17 +13,17 @@
 #' @return A data frame containing the genomic regions if store = FALSE else 
 #' the path to the peaks file.
 #' 
-#' @usage DownloadEncodePeaks(id, targetDir, 
+#' @usage downloadEncodePeaks(id, targetDir, 
 #'                            fileName = paste(id,".bed",sep=""),
 #'                            force = FALSE, store = TRUE)
 #' 
 #' @examples
-#' encodeFile <- DownloadEncodePeaks(id = "ENCFF001VCU",
+#' encodeFile <- downloadEncodePeaks(id = "ENCFF001VCU",
 #'                                   targetDir = "~/roken_demo/data/encode_peaks")
-#' encodeGR <- BedToGranges(encodeFile)
+#' encodeGR <- bedToGranges(encodeFile)
 #' 
 #' @export
-DownloadEncodePeaks <- function(id,
+downloadEncodePeaks <- function(id,
                                 targetDir,
                                 fileName = paste(id,".bed",sep=""),
                                 force = FALSE, 
@@ -58,7 +58,7 @@ DownloadEncodePeaks <- function(id,
             if (store) {
                 return(filePath)
             } else {
-                remapCatalog <- BedToGranges(filePath)
+                remapCatalog <- bedToGranges(filePath)
                 unlink(filePath)
                 return(remapCatalog)
             }

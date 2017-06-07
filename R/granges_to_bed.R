@@ -10,17 +10,17 @@
 #' @return A data frame containing the informations from the given 
 #' genomic ranges object.
 #' 
-#' @usage GrangesToBed <- function(granges)
+#' @usage grangesToBed <- function(granges)
 #' 
 #' @examples 
 #' catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", 
 #'                             package = "roken")
-#' catalog <- BedToGranges(catalogFile)
-#' catalog <- GrangesToBed(catalogFile)
+#' catalog <- bedToGranges(catalogFile)
+#' catalog <- grangesToBed(catalogFile)
 #' View(catalog)
 #' 
 #' @export
-GrangesToBed <- function(granges) {
+grangesToBed <- function(granges) {
     chrom <- granges@seqnames
     chromStart <- granges@ranges@start
     chromEnd <- granges@ranges@start + granges@ranges@width

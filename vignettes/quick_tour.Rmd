@@ -41,11 +41,11 @@ It will go through the folowing steps.
 library(roken) 
 
 # Load the example dataset
-query <- BedToGranges(system.file("extdata",
+query <- bedToGranges(system.file("extdata",
                                   "ReMap_nrPeaks_public_chr22_SOX2.bed",
                                   package = "roken"))
 
-catalog <- BedToGranges(system.file("extdata",
+catalog <- bedToGranges(system.file("extdata",
                                     "ReMap_nrPeaks_public_chr22.bed",
                                     package = "roken"))
 ```
@@ -68,7 +68,7 @@ The ids of the query will not be taken in account for the rest of the enrichment
 The option byChrom is set to TRUE as we are only working on one chromosome for this analysis.
 
 ```{r}
-enrichment <- Enrichment(query, catalog, byChrom = TRUE)
+enrichment <- enrichment(query, catalog, byChrom = TRUE)
 head(enrichment)
 ```
 
@@ -130,7 +130,7 @@ We can now display a bar plot which is the most basic representation of an enric
 
 ```{r}
 # Display a bar plot
-EnrichmentBarPlot(enrichment, sigDisplayQuantile = 0.5, top = 20, aRisk = 0.00001)
+enrichmentBarPlot(enrichment, sigDisplayQuantile = 0.5, top = 20, aRisk = 0.00001)
 ```
 
 The displayed plot represents the most significant categories and their q-significances. The sigDisplayQuantile parameter allow to choose a quatile limit at which the bars will stop expanding. The values of those bars will be displayed on it.
@@ -142,7 +142,7 @@ A volcano plot is a type of scatter-plot that is used to quickly identify change
 
 ```{r, echo=TRUE}
 # Display a volcano plot (na.omit() is mandatory as there is NAs in the enrichment data frame).
-EnrichmentVolcanoPlot(na.omit(enrichment), sigDisplayQuantile = 0.9, aRisk = 0.00001)
+enrichmentVolcanoPlot(na.omit(enrichment), sigDisplayQuantile = 0.9, aRisk = 0.00001)
 ```
 
 ## Dot plot
@@ -151,14 +151,14 @@ The enrichment dot plot is a good way to compare various informations in the enr
 
 ```{r, echo=TRUE, fig.height=7}
 # Display a dot plot.
-EnrichmentDotPlot(enrichment)
+enrichmentDotPlot(enrichment)
 ```
 
 It should be interesting here to avoid representation of the SOX2 category as it enriched against itself in the chromosome 22.
 
 ```{r, echo=TRUE, fig.height=7}
 # Display a dot plot without SOX2.
-EnrichmentDotPlot(enrichment[enrichment$category != "SOX2",])
+enrichmentDotPlot(enrichment[enrichment$category != "SOX2",])
 ```
 
 

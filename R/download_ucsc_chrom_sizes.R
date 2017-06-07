@@ -9,13 +9,13 @@
 #' 
 #' @return A vector that contains the chromosome lengths.
 #' 
-#' @usage DownloadUcscChromSizes(id, all = FALSE)
+#' @usage downloadUcscChromSizes(id, all = FALSE)
 #' 
 #' @examples 
-#' rn5ChromSizes <- DonwloadUcscsChromSizes("rn5")
+#' rn5ChromSizes <- donwloadUcscsChromSizes("rn5")
 #' 
 #' @export
-DownloadUcscChromSizes <- function(id, all = FALSE) {
+downloadUcscChromSizes <- function(id, all = FALSE) {
     # Connection with the ucsc database.
     connection <- DBI::dbConnect(RMySQL::MySQL(), username = "genome",
                             host = "genome-mysql.cse.ucsc.edu", dbname = id)

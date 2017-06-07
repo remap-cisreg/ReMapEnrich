@@ -23,17 +23,17 @@
 #' @return A data frame with each row containing
 #' a number of overlap for each category in the columns.
 #' 
-#' @usage RandomIntersections(catalog, iterations, regionNb,
+#' @usage randomIntersections(catalog, iterations, regionNb,
 #' regionSize, chromSizes = LoadChromSizes("hg19")), nCores = "auto"
 #' 
 #' @examples
-#' catalog <- BedToGranges(system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
+#' catalog <- bedToGranges(system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
 #'                           package = "roken"))
-#' randoms <- RandomIntersections(catalog, 500, 1000, 1000)
+#' randoms <- randomIntersections(catalog, 500, 1000, 1000)
 #' 
 #' @export
-RandomIntersections <- function(catalog, iterations, regionNb = 1000, regionSize = 1000, universe = NULL,
-                                included = 1, chromSizes = LoadChromSizes("hg19"), 
+randomIntersections <- function(catalog, iterations, regionNb = 1000, regionSize = 1000, universe = NULL,
+                                included = 1, chromSizes = loadChromSizes("hg19"), 
                                 byChrom = FALSE, shuffle = NULL, nCores = "auto") {
     ## Instantiate result table
     categories <- unique(catalog@elementMetadata$id)
@@ -59,21 +59,21 @@ RandomIntersections <- function(catalog, iterations, regionNb = 1000, regionSize
         # Creating all the replicates, this should be quick.
         cat("Generating random regions.\n")
         randomRegions <- parallel::parSapply(cl = cluster, X = integer(iterations), 
-                                             FUN = GenRegions, n = regionNb, size = regionSize, 
+                                             FUN = genRegions, n = regionNb, size = regionSize, 
                                              chromSizes = chromSizes, universe = NULL, 
                                              included = 1, byChrom = byChrom)
         
     } else {
         # Creating all the replicates, this should be quick.
         cat("Generating shuffled regions.\n")
-        randomRegions <- parallel::parSapply(cl = cluster, X = integer(iterations), FUN = Shuffle, 
+        randomRegions <- parallel::parSapply(cl = cluster, X = integer(iterations), FUN = shuffle, 
                                              regions = shuffle, size = regionSize, 
                                              chromSizes = chromSizes, universe = NULL, 
                                              included = 1, byChrom = byChrom)
     }
     # Creating all the intersections may take a long time.
     cat("Computing intersections. This may be long.\n")
-    result <- parallel::parLapply(cluster, randomRegions, Intersect, 
+    result <- parallel::parLapply(cluster, randomRegions, intersect, 
                                   catalog = catalog, categories = categories)
     parallel::stopCluster(cluster)
     result <- matrix(unlist(result), ncol = length(categories), byrow = TRUE)

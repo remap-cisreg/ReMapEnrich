@@ -6,14 +6,14 @@
 #' 
 #' @return A table that contains the chromosome sizes.
 #' 
-#' @usage ImportChromSizes <- function(filePath)
+#' @usage importChromSizes <- function(filePath)
 #' 
 #' @examples 
-#' hg19ChromFile <- LoadChromFile("hg19")
-#' hg19ChromSizes <- ImportChromSizes(hg19ChromFile)
+#' hg19ChromFile <- loadChromFile("hg19")
+#' hg19ChromSizes <- importChromSizes(hg19ChromFile)
 #' 
 #' @export
-ImportChromSizes <- function(filePath) {
+importChromSizes <- function(filePath) {
 	chromSizes <- utils::read.table(filePath, header = FALSE, sep = "\t",
 	                         stringsAsFactors = FALSE, quote = "", row.names = 1)
 	colnames(chromSizes) = "size"

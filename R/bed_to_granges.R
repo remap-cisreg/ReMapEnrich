@@ -13,17 +13,17 @@
 #' @return A genomic ranges object containing the informations from the given
 #' bed file.
 #' 
-#' @usage BedToGranges(path)
+#' @usage bedToGranges(path)
 #' 
 #' @examples 
 #' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed",
 #'                          package = "roken")
-#' granges <- BedToGranges(queryFile)
+#' granges <- bedToGranges(queryFile)
 #' 
 #' @export
-BedToGranges <- function(path) {
+bedToGranges <- function(path) {
     # Imports the bed file in a data frame.
-    bedData <- BedImport(path)
+    bedData <- bedImport(path)
     # If the data frame has more than 6 columns then remove them.
     if(ncol(bedData) > 6)
         bedData <- bedData[,-c(7:ncol(bedData))]

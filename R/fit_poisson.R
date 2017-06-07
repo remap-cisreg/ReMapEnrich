@@ -11,16 +11,16 @@
 #' 
 #' @return A data frame containing all the chi2 test informations.
 #' 
-#' @usage AdjustToPoisson(randomIntersections, pAdjust = "fdr")
+#' @usage fitPoisson(randomIntersections, pAdjust = "fdr")
 #' 
 #' @examples
-#' catalog <- BedToGranges(system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
+#' catalog <- bedToGranges(system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
 #'                           package = "roken"))
-#' randoms <- RandomIntersections(catalog, 500, 1000, 1000)
-#' chi2results <- AdjustToPoisson(randoms)
+#' randoms <- randomIntersections(catalog, 500, 1000, 1000)
+#' chi2results <- fitPoisson(randoms)
 #' 
 #' @export
-AdjustToPoisson <- function(randomIntersections, pAdjust = "fdr", showCategories = TRUE) {
+fitPoisson <- function(randomIntersections, pAdjust = "fdr", showCategories = TRUE) {
     # Creating the chi square result data frame.
     chisq.result <- data.frame(matrix(nrow = ncol(randomIntersections), ncol = 4))
     row.names(chisq.result) <- colnames(randomIntersections)

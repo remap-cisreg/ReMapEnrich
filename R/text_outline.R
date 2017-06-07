@@ -9,10 +9,10 @@
 #' @param col The color to be used for the front text.
 #' @param outline The color to be used for the outline.
 #' 
-#' @usage TextOutline <- function(x, y, labels, col = 'white',
+#' @usage textOutline <- function(x, y, labels, col = 'white',
 #'                                outline = 'black', ... )
 #' 
-TextOutline <- function(x, y, labels, col = 'white', outline = 'black', ... ) {
+textOutline <- function(x, y, labels, col = 'white', outline = 'black', ... ) {
     
     # Calculating the spherical offset.
     theta <- seq(pi / 4, 2 * pi, length.out = 8)
