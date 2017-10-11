@@ -34,7 +34,8 @@
 #' enrichmentDotPlot(enrichment_example)
 #' 
 #' @export
-enrichmentDotPlot <- function(enrich, 
+enrichmentDotPlot <- function(enrich,
+                              byCat = TRUE,
                               top = 20,
                               main = paste("Significance, top", top, "categories"),
                               sigType = "q",
