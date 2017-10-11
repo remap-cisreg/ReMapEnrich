@@ -4,14 +4,14 @@
 \alias{shuffle}
 \title{Shuffle}
 \usage{
-shuffle(regions, chromSizes = LoadChromSizes("hg19"), universe = NULL,
+shuffle(regions, chromSizes = LoadChromSizes("hg38"), universe = NULL,
 included = 1, byChrom = FALSE)
 }
 \arguments{
 \item{regions}{The genomic ranges object containing the genomic 
 regions to shuffle.}
 
-\item{chromSizes=LoadChromSizes("hg19")}{A vector containing all 
+\item{chromSizes=LoadChromSizes("hg38")}{A vector containing all 
 the chromosome lengths for the species in consideration.}
 
 \item{universe=NULL}{A set of genomic regions that prevent shuffles

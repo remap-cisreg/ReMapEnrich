@@ -5,7 +5,7 @@
 \title{Random intersections}
 \usage{
 randomIntersections(catalog, iterations, regionNb,
-regionSize, chromSizes = LoadChromSizes("hg19")), nCores = "auto"
+regionSize, chromSizes = LoadChromSizes("hg38")), nCores = "auto"
 }
 \arguments{
 \item{catalog}{A GRanges object containing the regions to be overlapped with.}
@@ -22,7 +22,7 @@ for occuring outside of it.}
 \item{included=1}{Represents the fraction of each regions that can
 be outside of the universe.}
 
-\item{chromSizes=LoadChromSizes("hg19")}{A vector containing all the chromosome 
+\item{chromSizes=LoadChromSizes("hg38")}{A vector containing all the chromosome 
 lengths for the species in consideration.}
 
 \item{byChrom=FALSE}{Will the shuffles/random stay in the chromosome they 

@@ -4,7 +4,7 @@
 #' 
 #' @param regions The genomic ranges object containing the genomic 
 #' regions to shuffle.
-#' @param chromSizes=LoadChromSizes("hg19") A vector containing all 
+#' @param chromSizes=LoadChromSizes("hg38") A vector containing all 
 #' the chromosome lengths for the species in consideration.
 #' @param universe=NULL A set of genomic regions that prevent shuffles
 #' for occuring outside of it.
@@ -15,7 +15,7 @@
 #' 
 #' @return A genomic ranges containing the new shuffled chromosic regions.
 #' 
-#' @usage shuffle(regions, chromSizes = LoadChromSizes("hg19"), universe = NULL,
+#' @usage shuffle(regions, chromSizes = LoadChromSizes("hg38"), universe = NULL,
 #' included = 1, byChrom = FALSE)
 #' 
 #' @examples 
@@ -25,7 +25,7 @@
 #' shuffledRegions <- shuffle(regions)
 #' 
 #' @export
-shuffle <- function(regions, chromSizes = loadChromSizes("hg19"), universe = NULL, 
+shuffle <- function(regions, chromSizes = loadChromSizes("hg38"), universe = NULL, 
                       included = 1, byChrom = FALSE, ...) {
     if (is.null(universe)) {
         universe <- GenomicRanges::GRanges(rownames(chromSizes),

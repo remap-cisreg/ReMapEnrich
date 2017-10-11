@@ -4,7 +4,7 @@
 \alias{enrichment}
 \title{Enrichment}
 \usage{
-enrichment(query, catalog, chromSizes = LoadChromSizes("hg19"),
+enrichment(query, catalog, chromSizes = LoadChromSizes("hg38"),
                     fractionQuery = 0.1, fractionCatalog = 0.1,
                     shuffles = 6, lower = FALSE, pAdjust = "BY",
                      byChrom = FALSE, included = 1, nCores = 1)
@@ -14,7 +14,7 @@ enrichment(query, catalog, chromSizes = LoadChromSizes("hg19"),
 
 \item{catalog}{The genomic ranges object containing the database used for annotation.}
 
-\item{chromSizes=LoadChromSizes("hg19")}{A vector containing all the chromosome 
+\item{chromSizes=LoadChromSizes("hg38")}{A vector containing all the chromosome 
 lengths for the species in consideration.}
 
 \item{fractionQuery=0.1}{The fraction of coverage (query on catalog) a hit must 

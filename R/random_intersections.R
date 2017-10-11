@@ -11,7 +11,7 @@
 #' for occuring outside of it.
 #' @param included=1 Represents the fraction of each regions that can
 #' be outside of the universe.
-#' @param chromSizes=LoadChromSizes("hg19") A vector containing all the chromosome 
+#' @param chromSizes=LoadChromSizes("hg38") A vector containing all the chromosome 
 #' lengths for the species in consideration.
 #' @param byChrom=FALSE Will the shuffles/random stay in the chromosome they 
 #' originate (TRUE) or can they be placed everywhere on the genome (FALSE)
@@ -24,7 +24,7 @@
 #' a number of overlap for each category in the columns.
 #' 
 #' @usage randomIntersections(catalog, iterations, regionNb,
-#' regionSize, chromSizes = LoadChromSizes("hg19")), nCores = "auto"
+#' regionSize, chromSizes = LoadChromSizes("hg38")), nCores = "auto"
 #' 
 #' @examples
 #' catalog <- bedToGranges(system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
@@ -33,7 +33,7 @@
 #' 
 #' @export
 randomIntersections <- function(catalog, iterations, regionNb = 1000, regionSize = 1000, universe = NULL,
-                                included = 1, chromSizes = loadChromSizes("hg19"), 
+                                included = 1, chromSizes = loadChromSizes("hg38"), 
                                 byChrom = FALSE, shuffle = NULL, nCores = "auto") {
     ## Instantiate result table
     categories <- unique(catalog@elementMetadata$id)
