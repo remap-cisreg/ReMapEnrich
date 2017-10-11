@@ -4,7 +4,7 @@
 #' 
 #' @param n The number of regions.
 #' @param size The width of the regions.
-#' @param chromSizes=ImportChromSizes("hg19") The chromosome sizes for the 
+#' @param chromSizes=ImportChromSizes("hg38") The chromosome sizes for the 
 #' species in consideration.
 #' @param universe=NULL A set of genomic regions that prevent random regions
 #' for occuring outside of it.
@@ -13,14 +13,14 @@
 #' 
 #' @return A random generated genomic ranges object.
 #' 
-#' @usage genRegions(n, size, chromSizes = LoadChromSizes("hg19")), 
+#' @usage genRegions(n, size, chromSizes = LoadChromSizes("hg38")), 
 #' universe = NULL, included = 1
 #' 
 #' @examples 
 #' randomRegions <- genRegions(1000,1000)
 #' 
 #' @export
-genRegions <- function(n, size, chromSizes = loadChromSizes("hg19"), universe = NULL, included = 1, ...) {
+genRegions <- function(n, size, chromSizes = loadChromSizes("hg38"), universe = NULL, included = 1, ...) {
     # Random chromosomes are sampled.
     chroms <- sample(rownames(chromSizes), size = n, replace = TRUE)
     randomValues <- stats::runif(n)

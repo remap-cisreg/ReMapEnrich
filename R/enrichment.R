@@ -5,7 +5,7 @@
 #' 
 #' @param query The genomic ranges object containing the genomic regions to analyze.
 #' @param catalog The genomic ranges object containing the database used for annotation.
-#' @param chromSizes=LoadChromSizes("hg19") A vector containing all the chromosome 
+#' @param chromSizes=LoadChromSizes("hg38") A vector containing all the chromosome 
 #' lengths for the species in consideration.
 #' @param fractionQuery=0.1 The fraction of coverage (query on catalog) a hit must 
 #' exceed to be accounted.
@@ -29,7 +29,7 @@
 #' 
 #' @return A data frame containing the enrichment informations.
 #' 
-#' @usage enrichment(query, catalog, chromSizes = LoadChromSizes("hg19"),
+#' @usage enrichment(query, catalog, chromSizes = LoadChromSizes("hg38"),
 #'                     fractionQuery = 0.1, fractionCatalog = 0.1,
 #'                     shuffles = 6, lower = FALSE, pAdjust = "BY",
 #'                      byChrom = FALSE, included = 1, nCores = 1)
@@ -44,7 +44,7 @@
 #' enrichment <- enrichment(query, catalog)
 #' 
 #' @export
-enrichment <- function(query, catalog, universe = NULL, chromSizes = loadChromSizes("hg19"),
+enrichment <- function(query, catalog, universe = NULL, chromSizes = loadChromSizes("hg38"),
                          fractionQuery = 0.1,fractionCatalog = 0.1, 
                          shuffles = 6, tail = "lower", pAdjust = "BY", byChrom = FALSE, included = 1, nCores = 1) {
     # The categories are extracted from the catalog.

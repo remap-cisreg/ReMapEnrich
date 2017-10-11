@@ -4,7 +4,7 @@
 \alias{genRegions}
 \title{Generate regions}
 \usage{
-genRegions(n, size, chromSizes = LoadChromSizes("hg19")), 
+genRegions(n, size, chromSizes = LoadChromSizes("hg38")), 
 universe = NULL, included = 1
 }
 \arguments{
@@ -12,7 +12,7 @@ universe = NULL, included = 1
 
 \item{size}{The width of the regions.}
 
-\item{chromSizes=ImportChromSizes("hg19")}{The chromosome sizes for the 
+\item{chromSizes=ImportChromSizes("hg38")}{The chromosome sizes for the 
 species in consideration.}
 
 \item{universe=NULL}{A set of genomic regions that prevent random regions
