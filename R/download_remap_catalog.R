@@ -52,18 +52,17 @@ downloadRemapCatalog <- function(targetDir,
                 }
         } else {
             tempZipFile <- paste(tempfile(),".bed.gz", sep = "")
-            if (version == "2018")
-            {
+            if (version == "2018") {
                 if (assembly == "hg38") {
                     url <- "http://tagc.univ-mrs.fr/remap/download/MACS/ReMap2_nrPeaks.bed.gz"
                 } else {
                     if (assembly == "hg19") {
                         url <- "http://tagc.univ-mrs.fr/remap/download/MACS_lifted_hg19/ReMap2_nrPeaks_hg19.bed.gz"
                     } else {
-                            message("Please choose version into 2015 and 2018 AND assembly into hg38 or hg19")
-                            }
+                        message("Please choose version into 2015 and 2018 AND assembly into hg38 or hg19")
                     }
-                } else {
+                }
+            } else {
                 if (version == "2015") {
                     if (assembly == "hg38") {
                         url <- "http://tagc.univ-mrs.fr/remap/download/ReMap1_lifted_hg38/remap1_hg38_nrPeaks.bed.gz"
@@ -72,10 +71,10 @@ downloadRemapCatalog <- function(targetDir,
                             url <- "http://tagc.univ-mrs.fr/remap/download/remap1/All/nrPeaks_all.bed.gz"
                         } else {
                             message("Please choose version into 2015 and 2018 AND assembly into hg38 or hg19")
-                            }
                         }
                     }
                 }
+            }
             
             utils::download.file(url, tempZipFile)
             R.utils::gunzip(tempZipFile, filePath, overwrite = force)
