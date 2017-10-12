@@ -57,8 +57,8 @@ library(roken)
 demo.dir <- "~/roken_demo"
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
 setwd(demo.dir)
-catalog <- BedToGranges(DownloadRemapCatalog("roken_demo"))
-randomRegionsVsReMap <- RandomIntersections(catalog, iterations = 500, regionNb = 1000, regionSize = 1000)
+catalog <- bedToGranges(downloadRemapCatalog("roken_demo"))
+randomRegionsVsReMap <- randomIntersections(catalog, iterations = 500, regionNb = 1000, regionSize = 1000)
 ```
 
 As for a solid statistical validation we need to make at least 10,000 iterations and as this will take 30 minutes on a decent computer, results of 10,000 random intersections has been stored in this package and can be easily retrieved.
@@ -72,7 +72,7 @@ We now obtained results of overlapping for 10,000 random regions against the ReM
 
 
 ```{r}
-chi2results <- AdjustToPoisson(randomRegionsVsReMap, showCategories = FALSE)
+chi2results <- fitPoisson(randomRegionsVsReMap, showCategories = FALSE)
 head(chi2results)
 ```
 
@@ -113,12 +113,12 @@ After verifying the fit on Poisson distribution for the ReMap catalogue we now w
 
 ```{r, echo=TRUE}
 # Creating a random catalogue with only one category 'Vert'.
-randomCatalog <- GenRegions(10000, 200)
+randomCatalog <- genRegions(10000, 200)
 # Reduce is a GenomicRanges function designed to merge overlapping regions.
 randomCatalog <- reduce(randomCatalog)
 # Creating one category for each regions.
 randomCatalog@elementMetadata$id = "Vert"
-randomCatalogIntersections <- RandomIntersections(randomCatalog, iterations = 500, regionNb = 1000, regionSize = 1000)
+randomCatalogIntersections <- randomIntersections(randomCatalog, iterations = 500, regionNb = 1000, regionSize = 1000)
 MakeHistogram(randomCatalogIntersections)
 ```
 
@@ -130,17 +130,17 @@ After any enrichment experiments, you may want to ensure that the statistical me
 Let's make an enrichment analysis with further statistical validations. If you don't understand all the parameters in this experiment, please refer to the "Advanced use" vignette before.
 
 ```{r, eval = FALSE}
-catalog <- BedToGranges(DownloadRemapCatalog("demo.dir"))
-query <- BedToGranges(DownloadEncodePeaks("ENCFF001VCU", "demo.dir"))
-universe <- BedToGranges(DownloadEncodePeaks("ENCFF718QVA", "demo.dir"))
-enrichment <- Enrichment(query, catalog, universe = universe, byChrom = TRUE, shuffles = 10, included = 0.5, nCores = 7)
+catalog <- bedToGranges(downloadRemapCatalog("demo.dir"))
+query <- bedToGranges(downloadEncodePeaks("ENCFF001VCU", "demo.dir"))
+universe <- bedToGranges(downloadEncodePeaks("ENCFF718QVA", "demo.dir"))
+enrichment <- enrichment(query, catalog, universe = universe, byChrom = TRUE, shuffles = 10, included = 0.5, nCores = 7)
 ```
 
 To validate such an enrichment we need to apply the function RandomIntersections with the exact same parameters. Most important, we will now obtain our random regions through the parameter 'shuffle' as we want to ensure that the same conditions apply in the experiment which use shuffled regions and not randomly generated regions.
 
 ```{r, eval = FALSE}
-randomIntersections <- RandomIntersections(catalog, iterations = 10000, universe = universe, included = 0.5, shuffle = query, byChrom = TRUE)
-chi2results <- AdjustToPoisson(randomIntersections)
+randomIntersections <- randomIntersections(catalog, iterations = 10000, universe = universe, included = 0.5, shuffle = query, byChrom = TRUE)
+chi2results <- fitPoisson(randomIntersections)
 ```
 
 This part of the vignette is not evaluated as 10,000 iterations may take a long time even when parallelizing to maximum (refer to parameter 'nCores' for more details). It is only here as an example to reproduce validation with any enrichment computation you want to validate more consequently.

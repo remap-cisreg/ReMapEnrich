@@ -9,15 +9,15 @@ library(dplyr)
 #  demo.dir <- "~/roken_demo"
 #  dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
 #  setwd(demo.dir)
-#  catalog <- BedToGranges(DownloadRemapCatalog("roken_demo"))
-#  randomRegionsVsReMap <- RandomIntersections(catalog, iterations = 500, regionNb = 1000, regionSize = 1000)
+#  catalog <- bedToGranges(downloadRemapCatalog("roken_demo"))
+#  randomRegionsVsReMap <- randomIntersections(catalog, iterations = 500, regionNb = 1000, regionSize = 1000)
 
 ## ------------------------------------------------------------------------
 data("random_regions_vs_ReMap", package = "roken")
 head(randomRegionsVsReMap, n = 1)
 
 ## ------------------------------------------------------------------------
-chi2results <- AdjustToPoisson(randomRegionsVsReMap, showCategories = FALSE)
+chi2results <- fitPoisson(randomRegionsVsReMap, showCategories = FALSE)
 head(chi2results)
 
 ## ------------------------------------------------------------------------
@@ -50,21 +50,21 @@ MakeHistogram(BRF1)
 
 ## ---- echo=TRUE----------------------------------------------------------
 # Creating a random catalogue with only one category 'Vert'.
-randomCatalog <- GenRegions(10000, 200)
+randomCatalog <- genRegions(10000, 200)
 # Reduce is a GenomicRanges function designed to merge overlapping regions.
 randomCatalog <- reduce(randomCatalog)
 # Creating one category for each regions.
 randomCatalog@elementMetadata$id = "Vert"
-randomCatalogIntersections <- RandomIntersections(randomCatalog, iterations = 500, regionNb = 1000, regionSize = 1000)
+randomCatalogIntersections <- randomIntersections(randomCatalog, iterations = 500, regionNb = 1000, regionSize = 1000)
 MakeHistogram(randomCatalogIntersections)
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  catalog <- BedToGranges(DownloadRemapCatalog("demo.dir"))
-#  query <- BedToGranges(DownloadEncodePeaks("ENCFF001VCU", "demo.dir"))
-#  universe <- BedToGranges(DownloadEncodePeaks("ENCFF718QVA", "demo.dir"))
-#  enrichment <- Enrichment(query, catalog, universe = universe, byChrom = TRUE, shuffles = 10, included = 0.5, nCores = 7)
+#  catalog <- bedToGranges(downloadRemapCatalog("demo.dir"))
+#  query <- bedToGranges(downloadEncodePeaks("ENCFF001VCU", "demo.dir"))
+#  universe <- bedToGranges(downloadEncodePeaks("ENCFF718QVA", "demo.dir"))
+#  enrichment <- enrichment(query, catalog, universe = universe, byChrom = TRUE, shuffles = 10, included = 0.5, nCores = 7)
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  randomIntersections <- RandomIntersections(catalog, iterations = 10000, universe = universe, included = 0.5, shuffle = query, byChrom = TRUE)
-#  chi2results <- AdjustToPoisson(randomIntersections)
+#  randomIntersections <- randomIntersections(catalog, iterations = 10000, universe = universe, included = 0.5, shuffle = query, byChrom = TRUE)
+#  chi2results <- fitPoisson(randomIntersections)
 

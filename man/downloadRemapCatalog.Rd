@@ -4,14 +4,18 @@
 \alias{downloadRemapCatalog}
 \title{Download Remap catalogue}
 \usage{
-downloadRemapCatalog(targetDir, fileName = "nrPeaks_all.bed",
-force = FALSE, store = TRUE)
+downloadRemapCatalog(targetDir, fileName = "", 
+version = "2018", assembly = "hg38", force = FALSE, store = TRUE)
 }
 \arguments{
 \item{targetDir}{The name of the directory to download the catalogue in.}
 
-\item{fileName="nrPeaks_all.bed.gz"}{The name of the file to be created 
-after the downloaded catalogue.}
+\item{fileName=""}{The name of the file after downloading.
+If let empty, default url names will be applied.}
+
+\item{version="2018"}{The year version of the catalog 2018 or 2015.}
+
+\item{assembly="hg38"}{The  genomic version of assembly hg38 or hg19.}
 
 \item{force=FALSE}{If FALSE (default), then no file is overwrited and the
 user is given confirmation message.}

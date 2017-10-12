@@ -5,8 +5,8 @@
 #' 
 #'
 #' @param targetDir The name of the directory to download the catalogue in.
-#' @param fileName The name of the file to be created after the downloaded
-#'  catalogue.
+#' @param fileName="" The name of the file after downloading.
+#' If let empty, default url names will be applied.
 #' @param version="2018" The year version of the catalog 2018 or 2015.
 #' @param assembly="hg38" The  genomic version of assembly hg38 or hg19.
 #' @param force=FALSE If FALSE (default), then no file is overwrited and the
@@ -17,7 +17,7 @@
 #' @return A data frame containing the Remap genomic regions if store = FALSE
 #' else the path to the catalog file.
 #' 
-#' @usage downloadRemapCatalog(targetDir, fileName = "ReMap2_nrPeaks.bed", 
+#' @usage downloadRemapCatalog(targetDir, fileName = "", 
 #' version = "2018", assembly = "hg38", force = FALSE, store = TRUE)
 #' 
 #' @examples
@@ -26,47 +26,47 @@
 #' 
 #' @export
 downloadRemapCatalog <- function(targetDir,
-                                 fileName = "ReMap2_nrPeaks.bed", 
                                  version = "2018",
                                  assembly = "hg38",
+                                 fileName = "", 
                                  force = FALSE,
                                  store = TRUE) {
     
-    input <- "Y"
-    if (version == "2018") {
-        if (assembly == "hg38") {
-            url <- "http://tagc.univ-mrs.fr/remap/download/MACS/ReMap2_nrPeaks.bed.gz"
-            fileName <- "ReMap2_nrPeaks.bed"
-        } else {
-            if (assembly == "hg19") {
-                url <- "http://tagc.univ-mrs.fr/remap/download/MACS_lifted_hg19/ReMap2_nrPeaks_hg19.bed.gz"
-                fileName <- "ReMap2_nrPeaks_hg19.bed"
-            } else {
-                message("Please choose version into 2015 and 2018 AND assembly into hg38 or hg19")
-                stop()
-            }
-        }
-    } else {
-        if (version == "2015") {
-            if (assembly == "hg38") {
-                url <- "http://tagc.univ-mrs.fr/remap/download/ReMap1_lifted_hg38/remap1_hg38_nrPeaks.bed.gz"
-                fileName <- "Rremap1_hg38_nrPeaks.bed"
-            } else {
-                if (assembly == "hg19") {
-                    url <- "http://tagc.univ-mrs.fr/remap/download/remap1/All/nrPeaks_all.bed.gz"
-                    fileName <- "nrPeaks_all.bed"
-                } else {
-                    message("Please choose version into 2015 and 2018 AND assembly into hg38 or hg19")
-                    stop()
-                }
-            }
-        }
+    if (version != "2018" && version != "2015") {
+        message("Invalid version of catalog, choose between 2015 and 2018.")
+        stop()
+    }
+    if (assembly != "hg38" && assembly != "hg19") {
+        message("Invalid assembly, choose between hg19 and hg38.")
+        stop()
+    }
+    size <- "2"
+    if (version == "2015") {
+        size <- "0.5"
+    }
+    url <- "http://tagc.univ-mrs.fr/remap/download/"
+    if (version == "2018" && assembly == "hg38") {
+        url <- paste(url, "MACS/ReMap2_nrPeaks.bed.gz", sep = "")
+    }
+    else if (version == "2018" && assembly == "hg19") {
+        url <- paste(url, "MACS_lifted_hg19/ReMap2_nrPeaks_hg19.bed.gz", sep = "")
+    } 
+    else if (version == "2015" && assembly == "hg38") {
+        url <- paste(url, "ReMap1_lifted_hg38/remap1_hg38_nrPeaks.bed.gz", sep = "")
+    }
+    else if (version == "2015" && assembly == "hg19") {
+        url <- paste(url, "ReMap1_lifted_hg38/remap1/All/nrPeaks_all.bed.gz", sep = "")
+    }
+    if (fileName == "") {
+        splits <- strsplit(url, "/")
+        fileName <- gsub(".gz", "", tail(unlist(splits), n = 1))
     }
     filePath <-file.path(targetDir,fileName)
     fileExists <- file.exists(filePath)
+    input <- "Y"
     if (!force && !fileExists) {
-        input <- readline(prompt="A 0.5 GB file will be downloaded. 
-                          Do you want to continue Y/N : ")
+        input <- readline(prompt=paste("A ", size, " GB file will be downloaded. 
+                          Do you want to continue Y/N : "))
         while (input != "Y" && input != "N") {
             input <- readline(prompt="Please type Y or N and press Enter : ")
         }

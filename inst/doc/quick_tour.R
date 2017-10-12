@@ -8,11 +8,11 @@ library(dplyr)
 library(roken) 
 
 # Load the example dataset
-query <- BedToGranges(system.file("extdata",
+query <- bedToGranges(system.file("extdata",
                                   "ReMap_nrPeaks_public_chr22_SOX2.bed",
                                   package = "roken"))
 
-catalog <- BedToGranges(system.file("extdata",
+catalog <- bedToGranges(system.file("extdata",
                                     "ReMap_nrPeaks_public_chr22.bed",
                                     package = "roken"))
 
@@ -23,22 +23,22 @@ catalog
 query
 
 ## ------------------------------------------------------------------------
-enrichment <- Enrichment(query, catalog, byChrom = TRUE)
+enrichment <- enrichment(query, catalog, byChrom = TRUE)
 head(enrichment)
 
 ## ------------------------------------------------------------------------
 # Display a bar plot
-EnrichmentBarPlot(enrichment, sigDisplayQuantile = 0.5, top = 20, aRisk = 0.00001)
+enrichmentBarPlot(enrichment, sigDisplayQuantile = 0.5, top = 20, aRisk = 0.00001)
 
 ## ---- echo=TRUE----------------------------------------------------------
 # Display a volcano plot (na.omit() is mandatory as there is NAs in the enrichment data frame).
-EnrichmentVolcanoPlot(na.omit(enrichment), sigDisplayQuantile = 0.9, aRisk = 0.00001)
+enrichmentVolcanoPlot(na.omit(enrichment), sigDisplayQuantile = 0.9, aRisk = 0.00001)
 
 ## ---- echo=TRUE, fig.height=7--------------------------------------------
 # Display a dot plot.
-EnrichmentDotPlot(enrichment)
+enrichmentDotPlot(enrichment)
 
 ## ---- echo=TRUE, fig.height=7--------------------------------------------
 # Display a dot plot without SOX2.
-EnrichmentDotPlot(enrichment[enrichment$category != "SOX2",])
+enrichmentDotPlot(enrichment[enrichment$category != "SOX2",])
 

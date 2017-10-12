@@ -46,18 +46,22 @@ catalog <- bedToGranges(catalogFile)
 
 ## Download the ReMap catalogue
 
+There is 4 different versions of the ReMap catalogue.
+There is a 2015 version and a more recent 2018 version.
+All two are declined in hg19 or hg38 assemblies.
+
 ```{r, echo=TRUE}
 # Create a local directory for the tutorial
 demo.dir <- "~/roken_demo"
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
-setwd(demo.dir)
 # Use the function DowloadRemapCatalog
-remapCatalog <- downloadRemapCatalog("nrpeaks_all.bed.gz")
-
+remapCatalog2018hg38 <- downloadRemapCatalog(demo.dir)
+# Downloading other versions
+remapCatalog2015hg19 <- downloadRemapCatalog(demo.dir, version = "2015", assembly = "hg19")
 ```
 
 The genomic ranges object remapCatalog now contains the full ReMap catalogue[@Griffon:2015en].
-A file has also been downloaded at "~/roken_demo/nrpeaks_all.bed.gz" (0.544 GB when not compressed).
+A file has also been downloaded at "~/roken_demo/nrpeaks_all.bed" (0.544 GB when not compressed).
 
 # Download ENCODE peaks
 

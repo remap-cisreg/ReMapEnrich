@@ -12,55 +12,55 @@ library(dplyr)
 #  catalogFile <- system.file("extdata",
 #                                      "ReMap_nrPeaks_public_chr22.bed",
 #                                      package = "roken")
-#  catalog <- BedToGranges(catalogFile)
+#  catalog <- bedToGranges(catalogFile)
 #  
 
 ## ---- echo=TRUE----------------------------------------------------------
 #  # Create a local directory for the tutorial
 #  demo.dir <- "~/roken_demo"
 #  dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
-#  setwd(demo.dir)
 #  # Use the function DowloadRemapCatalog
-#  remapCatalog <- DownloadRemapCatalog("nrpeaks_all.bed.gz")
-#  
+#  remapCatalog2018hg38 <- downloadRemapCatalog(demo.dir)
+#  # Downloading other versions
+#  remapCatalog2015hg19 <- downloadRemapCatalog(demo.dir, version = "2015", assembly = "hg19")
 
 ## ------------------------------------------------------------------------
 #  # Downloading the ENCFF001VCU regions.
-#  ENCFF001VCU <- BedToGranges(DownloadEncodePeaks("ENCFF001VCU", demo.dir))
+#  ENCFF001VCU <- bedToGranges(downloadEncodePeaks("ENCFF001VCU", demo.dir))
 
 ## ------------------------------------------------------------------------
 #  # Download a universe.
-#  universe <- BedToGranges(DownloadEncodePeaks("ENCFF718QVA", demo.dir))
+#  universe <- bedToGranges(downloadEncodePeaks("ENCFF718QVA", demo.dir))
 #  # Create the enrichment with the universe.
-#  enrichment <- Enrichment(ENCFF001VCU, remapCatalog, universe)
+#  enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe)
 
 ## ------------------------------------------------------------------------
 #  # Create the enrichment with a less restrictive universe.
-#  enrichment <- Enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1)
+#  enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1)
 #  # 90% of the shuffled regions can now be outside of the universe regions.
 
 ## ------------------------------------------------------------------------
 #  # Create the enrichment with a less restrictive universe.
-#  enrichment <- Enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE)
+#  enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE)
 #  # 90% of the shuffled regions can now be outside of the universe regions.
 #  # The shuffled regions are still in the same chromosome where they came from.
 
 ## ------------------------------------------------------------------------
 #  # Shuffling ENCFF001VCU
-#  shuffledENCFF001VCU <- Shuffle(ENCFF001VCU, universe = universe, byChrom = TRUE)
+#  shuffledENCFF001VCU <- shuffle(ENCFF001VCU, universe = universe, byChrom = TRUE)
 
 ## ------------------------------------------------------------------------
 #  # Generate 100 random regions with a size of 1000 bases pair.
-#  randomRegions <- GenRegions(100, 1000)
+#  randomRegions <- genRegions(100, 1000)
 
 ## ------------------------------------------------------------------------
-#  hg19ChromSizes <- LoadChromSizes("hg19")
+#  hg19ChromSizes <- loadChromSizes("hg19")
 
 ## ------------------------------------------------------------------------
 #  # Example with rn5
-#  rn5ChromSizes <- DownloadUcscChromSizes("rn5")
+#  rn5ChromSizes <- downloadUcscChromSizes("rn5")
 #  # Creation of random regions in the rattus norvegicus genome.
-#  randomRegions <- GenRegions(100, 1000, rn5ChromSizes)
+#  randomRegions <- genRegions(100, 1000, rn5ChromSizes)
 #  # Shuffling of regions in the rattus norvegicus genome.
-#  shuffledRegions <- Shuffle(randomRegions, rn5ChromSizes)
+#  shuffledRegions <- shuffle(randomRegions, rn5ChromSizes)
 
