@@ -5,8 +5,8 @@
 #' 
 #'
 #' @param targetDir The name of the directory to download the catalogue in.
-#' @param fileName="ReMap2_nrPeaks.bed.gz" The name of the file to be created 
-#' after the downloaded catalogue.
+#' @param fileName The name of the file to be created after the downloaded
+#'  catalogue.
 #' @param version="2018" The year version of the catalog 2018 or 2015.
 #' @param assembly="hg38" The  genomic version of assembly hg38 or hg19.
 #' @param force=FALSE If FALSE (default), then no file is overwrited and the
@@ -31,9 +31,39 @@ downloadRemapCatalog <- function(targetDir,
                                  assembly = "hg38",
                                  force = FALSE,
                                  store = TRUE) {
+    
+    input <- "Y"
+    if (version == "2018") {
+        if (assembly == "hg38") {
+            url <- "http://tagc.univ-mrs.fr/remap/download/MACS/ReMap2_nrPeaks.bed.gz"
+            fileName <- "ReMap2_nrPeaks.bed"
+        } else {
+            if (assembly == "hg19") {
+                url <- "http://tagc.univ-mrs.fr/remap/download/MACS_lifted_hg19/ReMap2_nrPeaks_hg19.bed.gz"
+                fileName <- "ReMap2_nrPeaks_hg19.bed"
+            } else {
+                message("Please choose version into 2015 and 2018 AND assembly into hg38 or hg19")
+                stop()
+            }
+        }
+    } else {
+        if (version == "2015") {
+            if (assembly == "hg38") {
+                url <- "http://tagc.univ-mrs.fr/remap/download/ReMap1_lifted_hg38/remap1_hg38_nrPeaks.bed.gz"
+                fileName <- "Rremap1_hg38_nrPeaks.bed"
+            } else {
+                if (assembly == "hg19") {
+                    url <- "http://tagc.univ-mrs.fr/remap/download/remap1/All/nrPeaks_all.bed.gz"
+                    fileName <- "nrPeaks_all.bed"
+                } else {
+                    message("Please choose version into 2015 and 2018 AND assembly into hg38 or hg19")
+                    stop()
+                }
+            }
+        }
+    }
     filePath <-file.path(targetDir,fileName)
     fileExists <- file.exists(filePath)
-    input <- "Y"
     if (!force && !fileExists) {
         input <- readline(prompt="A 0.5 GB file will be downloaded. 
                           Do you want to continue Y/N : ")
@@ -52,30 +82,6 @@ downloadRemapCatalog <- function(targetDir,
                 }
         } else {
             tempZipFile <- paste(tempfile(),".bed.gz", sep = "")
-            if (version == "2018") {
-                if (assembly == "hg38") {
-                    url <- "http://tagc.univ-mrs.fr/remap/download/MACS/ReMap2_nrPeaks.bed.gz"
-                } else {
-                    if (assembly == "hg19") {
-                        url <- "http://tagc.univ-mrs.fr/remap/download/MACS_lifted_hg19/ReMap2_nrPeaks_hg19.bed.gz"
-                    } else {
-                        message("Please choose version into 2015 and 2018 AND assembly into hg38 or hg19")
-                    }
-                }
-            } else {
-                if (version == "2015") {
-                    if (assembly == "hg38") {
-                        url <- "http://tagc.univ-mrs.fr/remap/download/ReMap1_lifted_hg38/remap1_hg38_nrPeaks.bed.gz"
-                    } else {
-                        if (assembly == "hg19") {
-                            url <- "http://tagc.univ-mrs.fr/remap/download/remap1/All/nrPeaks_all.bed.gz"
-                        } else {
-                            message("Please choose version into 2015 and 2018 AND assembly into hg38 or hg19")
-                        }
-                    }
-                }
-            }
-            
             utils::download.file(url, tempZipFile)
             R.utils::gunzip(tempZipFile, filePath, overwrite = force)
             unlink(tempZipFile)
