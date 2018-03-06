@@ -47,7 +47,7 @@ catalog <- bedToGranges(catalogFile)
 ## Download the ReMap catalogue
 
 There is 4 different versions of the ReMap catalogue.
-The current version of ReMap 2018 and the previous ReMap 2015 release.
+The current version of ReMap 2018[@Cheneby:2018ix] and the previous ReMap 2015 release[@Griffon:2015en].
 All two are declined in hg19 or hg38 assemblies. This function will download the files locally. 
 
 ```{r, echo=TRUE}
