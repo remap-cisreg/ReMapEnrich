@@ -55,7 +55,7 @@ downloadRemapCatalog <- function(targetDir,
         url <- paste(url, "ReMap1_lifted_hg38/remap1_hg38_nrPeaks.bed.gz", sep = "")
     }
     else if (version == "2015" && assembly == "hg19") {
-        url <- paste(url, "ReMap1_lifted_hg38/remap1/All/nrPeaks_all.bed.gz", sep = "")
+        url <- paste(url, "remap1/All/nrPeaks_all.bed.gz", sep = "")
     }
     if (fileName == "") {
         splits <- strsplit(url, "/")
