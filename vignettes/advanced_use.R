@@ -31,17 +31,19 @@ library(dplyr)
 ## ------------------------------------------------------------------------
 #  # Download a universe.
 #  universe <- bedToGranges(downloadEncodePeaks("ENCFF718QVA", demo.dir))
+#  # Convert ReMap to GRanges
+#  remapCatalog <- bedToGranges(remapCatalog2018hg38)
 #  # Create the enrichment with the universe.
-#  enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe)
+#  enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, nCores=2)
 
 ## ------------------------------------------------------------------------
 #  # Create the enrichment with a less restrictive universe.
-#  enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1)
+#  enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, nCores=2)
 #  # 90% of the shuffled regions can now be outside of the universe regions.
 
 ## ------------------------------------------------------------------------
 #  # Create the enrichment with a less restrictive universe.
-#  enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE)
+#  enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE, nCores=2)
 #  # 90% of the shuffled regions can now be outside of the universe regions.
 #  # The shuffled regions are still in the same chromosome where they came from.
 
@@ -54,7 +56,7 @@ library(dplyr)
 #  randomRegions <- genRegions(100, 1000)
 
 ## ------------------------------------------------------------------------
-#  hg19ChromSizes <- loadChromSizes("hg19")
+#  hg38ChromSizes <- loadChromSizes("hg38")
 
 ## ------------------------------------------------------------------------
 #  # Example with rn5

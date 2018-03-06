@@ -10,7 +10,7 @@
 
 <meta name="author" content="Martin Mestdagh, Zacharie Ménétrier" />
 
-<meta name="date" content="2017-10-12" />
+<meta name="date" content="2018-03-06" />
 
 <title>roken: Advanced use</title>
 
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="header">
 <h1 class="title">roken: Advanced use</h1>
 <h4 class="author"><em>Martin Mestdagh, Zacharie Ménétrier</em></h4>
-<h4 class="date"><em>2017-10-12</em></h4>
+<h4 class="date"><em>2018-03-06</em></h4>
 </div>
 <h4 class="package">Package version: <span style="font-weight: normal">roken 0.99.0</span></h4>
 
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <li><a href="#download-encode-peaks"><span class="toc-section-number">3</span> Download ENCODE peaks</a></li>
 <li><a href="#using-a-universe"><span class="toc-section-number">4</span> Using a universe</a><ul>
 <li><a href="#choosing-an-universe"><span class="toc-section-number">4.1</span> Choosing an universe</a></li>
-<li><a href="#enrichment-with-universe"><span class="toc-section-number">4.2</span> Enrichment with universe</a></li>
+<li><a href="#enrichment-using-a-universe"><span class="toc-section-number">4.2</span> Enrichment using a universe</a></li>
 </ul></li>
 <li><a href="#shuffling-and-random-generation"><span class="toc-section-number">5</span> Shuffling and random generation</a><ul>
 <li><a href="#shuffling"><span class="toc-section-number">5.1</span> Shuffling</a></li>
@@ -99,7 +99,7 @@ catalog &lt;- bedToGranges(catalogFile)
 </div>
 <div id="download-the-remap-catalogue" class="section level2">
 <h2><span class="header-section-number">2.2</span> Download the ReMap catalogue</h2>
-<p>There is 4 different versions of the ReMap catalogue. There is a 2015 version and a more recent 2018 version. All two are declined in hg19 or hg38 assemblies.</p>
+<p>There is 4 different versions of the ReMap catalogue. The current version of ReMap 2018 and the previous ReMap 2015 release. All two are declined in hg19 or hg38 assemblies. This function will download the files locally.</p>
 <pre class="r"><code># Create a local directory for the tutorial
 demo.dir &lt;- &quot;~/roken_demo&quot;
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
@@ -107,37 +107,39 @@ dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
 remapCatalog2018hg38 &lt;- downloadRemapCatalog(demo.dir)
 # Downloading other versions
 remapCatalog2015hg19 &lt;- downloadRemapCatalog(demo.dir, version = &quot;2015&quot;, assembly = &quot;hg19&quot;)</code></pre>
-<p>The genomic ranges object remapCatalog now contains the full ReMap catalogue<span class="citation">[1]</span>. A file has also been downloaded at “~/roken_demo/nrpeaks_all.bed” (0.544 GB when not compressed).</p>
+<p>The genomic ranges object remapCatalog now contains the full ReMap 2015 catalogue<span class="citation">[1]</span>. A file has also been downloaded at “~/roken_demo/remap1_hg38_nrPeaks.bed” (0.544 GB when not compressed).</p>
 </div>
 </div>
 <div id="download-encode-peaks" class="section level1">
 <h1><span class="header-section-number">3</span> Download ENCODE peaks</h1>
-<p>It is possible to download genomic regions of any ENCODE experiments with its ID.</p>
+<p>It is possible to download genomic regions of any ENCODE experiments with its ENCODE ID. Here we download the BED file for the histone mark H3K27 in MCF-7 cell line.</p>
 <pre class="r"><code># Downloading the ENCFF001VCU regions.
 ENCFF001VCU &lt;- bedToGranges(downloadEncodePeaks(&quot;ENCFF001VCU&quot;, demo.dir))</code></pre>
 <p>The ENCFF001VCU variable now contains all the regions of the given experiment. It is possible to use it in future enrichment analysis.</p>
 </div>
 <div id="using-a-universe" class="section level1">
 <h1><span class="header-section-number">4</span> Using a universe</h1>
-<p>Enrichment analysis often surestimate the p-values. Using a universe is setting constraints on the shuffling function, resulting in more reasonable probabilities. The universe is simply another set of genomic regions, in a GeomicRanges format, that will prevent shuffles to take place outside of it. Using a universe will reduce the analysis to certain portions of the genome.</p>
+<p>Enrichment analysis often surestimate the p-values. Using a universe is setting constraints on the shuffling function, resulting in more reasonable probabilities. The universe is simply another set of genomic regions, in a GeomicRanges format, that will prevent shuffles to take place outside of it. Using a universe will reduce the analysis to certain portions of the genome. However the Roken package can also work without universe, in this case it will use the entire genome.</p>
 <div id="choosing-an-universe" class="section level2">
 <h2><span class="header-section-number">4.1</span> Choosing an universe</h2>
-<p>One of the most diffcult task in using a universe is choosing one that is relevant. No methods are perfect, once you understand what is the purpose of using a universe, it will be up to you to specify which one to use in order to accomplish a specific analysis. But in general, the universe could be understood as <strong>the set of regions that could have been used as query</strong>.</p>
+<p>One of the most diffcult task in using a universe is choosing one that is relevant. No methods are perfect, once you understand what is the purpose of using a universe, it is be up to you to specify which one to use in order to accomplish a specific analysis. But in general, the universe could be understood as <strong>the set of regions that could have been used as query</strong>.</p>
 </div>
-<div id="enrichment-with-universe" class="section level2">
-<h2><span class="header-section-number">4.2</span> Enrichment with universe</h2>
+<div id="enrichment-using-a-universe" class="section level2">
+<h2><span class="header-section-number">4.2</span> Enrichment using a universe</h2>
 <pre class="r"><code># Download a universe.
 universe &lt;- bedToGranges(downloadEncodePeaks(&quot;ENCFF718QVA&quot;, demo.dir))
+# Convert ReMap to GRanges
+remapCatalog &lt;- bedToGranges(remapCatalog2018hg38)
 # Create the enrichment with the universe.
-enrichment &lt;- enrichment(ENCFF001VCU, remapCatalog, universe)</code></pre>
+enrichment &lt;- enrichment(ENCFF001VCU, remapCatalog, universe, nCores=2)</code></pre>
 <p>The data frame enrichment now contains the enrichment informations between ENCFF001VCU and the ReMap catalogue given ENCFF718QVA as a universe.</p>
 <p>For more permissive universe you can use the parameter included as the fraction of shuffled regions that must be at least contained in universe regions (1 by default).</p>
 <pre class="r"><code># Create the enrichment with a less restrictive universe.
-enrichment &lt;- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1)
+enrichment &lt;- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, nCores=2)
 # 90% of the shuffled regions can now be outside of the universe regions.</code></pre>
 <p>Shuffling regions occurs in the whole genome but it is possible to restrict shuffles to occur only in the chromosome they originate with the parameter byChrom (FALSE by default).</p>
 <pre class="r"><code># Create the enrichment with a less restrictive universe.
-enrichment &lt;- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE)
+enrichment &lt;- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE, nCores=2)
 # 90% of the shuffled regions can now be outside of the universe regions.
 # The shuffled regions are still in the same chromosome where they came from.</code></pre>
 </div>
@@ -160,9 +162,9 @@ randomRegions &lt;- genRegions(100, 1000)</code></pre>
 </div>
 <div id="other-assemblies" class="section level1">
 <h1><span class="header-section-number">6</span> Other assemblies</h1>
-<p>For now, only the hg19 assembly has been used by default. It is important to know how to make enrichment analysis with other genomes. All functions in the roken package that uses shuffles or random regions generation must ackowledge the sizes of the chromosomes of the species in consideration.</p>
+<p>For now, only the hg38 assembly has been used by default. It is important to know how to make enrichment analysis with other genomes. All functions in the roken package that uses shuffles or random regions generation must ackowledge the sizes of the chromosomes of the species in consideration.</p>
 <p>It is possible to load the chromosomes sizes of hg19 in one function.</p>
-<pre class="r"><code>hg19ChromSizes &lt;- loadChromSizes(&quot;hg19&quot;)</code></pre>
+<pre class="r"><code>hg38ChromSizes &lt;- loadChromSizes(&quot;hg38&quot;)</code></pre>
 <p>But you may want to download other assemblies from the UCSC database.</p>
 <pre class="r"><code># Example with rn5
 rn5ChromSizes &lt;- downloadUcscChromSizes(&quot;rn5&quot;)
@@ -187,7 +189,7 @@ shuffledRegions &lt;- shuffle(randomRegions, rn5ChromSizes)</code></pre>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
