@@ -17,9 +17,9 @@ catalog <- bedToGranges(system.file("extdata",
                                     package = "roken"))
 
 ## ------------------------------------------------------------------------
-# Check what contains the catalog
+# Check what the catalog contains
 catalog
-# Check what contains the query
+# Check what the query contains
 query
 
 ## ------------------------------------------------------------------------
