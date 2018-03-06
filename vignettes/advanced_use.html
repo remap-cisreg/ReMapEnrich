@@ -99,7 +99,7 @@ catalog &lt;- bedToGranges(catalogFile)
 </div>
 <div id="download-the-remap-catalogue" class="section level2">
 <h2><span class="header-section-number">2.2</span> Download the ReMap catalogue</h2>
-<p>There is 4 different versions of the ReMap catalogue. The current version of ReMap 2018 and the previous ReMap 2015 release. All two are declined in hg19 or hg38 assemblies. This function will download the files locally.</p>
+<p>There is 4 different versions of the ReMap catalogue. The current version of ReMap 2018<span class="citation">[1]</span> and the previous ReMap 2015 release<span class="citation">[2]</span>. All two are declined in hg19 or hg38 assemblies. This function will download the files locally.</p>
 <pre class="r"><code># Create a local directory for the tutorial
 demo.dir &lt;- &quot;~/roken_demo&quot;
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
@@ -107,7 +107,7 @@ dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
 remapCatalog2018hg38 &lt;- downloadRemapCatalog(demo.dir)
 # Downloading other versions
 remapCatalog2015hg19 &lt;- downloadRemapCatalog(demo.dir, version = &quot;2015&quot;, assembly = &quot;hg19&quot;)</code></pre>
-<p>The genomic ranges object remapCatalog now contains the full ReMap 2015 catalogue<span class="citation">[1]</span>. A file has also been downloaded at “~/roken_demo/remap1_hg38_nrPeaks.bed” (0.544 GB when not compressed).</p>
+<p>The genomic ranges object remapCatalog now contains the full ReMap 2015 catalogue<span class="citation">[2]</span>. A file has also been downloaded at “~/roken_demo/remap1_hg38_nrPeaks.bed” (0.544 GB when not compressed).</p>
 </div>
 </div>
 <div id="download-encode-peaks" class="section level1">
@@ -176,8 +176,11 @@ shuffledRegions &lt;- shuffle(randomRegions, rn5ChromSizes)</code></pre>
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>
 <div id="refs" class="references">
+<div id="ref-Cheneby:2018ix">
+<p>1. Chèneby J, Gheorghe M, Artufel M, Mathelier A, Ballester B. ReMap 2018: an updated atlas of regulatory regions from an integrative analysis of DNA-binding ChIP-seq experiments. Nucleic acids research. 2018;46:D267–75.</p>
+</div>
 <div id="ref-Griffon:2015en">
-<p>1. Griffon A, Barbier Q, Dalino J, Helden J van, Spicuglia S, Ballester B. Integrative analysis of public ChIP-seq experiments reveals a complex multi-cell regulatory landscape. Nucleic acids research. 2015;43:e27–7.</p>
+<p>2. Griffon A, Barbier Q, Dalino J, Helden J van, Spicuglia S, Ballester B. Integrative analysis of public ChIP-seq experiments reveals a complex multi-cell regulatory landscape. Nucleic acids research. 2015;43:e27–7.</p>
 </div>
 </div>
 </div>
