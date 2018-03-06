@@ -47,7 +47,7 @@ catalog <- bedToGranges(catalogFile)
 ## Download the ReMap catalogue
 
 There is 4 different versions of the ReMap catalogue.
-There is a 2015 version and a more recent 2018 version.
+The current version of ReMap 2018 and the previous ReMap 2015 release.
 All two are declined in hg19 or hg38 assemblies.
 
 ```{r, echo=TRUE}
@@ -65,7 +65,7 @@ A file has also been downloaded at "~/roken_demo/nrpeaks_all.bed" (0.544 GB when
 
 # Download ENCODE peaks
 
-It is possible to download genomic regions of any ENCODE experiments with its ID.
+It is possible to download genomic regions of any ENCODE experiments with its ID. Here we download Histone marks H3K27 in MCF-7 cell line. 
 
 ```{r}
 # Downloading the ENCFF001VCU regions.
@@ -77,7 +77,8 @@ The ENCFF001VCU variable now contains all the regions of the given experiment. I
 # Using a universe
 
 Enrichment analysis often surestimate the p-values. Using a universe is setting constraints on the shuffling function, resulting in more reasonable probabilities.
-The universe is simply another set of genomic regions, in a GeomicRanges format, that will prevent shuffles to take place outside of it. Using a universe will reduce the analysis to certain portions of the genome.
+The universe is simply another set of genomic regions, in a GeomicRanges format, that will prevent shuffles to take place outside of it. Using a universe will reduce the analysis to certain portions of the genome. 
+However the Roken package can also work without universe, in this case it will use the entire genome. 
 
 ## Choosing an universe
 
