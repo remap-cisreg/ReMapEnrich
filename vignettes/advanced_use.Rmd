@@ -61,7 +61,7 @@ remapCatalog2015hg19 <- downloadRemapCatalog(demo.dir, version = "2015", assembl
 ```
 
 The genomic ranges object remapCatalog now contains the full ReMap catalogue[@Griffon:2015en].
-A file has also been downloaded at "~/roken_demo/nrpeaks_all.bed" (0.544 GB when not compressed).
+A file has also been downloaded at "~/roken_demo/remap1_hg38_nrPeaks.bed" (0.544 GB when not compressed).
 
 # Download ENCODE peaks
 
