@@ -98,7 +98,7 @@ enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, nCores=2)
 
 The data frame enrichment now contains the enrichment informations between ENCFF001VCU and the ReMap catalogue given ENCFF718QVA as a universe.
 
-For more permissive universe you can use the parameter included as the fraction of shuffled regions that must be at least contained in universe regions (1 by default).
+For more permissive universe you can use the parameter included as the fraction of shuffled regions that must be at least contained in universe regions (1 by default). For example included = 0.1 would allow at least 10% of shuffled regions to be within the universe. 
 
 ```{r}
 # Create the enrichment with a less restrictive universe.
