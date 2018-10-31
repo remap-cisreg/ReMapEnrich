@@ -1,5 +1,5 @@
 ---
-title: "roken: Advanced use"
+title: "roken: advanced use"
 author: "Martin Mestdagh, Zacharie Ménétrier"
 date: "`r Sys.Date()`"
 package: "`r pkg_ver('roken')`"
