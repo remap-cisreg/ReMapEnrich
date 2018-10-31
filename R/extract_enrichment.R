@@ -13,7 +13,7 @@
 #' @param theoricalMeans The mean number of overlaps for each category.
 #' @param categoriesCount A vector representing the number of time a category 
 #' is found in the catalog.
-#' @param pAdjust The method that will be used for correcting the p-values.
+#' @param pAdjust method  used to correct p-values for multiple testing. Supported: "BH" (Benjamini-Hochberg), "BY", "bonferroni". 
 #' 
 #' @return A data frame containing the enrichment informations.
 extractEnrichment <- function (categories,
@@ -21,12 +21,14 @@ extractEnrichment <- function (categories,
                                categoriesOverlaps, 
                                theoricalMeans,
                                categoriesCount, 
-                               pAdjust) {
+                               pAdjust="BH") {
     cat("Extracting enrichment.\n")
     # Matching the arguments for the tail selection.
     tail <- match.arg(tail, c("lower","higher","both"))
     # Matching the arguments for the p values correction.
     pAdjust <- match.arg(pAdjust, c("BH","BY","fdr","bonferroni"))
+    
+    ## ??? is "ffdr" considered as a synonym for "BH" ? This is confusing.
     if (pAdjust == "fdr") {
         pAdjust = "BH"
     }
