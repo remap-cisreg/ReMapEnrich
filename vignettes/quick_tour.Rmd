@@ -16,7 +16,13 @@ csl:
 ---
 
 ```{r, echo=FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>", eval=TRUE)
+knitr::opts_chunk$set(collapse = T, 
+                      comment = "##    ", 
+                      eval=TRUE, 
+                      echo=FALSE, 
+                      warning = FALSE, 
+                      results = FALSE, 
+                      message = FALSE)
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
 ```
@@ -31,12 +37,13 @@ This example is based on small datasets released with the roken package.
 
 It will go through the folowing steps. 
 
-1. Load a minimal set of regions
+## Loading a minimal set of regions
 
-    - a query set of genomic regions (all the SOX2 annotated regions on the chromosome 22)
-    - (reduced) catalogue of reference genomic regions (all the annotated regions of the chromosome22). 
+- A **query set** of genomic regions (all the annotated SOX2 binidng regions on the chromosome 22).
+- Load a (reduced) catalogue of reference genomic regions (all the annotated regions of the chromosome22). 
 
-```{r, echo=FALSE}
+
+```{r init_query, echo=TRUE}
 # Load the roken library
 library(roken) 
 
@@ -50,73 +57,93 @@ catalog <- bedToGranges(system.file("extdata",
                                     package = "roken"))
 ```
 
-We now dispose of two genomic ranges object.
-The catalogue contains features names.
+We now dispose of two genomic ranges object: `query` and `catalog`.
 
-```{r}
+The query and catalog are both sets of genomic ranges, defined by attributes such as chromosome, start, end, strand. 
+
+Notes 
+
+- ChIP-seq genomic ranges are strand-insensitive, and therefore this field is left undefined (*). 
+- In ReMap features, "ID" column indicates the name of the transcriptional regulator name, where  "regulator" is a generic concept covering transcription factor, insulator, chromatin remodelling factor, .... 
+
+
+
+```{r echo=TRUE, results=TRUE}
 # Check what the catalog contains
-catalog
+print(catalog)
+
 # Check what the query contains
-query
+print(query)
+
 ```
 
 As you can see, it is important for the catalogue to have proper IDs for each regions. All IDs found in the catalogue will be taken as a category and will be computed in enrichment analysis.
 The IDs of the query will not be used for the rest of the enrichment analysis and can be ignored.
 
-2. Compute the enrichment of intersections between the query and each entry of the catalogue.
+## Computing enrichment of intersections between the query and each entry of the catalogue
 
-The option byChrom is set to TRUE as we are only working on one chromosome for this analysis.
-
-```{r}
+```{r echo=TRUE, results=TRUE}
 enrichment <- enrichment(query, catalog, byChrom = TRUE)
 head(enrichment)
 ```
 
-This kind of enrichment analysis could be interpretated as a co-location finder, as it will give the annotated functions that are co-located with SOX2 in the chromsome 22 for the hg19 assembly.
-SOX2, is a transcription factor that is essential for maintaining self-renewal, or pluripotency, of undifferentiated embryonic stem cells.
-NANOG is a transcription factor critically involved with self-renewal of undifferentiated embryonic stem cells.
-The results are interesting as we can see that the NANOG transcription factor which is the most significant result for SOX2 (after itself) is also involved in undifferentiated embryonic stem cells.
+The option `byChrom` is set to TRUE as we are only working on one chromosome for this analysis.
+
+
+
+
+## Format of the result
 
 The data frame enrichment now contains all the features of the catalogue with their enrichment values.
-The data frame is ordered by the "p.significance" column.
-It is important to specify that this example is only relevant for the hg19 assembly.
-If any other assemblies are used, the parameter "chromSizes" should be acknowledged accordingly
 
-# Enrichment analysis
-The data frame is composed of eleven columns with differents informations about the enrichment.
+1. **Category:**  identifier of the genomic features (regulators in our case) of the catalogue (ReMap here) showing significant overlap with the query. 
 
-1. Category:
-This column contains features names of each category that have been found in the catalogue.
+2. **Number of overlap:** number of overlaps between the query and each categories of the catalogue.
 
-2. Number of overlaps:
-This column contains the number of overlaps between the query and each categories of the catalogue.
+3. **Random average:**  mean number of overlaps between all the shuffles and the catalogue.
 
-3. Random average:
-This column contains the mean number of overlaps between all the shuffles and the catalogue.
+4. **Mapped peaks ratio:** percentage of covering of each categories of the catalogue by the query.
 
-4. Mapped peaks ratio:
-The mapped peaks ratio represents the percentage of covering of each categories of the catalogue by the query.
+5. **Effect size:** log value of the number of overlaps divided by the random average.
 
-5. Effect size:
-The effect size is simply the log value of the number of overlaps divided by the random average.
+6. **P-significance:** minus-logarithm of the p-value: $p_{sig} = -log_{10}(p)$, enabling to highlight the relevant order of magnitude on graphical representations (e.g. volcano plot). 
 
-6. P-significance:
-The p-significance column is a rescaled value of the p-value, obtained by -log10(Pval).
+7. *P-value:* probability to observe an effect at least as extreme as the result, under null hypothesis, which can be interpreted as an estimation of the false positive rate (FPR). The p-value is computed with the Poisson distribution (and validated empirically with randomized query regions).
 
-7. P-value:
-The p-value is the probability that random overlaps gived, at least, results as extremes as the number of overlaps following the Poisson distribution.
+8. **Q-significance: ** minus-logarithm of the q-value: $q_{sig} = -log_{10}(q)$
 
-8. Q-significance:
-The q-significance column is a rescaled value of the p-value, obtained by -log10(Qval).
+9. **Q-value:** correction of the p-value to take into account the multiple testing (due to the fact that the query is compared to each regulator of the remap catalogue). The q-value is an estimation of the false discovery rate (FDR). Several multiple-testing correction methods are supported by roken (default: "BH" for Benjamini-Hochberg).
 
-9. Q-value:
-The q-value is the corrected p-value given multiple comparisons testing. It is possible to choose the correction method (fdr by default).
+10. **E-significance:** minus-logarithm of the e-value: $q_{sig} = -log_{10}(E)$
 
-10. E-significance:
-The e-significance column is a rescaled value of the p-value, obtained by -log10(Eval).
+11. **E-value:** expected number of false positives for a given p-value. 
 
-11. E-value:
-This last column contains the expected numbers of false discoveries for each categories.
+## Statistical interpretation
+
+The data frame is ordered by decreasing significance ("p.significance" column).
+
+
+## Biological interpretation of the results
+
+It is interesting to give some hints about the biological relevance of the results. 
+
+
+This kind of enrichment analysis could be interpreted as a co-location detector, as it will give the regulators showing a significant co-location with the query (SOX2 peaks on chromsome 22) in the reference genome (hg19 assembly).
+
+SOX2, is a transcription factor essential to maintain self-renewal and pluripotency of undifferentiated embryonic stem cells.
+
+- Not surprisingly, the most significant overlap for our query is the catalogue entries for SOX2. 
+
+- The second hit is NANOG, a transcription factor critically involved in self-renewal of undifferentiated embryonic stem cells. 
+
+- The third hit is Pou5f1, which forms a heterodimer with Sox2 and therefore co-occurs in most of its peaks. 
+
+Chen et al (2008) showedd that Nanog peaks strongly overlap with Sox2 and Pou5f (also called Oct4). 
+
+It is important to specify that this example is only relevant for the hg19 assembly. If any other assemblies are used, the parameter "chromSizes" should be acknowledged accordingly
+
+
+
 
 This vignette will presents graphical representations of enrichment analysis that are implemented in this package.
 
