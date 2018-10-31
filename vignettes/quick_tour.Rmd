@@ -1,5 +1,5 @@
 ---
-title: "roken: Quick tour"
+title: "roken: basic usage"
 author: "Martin Mestdagh, Zacharie Ménétrier"
 date: "`r Sys.Date()`"
 package: "`r pkg_ver('roken')`"
@@ -83,18 +83,16 @@ The IDs of the query will not be used for the rest of the enrichment analysis an
 ## Computing enrichment of intersections between the query and each entry of the catalogue
 
 ```{r echo=TRUE, results=TRUE}
-enrichment <- enrichment(query, catalog, byChrom = TRUE)
-head(enrichment)
+enrichment.df <- enrichment(query, catalog, byChrom = TRUE)
+head(enrichment.df)
 ```
 
 The option `byChrom` is set to TRUE as we are only working on one chromosome for this analysis.
 
 
+## Format of the result table
 
-
-## Format of the result
-
-The data frame enrichment now contains all the features of the catalogue with their enrichment values.
+The result comes as a data frame (`enrichment.df`) which contains all the features of the catalogue with their enrichment values.
 
 1. **Category:**  identifier of the genomic features (regulators in our case) of the catalogue (ReMap here) showing significant overlap with the query. 
 
@@ -104,11 +102,11 @@ The data frame enrichment now contains all the features of the catalogue with th
 
 4. **Mapped peaks ratio:** percentage of covering of each categories of the catalogue by the query.
 
-5. **Effect size:** log value of the number of overlaps divided by the random average.
+5. **Effect size:** log ratio between the observed and expected number of overlaps. ($d = log_{10} \frac{obs}{exp}$).  
 
 6. **P-significance:** minus-logarithm of the p-value: $p_{sig} = -log_{10}(p)$, enabling to highlight the relevant order of magnitude on graphical representations (e.g. volcano plot). 
 
-7. *P-value:* probability to observe an effect at least as extreme as the result, under null hypothesis, which can be interpreted as an estimation of the false positive rate (FPR). The p-value is computed with the Poisson distribution (and validated empirically with randomized query regions).
+7. **P-value:** probability to observe an effect at least as extreme as the result, under null hypothesis, which can be interpreted as an estimation of the false positive rate (FPR). The p-value is computed with the Poisson distribution (and validated empirically with randomized query regions).
 
 8. **Q-significance: ** minus-logarithm of the q-value: $q_{sig} = -log_{10}(q)$
 
@@ -120,7 +118,31 @@ The data frame enrichment now contains all the features of the catalogue with th
 
 ## Statistical interpretation
 
-The data frame is ordered by decreasing significance ("p.significance" column).
+The data frame is ordered by decreasing significance (`p.significance` column). Since it returns different overlap statistics, it is not obvious to interpret the results and to know which column should be considered.
+
+
+### Which statistics gives me an intuition of the enrichment?
+
+The direct measure of enrichment is the `effect.size`, defined above as the log-ratio between observed and expected overlaps. Positive/negative values respectively indicate enrichment (more overlaps than expected by chance)  or empoverishment (less overlaps than expected by chance). Note that in  usual working conditions, the effect sizes are generally positive, but the same analysis could in principle be led to compare other region types.  
+
+### How much does my query cover the reference regions?
+
+The column `mapped.peak.ratio` indicates the coverage, i.e. the fraction of regions annotated for the considered regulator that are covered by the query regions. 
+
+
+### Which statistics should be used to select significant overlaps?
+
+This might be considered a matter of religion. Rather than promoting our own preference, `roken` returns different significance statistics, and lets you choose your preferred one. What really matters is to understand the nature of the information returned by each statistic.
+
+- The `p.value` is the nominal p-value, computed for each catalogue entry (regulator) independently. It estimates the false positive rate (FPR), i.e. the proportion of tests (regulators) expected to pass the threshold by chance.  Since a single analysis may consist in several hundreds -- or even thousands -- of tests (one per regulator), setting a classical threshold $\alpha=0.05$ on the p-value would result in dozens or hundreds of false positives. We thus strongly recommend to set the threshold on either FDR or E-value. 
+
+- The `e.value` indicates the expected number of false positives. Setting a threshold of $\alpha=0.05$ on this statistics is quite stringent, and thus increases the reliability of the results but this is at the cost of sensitivity. 
+
+- The `q.value` indicates the false discovery rate (FDR) indicates the proportion of false positive results among those declared positive. Since the results are sorted by decreasing significance, the FDR found in a given row indicates the proportion of false positives that should be expected in all the results at least as significant as this one, i.e. among all the rows above this one (included). 
+
+
+### Which threshold should I choose on the significance?
+
 
 
 ## Biological interpretation of the results
@@ -142,9 +164,6 @@ Chen et al (2008) showedd that Nanog peaks strongly overlap with Sox2 and Pou5f 
 
 It is important to specify that this example is only relevant for the hg19 assembly. If any other assemblies are used, the parameter "chromSizes" should be acknowledged accordingly
 
-
-
-
 This vignette will presents graphical representations of enrichment analysis that are implemented in this package.
 
 # Graphical functions
@@ -157,7 +176,7 @@ We can now display a bar plot which is the most basic representation of an enric
 
 ```{r}
 # Display a bar plot
-enrichmentBarPlot(enrichment, sigDisplayQuantile = 0.5, top = 20, aRisk = 0.00001)
+enrichmentBarPlot(enrichment.df, sigDisplayQuantile = 0.5, top = 20, aRisk = 0.00001)
 ```
 
 The displayed plot represents the most significant categories and their q-significances. The sigDisplayQuantile parameter allow to choose a quatile limit at which the bars will stop expanding. The values of those bars will be displayed on it.
@@ -169,7 +188,7 @@ A volcano plot is a type of scatter-plot that is used to quickly identify change
 
 ```{r, echo=TRUE}
 # Display a volcano plot (na.omit() is mandatory as there is NAs in the enrichment data frame).
-enrichmentVolcanoPlot(na.omit(enrichment), sigDisplayQuantile = 0.9, aRisk = 0.00001)
+enrichmentVolcanoPlot(na.omit(enrichment.df), sigDisplayQuantile = 0.9, aRisk = 0.00001)
 ```
 
 ## Dot plot
@@ -178,14 +197,14 @@ The enrichment dot plot is a good way to compare various informations in the enr
 
 ```{r, echo=TRUE, fig.height=7}
 # Display a dot plot.
-enrichmentDotPlot(enrichment)
+enrichmentDotPlot(enrichment.df)
 ```
 
 It should be interesting here to avoid representation of the SOX2 category as it enriched against itself in the chromosome 22.
 
 ```{r, echo=TRUE, fig.height=7}
 # Display a dot plot without SOX2.
-enrichmentDotPlot(enrichment[enrichment$category != "SOX2",])
+enrichmentDotPlot(enrichment.df[enrichment.df$category != "SOX2",])
 ```
 
 
