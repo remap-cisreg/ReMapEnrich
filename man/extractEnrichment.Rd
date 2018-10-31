@@ -5,7 +5,7 @@
 \title{Extract enrichment}
 \usage{
 extractEnrichment(categories, tail, categoriesOverlaps, theoricalMeans,
-  categoriesCount, pAdjust)
+  categoriesCount, pAdjust = "BH")
 }
 \arguments{
 \item{tail}{If "lower" then, probabilities are P[X > x], 
@@ -19,7 +19,7 @@ depending on the number of overlaps vs the theorical mean.}
 \item{categoriesCount}{A vector representing the number of time a category 
 is found in the catalog.}
 
-\item{pAdjust}{The method that will be used for correcting the p-values.}
+\item{pAdjust}{method  used to correct p-values for multiple testing. Supported: "BH" (Benjamini-Hochberg), "BY", "bonferroni".}
 
 \item{categories=unique(catalog@elementMetadata$id)}{The categories contained in the catalog.
 This option is leaved for faster calculation when this function 

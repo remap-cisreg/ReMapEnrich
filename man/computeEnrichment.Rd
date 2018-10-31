@@ -4,8 +4,9 @@
 \alias{computeEnrichment}
 \title{Computes enrichment}
 \usage{
-computeEnrichment(query, catalog, chromSizes, fractionQuery, fractionCatalog,
-  shufflesNumber, categories, universe, byChrom, included, nCores)
+computeEnrichment(query, catalog, chromSizes, fractionQuery,
+  fractionCatalog, shufflesNumber, categories, universe, byChrom, included,
+  nCores)
 }
 \arguments{
 \item{query}{The object containing the genomic regions to analyze.}

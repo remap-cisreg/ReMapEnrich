@@ -12,7 +12,7 @@ Depends: R (>= 3.3),
     R.utils,
     RMySQL
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 License: GNU Affero General Public License
 Suggests: knitr,
     rmarkdown
