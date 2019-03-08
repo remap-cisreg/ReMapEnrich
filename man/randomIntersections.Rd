@@ -44,7 +44,7 @@ and returns the number of overlaps with a catalogue for each iteration.
 }
 \examples{
 catalog <- bedToGranges(system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
-                          package = "roken"))
+                          package = "ReMapEnrich"))
 randoms <- randomIntersections(catalog, 500, 1000, 1000)
 
 }

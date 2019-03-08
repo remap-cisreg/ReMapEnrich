@@ -14,7 +14,7 @@
 #' @export
 loadChromFile <- function(genome) {
     file <- system.file("extdata", paste(genome, ".genome", sep = ""),
-                        package = "roken")
+                        package = "ReMapEnrich")
     if(file == "")
         stop("No chromosome sizes found for ", genome)
     return(file)

@@ -17,7 +17,7 @@ exportEnrichment(enrichment, fileName = "output", format = "tsv")
 Create an output file for an enrichment data frame.
 }
 \examples{
-data("enrichment_example", "roken")
+data("enrichment_example", "ReMapEnrich")
 exportEnrichment(enrichment_example)
      
 }

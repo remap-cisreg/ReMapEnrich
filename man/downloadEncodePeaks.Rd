@@ -29,7 +29,7 @@ Download or import in a data frame an ENCODE set of peaks.
 }
 \examples{
 encodeFile <- downloadEncodePeaks(id = "ENCFF001VCU",
-                                  targetDir = "~/roken_demo/data/encode_peaks")
+                                  targetDir = "~/ReMapEnrich_demo/data/encode_peaks")
 encodeGR <- bedToGranges(encodeFile)
 
 }

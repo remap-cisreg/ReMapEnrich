@@ -1,8 +1,8 @@
-#' Roken
+#' ReMapEnrich
 #'
 #' Bioinformatic tools for computing enrichment.
 #' 
 #' 
 #' @docType package
-#' @name roken
+#' @name ReMapEnrich
 "_PACKAGE"

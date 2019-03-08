@@ -24,7 +24,7 @@ Any columns after the strand column are ignored.
 }
 \examples{
 queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed",
-                         package = "roken")
+                         package = "ReMapEnrich")
 granges <- bedToGranges(queryFile)
 
 }

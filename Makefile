@@ -5,11 +5,11 @@ all:
 	@echo "====> Build vignettes"
 	@Rscript -e "devtools::build_vignettes()"
 	@echo ====> "Build source"
-	@R CMD INSTALL --no-multiarch --with-keep.source ../roken
+	@R CMD INSTALL --no-multiarch --with-keep.source ../ReMapEnrich
 
 clean:
 	@echo Clean all
-	@Rscript -e "unlink(find.package("roken"), recursive = TRUE)"
+	@Rscript -e "unlink(find.package("ReMapEnrich"), recursive = TRUE)"
 	@Rscript -e "devtools::clean_vignettes()"
 	@Rscript -e "unlink("man, recursive = TRUE)"
 	@Rscript -e "unlink("NAMESPACE")"

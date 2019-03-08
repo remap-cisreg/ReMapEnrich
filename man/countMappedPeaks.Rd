@@ -22,9 +22,9 @@ It counts the number of peaks in the query that are mapped in the catalog.
 }
 \examples{
 queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed",
-                          package = "roken")
+                          package = "ReMapEnrich")
 catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
-                            package = "roken")
+                            package = "ReMapEnrich")
 query <- bedToGranges(queryFile)
 catalog <- bedToGranges(catalogFile)
 countMPs <- countMappedPeaks(query, catalog)

@@ -21,7 +21,7 @@ The data frame will be ordered as 'chrom', 'chromStart', 'chromEnd',
 }
 \examples{
 catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", 
-                            package = "roken")
+                            package = "ReMapEnrich")
 catalog <- bedToGranges(catalogFile)
 catalog <- grangesToBed(catalogFile)
 View(catalog)

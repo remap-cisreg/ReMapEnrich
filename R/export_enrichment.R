@@ -9,7 +9,7 @@
 #' @usage exportEnrichment(enrichment, fileName = "output", format = "tsv")
 #' 
 #' @examples 
-#' data("enrichment_example", "roken")
+#' data("enrichment_example", "ReMapEnrich")
 #' exportEnrichment(enrichment_example)
 #'      
 #' @export

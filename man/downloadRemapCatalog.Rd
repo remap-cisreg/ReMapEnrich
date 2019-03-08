@@ -32,7 +32,7 @@ Download or import in a data frame the Remap catalogue for
  transcriptions factors.
 }
 \examples{
-remapFile <- downloadRemapCatalog(targetDir = "~/roken_demo/data/ReMap")
+remapFile <- downloadRemapCatalog(targetDir = "~/ReMapEnrich_demo/data/ReMap")
 remap <- bedToGranges(remapFile)
 
 }

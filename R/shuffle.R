@@ -20,7 +20,7 @@
 #' 
 #' @examples 
 #' regionsFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
-#'                             package = "roken")
+#'                             package = "ReMapEnrich")
 #' regions <- bedToGranges(regionsFile)
 #' shuffledRegions <- shuffle(regions)
 #' 

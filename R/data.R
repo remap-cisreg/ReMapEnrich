@@ -10,9 +10,9 @@
 #' 
 #' @examples 
 #' queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", 
-#'                          package = "roken")
+#'                          package = "ReMapEnrich")
 #' catFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed",
-#'                        package = "roken")
+#'                        package = "ReMapEnrich")
 #' query <- BedToGranges(queryFile)
 #' cat <- BedToGranges(catFile)
 #' enrichmentExample <- GrEnrichment(query, cat, shuffles = 200, lower = FALSE)

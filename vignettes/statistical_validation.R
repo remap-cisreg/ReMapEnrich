@@ -1,26 +1,26 @@
-## ---- echo=FALSE, message=FALSE------------------------------------------
+## ---- echo=FALSE, message=FALSE--------------------------------------------
 knitr::opts_chunk$set(collapse = T, comment = "#>", eval=TRUE)
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
 
-## ---- echo=FALSE, eval = FALSE-------------------------------------------
+## ---- echo=FALSE, eval = FALSE---------------------------------------------
 #  # Quick demonstration
-#  library(roken)
-#  demo.dir <- "~/roken_demo"
+#  library(ReMapEnrich)
+#  demo.dir <- "~/ReMapEnrich_demo"
 #  dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
 #  setwd(demo.dir)
-#  catalog <- bedToGranges(downloadRemapCatalog("roken_demo"))
+#  catalog <- bedToGranges(downloadRemapCatalog("ReMapEnrich_demo"))
 #  randomRegionsVsReMap <- randomIntersections(catalog, iterations = 500, regionNb = 1000, regionSize = 1000)
 
-## ------------------------------------------------------------------------
-data("random_regions_vs_ReMap", package = "roken")
+## --------------------------------------------------------------------------
+data("random_regions_vs_ReMap", package = "ReMapEnrich")
 head(randomRegionsVsReMap, n = 1)
 
-## ------------------------------------------------------------------------
+## --------------------------------------------------------------------------
 chi2results <- fitPoisson(randomRegionsVsReMap, showCategories = FALSE)
 head(chi2results)
 
-## ------------------------------------------------------------------------
+## --------------------------------------------------------------------------
 # An easy to do function to create histogram for any result for a category
 MakeHistogram <- function(results) {
     h <- hist(results, breaks = -1:(max(results)+1), plot = FALSE)
@@ -48,7 +48,7 @@ MakeHistogram(SOX2)
 BRF1 <- randomRegionsVsReMap[,"BRF1"]
 MakeHistogram(BRF1)
 
-## ---- echo=TRUE----------------------------------------------------------
+## ---- echo=TRUE------------------------------------------------------------
 # Creating a random catalogue with only one category 'Vert'.
 randomCatalog <- genRegions(10000, 200)
 # Reduce is a GenomicRanges function designed to merge overlapping regions.
@@ -58,13 +58,13 @@ randomCatalog@elementMetadata$id = "Vert"
 randomCatalogIntersections <- randomIntersections(randomCatalog, iterations = 500, regionNb = 1000, regionSize = 1000)
 MakeHistogram(randomCatalogIntersections)
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE---------------------------------------------------------
 #  catalog <- bedToGranges(downloadRemapCatalog("demo.dir"))
 #  query <- bedToGranges(downloadEncodePeaks("ENCFF001VCU", "demo.dir"))
 #  universe <- bedToGranges(downloadEncodePeaks("ENCFF718QVA", "demo.dir"))
 #  enrichment <- enrichment(query, catalog, universe = universe, byChrom = TRUE, shuffles = 10, included = 0.5, nCores = 7)
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE---------------------------------------------------------
 #  randomIntersections <- randomIntersections(catalog, iterations = 10000, universe = universe, included = 0.5, shuffle = query, byChrom = TRUE)
 #  chi2results <- fitPoisson(randomIntersections)
 

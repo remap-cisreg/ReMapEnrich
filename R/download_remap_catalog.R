@@ -21,7 +21,7 @@
 #' version = "2018", assembly = "hg38", force = FALSE, store = TRUE)
 #' 
 #' @examples
-#' remapFile <- downloadRemapCatalog(targetDir = "~/roken_demo/data/ReMap")
+#' remapFile <- downloadRemapCatalog(targetDir = "~/ReMapEnrich_demo/data/ReMap")
 #' remap <- bedToGranges(remapFile)
 #' 
 #' @export

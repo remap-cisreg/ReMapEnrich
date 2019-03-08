@@ -17,7 +17,7 @@ of the bed file.
 Imports bed files automatically in a data frame.
 }
 \examples{
-chromFile <- system.file("extdata", "hg19.genome", package = "roken")
+chromFile <- system.file("extdata", "hg19.genome", package = "ReMapEnrich")
 chromSizes <- bedImport(chromFile)
 
 }

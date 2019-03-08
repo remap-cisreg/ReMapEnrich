@@ -55,7 +55,7 @@ or E-significance.}
 Creates a barplot from the enrichment.
 }
 \examples{
-data("enrichment_example", package = "roken")
+data("enrichment_example", package = "ReMapEnrich")
 enrichmentBarPlot(enrichment_example)
 
 }

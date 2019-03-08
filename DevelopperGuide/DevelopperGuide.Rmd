@@ -2,27 +2,27 @@
 title: "Developper guide"
 author: "Martin Mestdagh, Zacharie Ménétrier"
 date: "`r Sys.Date()`"
-package: "`r pkg_ver('roken')`"
+package: "`r pkg_ver('ReMapEnrich')`"
 output: BiocStyle::html_document
 ---
-# Roken - Remap genOmic peaK ENrichment
+# ReMapEnrich - Remap genOmic peaK ENrichment
 
-Roken has been developped in 2017 by a French team of two students in Master 1 BBSG at AMU university in Marseille. It has been ordered by PhD Benoit Ballester from the TAGC lab located in Luminy.
-If you want to extend or improve this package please consider reading this guide in which we will try to make roken internal mechanics as clear as possible.
+ReMapEnrich has been developped in 2017 by a French team of two students in Master 1 BBSG at AMU university in Marseille. It has been ordered by PhD Benoit Ballester from the TAGC lab located in Luminy.
+If you want to extend or improve this package please consider reading this guide in which we will try to make ReMapEnrich internal mechanics as clear as possible.
 
 ## Previous work
 
 Annotbed is a bash script created by Quentin Barbier. It uses bedtools and R calls to compute enrichment against the ReMap catalogue.
 Annotbed was the base start of this package. This project was first intended to replace and improve this previous work putting it all together in a complete R package with generics functions.
 To consult Annotbed sources and guides please contact Mr Benoit Ballester at benoit.ballester@inserm.fr.
-We also recommend to check for the bedtools software (not used in roken but still relevant to understand): http://bedtools.readthedocs.io/en/latest/
+We also recommend to check for the bedtools software (not used in ReMapEnrich but still relevant to understand): http://bedtools.readthedocs.io/en/latest/
 
 ## Tools and versions
 
-Roken has been developped with R 3.4. 
+ReMapEnrich has been developped with R 3.4. 
 RStudio 1.0.136 has been used for simplifying the development process. You can work on this package without the help of RStudio but we strongly recommend it, will it be only for the facilities it brings when building the sources files.
 You will need to have git + ssh installed on your machine in order to access the git depository..
-The url of the depository is hosted by SourceSup Renater and is located at : git+ssh://git@git.renater.fr:2222/roken.git
+The url of the depository is hosted by SourceSup Renater and is located at : git+ssh://git@git.renater.fr:2222/ReMapEnrich.git
 
 *To open our package for the first time*
 In RStudio you simply need to create a new RStudio project for that directory and then version control features will be automatically enabled. To do this:
@@ -39,7 +39,7 @@ You may encounter errors from the RStudio console. Follow the steps behind in or
 1. Make sure you are correctly registered in SourceSup Renater.
 2. Make sure your public keys are ready to be used by SourceSup Renater (it can take up to 1 hour).
 3. Make sure your private keys are in the correct folders.
-4. Try it outside of RStudio. Sometimes a good old bash command makes better, try: git clone git+ssh://git@git.renater.fr:2222/roken.git
+4. Try it outside of RStudio. Sometimes a good old bash command makes better, try: git clone git+ssh://git@git.renater.fr:2222/ReMapEnrich.git
 5. Making public and private keys work as intended can be hard. Please consider uninstalling and reinstalling ssh and git in order to make a fresh start.
 6. Do not use passphrase if possible.
 
@@ -73,7 +73,7 @@ The vignettes uses BiocStyle::html_document to create the corresponding html doc
 # Dependencies
 
 As we worked with RStudio, don't forget to install all the depedencies, necessary to build this package.
-All those depedencies are listed and ready to be installed in roken/misc/install_depedencies.R.
+All those depedencies are listed and ready to be installed in ReMapEnrich/misc/install_depedencies.R.
 You maybe have to install more libraries in the future.
 Sometimes some OS libraries will be mandatory to work with some R tools, it really depends of the OS you are working on so we can't be really specific here.
 
@@ -109,8 +109,8 @@ We recommend for fresh developers to see the 3 vignettes available to fully unde
 We also spend times commenting and making complete documentations for each fucntions which are all available using a simple R command.
 ```{R, message=FALSE}
 # This can only be done after the package has been built.
-library(roken)
-help(package = "roken")
+library(ReMapEnrich)
+help(package = "ReMapEnrich")
 ```
 
 ## Enrichment
@@ -131,8 +131,8 @@ The purpose of this function is to extract all the enrichment informations and g
 
 ## A lot of small functions
 
-There is 24 functions implemented in the 0.99.0 version of roken. 21 of them are available to the users and are listed in the file NAMESPACE at the root of the project folder. The 3 others are designed to work only internally (computing and extracting enrichment for example is not available to the user but part of the larger function enrichment).
-For every function that is available to the user, a minimal example is created in the corresponding script file. This example should work from scratch in a R console with roken installed.
+There is 24 functions implemented in the 0.99.0 version of ReMapEnrich. 21 of them are available to the users and are listed in the file NAMESPACE at the root of the project folder. The 3 others are designed to work only internally (computing and extracting enrichment for example is not available to the user but part of the larger function enrichment).
+For every function that is available to the user, a minimal example is created in the corresponding script file. This example should work from scratch in a R console with ReMapEnrich installed.
 
 ## Data
 
@@ -140,8 +140,8 @@ Data in this package can be observed in two different locations.
 Firstly you will find some small files in inst/extdata. Those files are pet dataset, that you can retrieve using simple R command.
 
 ```{R}
-queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "roken")
-catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", package = "roken")
+queryFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22_SOX2.bed", package = "ReMapEnrich")
+catalogFile <- system.file("extdata", "ReMap_nrPeaks_public_chr22.bed", package = "ReMapEnrich")
 ```
 
 There is also the hg19 chromosome sizes as it is the most frequently used, so it is not downloaded each time an enrichment analysis is done. For other assemby, the function 'DownloadUcscChromSizes' is available for the users to import from UCSC all the chromosome sizes for any species they need to.
@@ -149,7 +149,7 @@ There is also the hg19 chromosome sizes as it is the most frequently used, so it
 You can also find internal data in the data folder. It contains one enrichment example and one large random intersection analysis (see the vignette about statistical validation for more informations). They can be retrieved easily too.
 
 ```{R}
-data("enrichment_example", package = "roken")
+data("enrichment_example", package = "ReMapEnrich")
 ```
 
 # BioConductor
@@ -248,7 +248,7 @@ See http://bioconductor.org/developers/how-to/biocViews/
 * Checking for F...
 * Checking for browser()...
 * Checking for <<-...
-* Checking for library/require of roken...
+* Checking for library/require of ReMapEnrich...
 * Checking DESCRIPTION/NAMESPACE consistency...
 * Checking function lengths................................................
     The longest function is 124 lines long

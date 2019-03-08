@@ -1,10 +1,10 @@
 ---
-title: "roken: advanced use"
+title: "ReMapEnrich: advanced use"
 author: "Martin Mestdagh, Zacharie Ménétrier"
 date: "`r Sys.Date()`"
-package: "`r pkg_ver('roken')`"
+package: "`r pkg_ver('ReMapEnrich')`"
 vignette: >
-    %\VignetteIndexEntry{roken-advanced-use}
+    %\VignetteIndexEntry{ReMapEnrich-advanced-use}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 
@@ -32,14 +32,14 @@ In this vignette, we will be discovering more advanced functions and possibiliti
 Using a custom catalogue is quite simple starting from a BED file.
 
 ```{r}
-# Load the roken library
-library(roken) 
+# Load the ReMapEnrich library
+library(ReMapEnrich) 
 
 # Load the example catalogue BED file.
 
 catalogFile <- system.file("extdata",
                                     "ReMap_nrPeaks_public_chr22.bed",
-                                    package = "roken")
+                                    package = "ReMapEnrich")
 catalog <- bedToGranges(catalogFile)
 
 ```
@@ -52,7 +52,7 @@ All two are declined in hg19 or hg38 assemblies. This function will download the
 
 ```{r, echo=TRUE}
 # Create a local directory for the tutorial
-demo.dir <- "~/roken_demo"
+demo.dir <- "~/ReMapEnrich_demo"
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
 # Use the function DowloadRemapCatalog
 remapCatalog2018hg38 <- downloadRemapCatalog(demo.dir)
@@ -61,7 +61,7 @@ remapCatalog2015hg19 <- downloadRemapCatalog(demo.dir, version = "2015", assembl
 ```
 
 The genomic ranges object remapCatalog now contains the full ReMap 2015 catalogue[@Griffon:2015en].
-A file has also been downloaded at "~/roken_demo/remap1_hg38_nrPeaks.bed" (0.544 GB when not compressed).
+A file has also been downloaded at "~/ReMapEnrich_demo/remap1_hg38_nrPeaks.bed" (0.544 GB when not compressed).
 
 # Download ENCODE peaks
 
@@ -78,7 +78,7 @@ The ENCFF001VCU variable now contains all the regions of the given experiment. I
 
 Enrichment analysis often surestimate the p-values. Using a universe is setting constraints on the shuffling function, resulting in more reasonable probabilities.
 The universe is simply another set of genomic regions, in a GeomicRanges format, that will prevent shuffles to take place outside of it. Using a universe will reduce the analysis to certain portions of the genome. 
-However the Roken package can also work without universe, in this case it will use the entire genome. 
+However the ReMapEnrich package can also work without universe, in this case it will use the entire genome. 
 
 ## Choosing an universe
 
@@ -140,7 +140,7 @@ randomRegions <- genRegions(100, 1000)
 
 # Other assemblies
 
-For now, only the hg38 assembly has been used by default. It is important to know how to make enrichment analysis with other genomes. All functions in the roken package that uses shuffles or random regions generation must ackowledge the sizes of the chromosomes of the species in consideration.
+For now, only the hg38 assembly has been used by default. It is important to know how to make enrichment analysis with other genomes. All functions in the ReMapEnrich package that uses shuffles or random regions generation must ackowledge the sizes of the chromosomes of the species in consideration.
 
 It is possible to load the chromosomes sizes of hg19 in one function.
 

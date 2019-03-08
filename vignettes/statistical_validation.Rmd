@@ -1,10 +1,10 @@
 ---
-title: "roken: Statistical validation"
+title: "ReMapEnrich: Statistical validation"
 author: "Martin Mestdagh, Zacharie Ménétrier"
 date: "`r Sys.Date()`"
-package: "`r pkg_ver('roken')`"
+package: "`r pkg_ver('ReMapEnrich')`"
 vignette: >
-    %\VignetteIndexEntry{roken-statistical-validation}
+    %\VignetteIndexEntry{ReMapEnrich-statistical-validation}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 
@@ -53,18 +53,18 @@ The function RandomIntersections is designed to help verifying statistical distr
 
 ```{r, echo=FALSE, eval = FALSE}
 # Quick demonstration
-library(roken)
-demo.dir <- "~/roken_demo"
+library(ReMapEnrich)
+demo.dir <- "~/ReMapEnrich_demo"
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
 setwd(demo.dir)
-catalog <- bedToGranges(downloadRemapCatalog("roken_demo"))
+catalog <- bedToGranges(downloadRemapCatalog("ReMapEnrich_demo"))
 randomRegionsVsReMap <- randomIntersections(catalog, iterations = 500, regionNb = 1000, regionSize = 1000)
 ```
 
 As for a solid statistical validation we need to make at least 10,000 iterations and as this will take 30 minutes on a decent computer, results of 10,000 random intersections has been stored in this package and can be easily retrieved.
 
 ```{r}
-data("random_regions_vs_ReMap", package = "roken")
+data("random_regions_vs_ReMap", package = "ReMapEnrich")
 head(randomRegionsVsReMap, n = 1)
 ```
 

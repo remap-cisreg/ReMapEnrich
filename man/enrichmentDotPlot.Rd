@@ -44,7 +44,7 @@ Changes the color of perimeter of each point.}
 Creates a dotplot from the enrichment(category=f(q.significance))
 }
 \examples{
-data("enrichment_example", package = "roken")
+data("enrichment_example", package = "ReMapEnrich")
 enrichmentDotPlot(enrichment_example)
 
 }

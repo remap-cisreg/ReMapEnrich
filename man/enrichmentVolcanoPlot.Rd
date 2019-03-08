@@ -50,7 +50,7 @@ or E-significance.}
 Creates a volcano plot from the enrichment.
 }
 \examples{
-data("enrichment_example", package = "roken")
+data("enrichment_example", package = "ReMapEnrich")
 enrichmentDotPlot(enrichment_example)
 
 }
