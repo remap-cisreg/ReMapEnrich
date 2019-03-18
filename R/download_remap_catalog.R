@@ -46,16 +46,16 @@ downloadRemapCatalog <- function(targetDir,
     }
     url <- "http://tagc.univ-mrs.fr/remap/download/"
     if (version == "2018" && assembly == "hg38") {
-        url <- paste(url, "MACS/ReMap2_nrPeaks_v1.bed.gz", sep = "")
+        url <- paste(url, "remap2018/hg38/MACS/remap2018_all_macs2_hg38_v1_2.bed.gz", sep = "")
     }
     else if (version == "2018" && assembly == "hg19") {
-        url <- paste(url, "MACS_lifted_hg19/ReMap2_nrPeaks_v1_hg19.bed.gz", sep = "")
+        url <- paste(url, "remap2018/hg19/MACS/remap2018_all_macs2_hg19_v1_2.bed.gz", sep = "")
     } 
     else if (version == "2015" && assembly == "hg38") {
-        url <- paste(url, "ReMap1_lifted_hg38/remap1_hg38_nrPeaks.bed.gz", sep = "")
+        url <- paste(url, "remap2015/hg38/MACS/remap2015_all_macs2_hg38_v1.bed.gz", sep = "")
     }
     else if (version == "2015" && assembly == "hg19") {
-        url <- paste(url, "remap1/All/nrPeaks_all.bed.gz", sep = "")
+        url <- paste(url, "remap2015/hg19/MACS/remap2015_TF_archive_all_macs2_hg19_v1.tar.gz", sep = "")
     }
     if (fileName == "") {
         splits <- strsplit(url, "/")
