@@ -1,6 +1,4 @@
-
-
-
+# Example
 library(ReMapEnrich)
 
 demo.dir <- "~/ReMapEnrich_demo" 
@@ -66,3 +64,6 @@ enrichment <- enrichment(ENCFF001VCU, remapCatalog, shuffle=12, nCores=1)
 time2 = Sys.time()
 difftime(time2, time1, units="auto")
 # Time difference of 1.854118 mins
+
+
+
