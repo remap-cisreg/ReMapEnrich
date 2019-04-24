@@ -13,7 +13,8 @@ difftime(time2 ,time1, units="auto")
 # [1] "2019-04-24 20:58:01 CEST"
 # [1] "2019-04-24 20:59:47 CEST"
 
-#-- Save Rdata
+#-- Save Rdata - to speed up the process of reading the file
+# -- and converting it to Grange
 save(remapCatalog, file = "data/remapCatalog2018hg38.RData")
 
 #-- Laod 
