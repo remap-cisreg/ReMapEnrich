@@ -2,13 +2,13 @@
 title: "ReMapEnrich: Statistical validation"
 author: "Martin Mestdagh, Zacharie Ménétrier"
 date: "`r Sys.Date()`"
-package: "`r pkg_ver('ReMapEnrich')`"
+package: "`r 'ReMapEnrich'`"
 vignette: >
     %\VignetteIndexEntry{ReMapEnrich-statistical-validation}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 
-    BiocStyle::html_document
+    rmarkdown::html_document
 bibliography: 
     bibliography.bib
 csl:
