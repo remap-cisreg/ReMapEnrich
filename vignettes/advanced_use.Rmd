@@ -2,13 +2,13 @@
 title: "ReMapEnrich: advanced use"
 author: "Martin Mestdagh, Zacharie Ménétrier"
 date: "`r Sys.Date()`"
-package: "`r pkg_ver('ReMapEnrich')`"
+package: "`r 'ReMapEnrich'`"
 vignette: >
     %\VignetteIndexEntry{ReMapEnrich-advanced-use}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 
-    BiocStyle::html_document
+    rmarkdown::html_vignette
 bibliography: 
     bibliography.bib
 csl:
@@ -27,62 +27,91 @@ In this vignette, we will be discovering more advanced functions and possibiliti
 
 # Loading a catalogue
 
-## Custom catalogue
+You have a choice of either loading the ReMap catalogue, or loading your own catalogue of peaks/regions. 
 
-Using a custom catalogue is quite simple starting from a BED file.
-
-```{r}
-# Load the ReMapEnrich library
-library(ReMapEnrich) 
-
-# Load the example catalogue BED file.
-
-catalogFile <- system.file("extdata",
-                                    "ReMap_nrPeaks_public_chr22.bed",
-                                    package = "ReMapEnrich")
-catalog <- bedToGranges(catalogFile)
-
-```
 
 ## Download the ReMap catalogue
 
 There is 4 different versions of the ReMap catalogue.
-The current version of ReMap 2018[@Cheneby:2018ix] and the previous ReMap 2015 release[@Griffon:2015en].
-All two are declined in hg19 or hg38 assemblies. This function will download the files locally. 
+The current version of ReMap 2018 [@Cheneby:2018ix] and the previous ReMap 2015 release [@Griffon:2015en].
+Both are declined in hg19 or hg38 assemblies. This function will download the files locally. 
 
 ```{r, echo=TRUE}
 # Create a local directory for the tutorial
 demo.dir <- "~/ReMapEnrich_demo"
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
+
 # Use the function DowloadRemapCatalog
 remapCatalog2018hg38 <- downloadRemapCatalog(demo.dir)
-# Downloading other versions
+
+# Or download other versions
 remapCatalog2015hg19 <- downloadRemapCatalog(demo.dir, version = "2015", assembly = "hg19")
 ```
 
 The genomic ranges object remapCatalog now contains the full ReMap 2015 catalogue[@Griffon:2015en].
 A file has also been downloaded at "~/ReMapEnrich_demo/remap1_hg38_nrPeaks.bed" (0.544 GB when not compressed).
 
+## Load the ReMap catalogue
+
+```{r, echo=TRUE}
+# Load the ReMap catalogue and convert it to Genomic Ranges
+remapCatalog <- bedToGranges(remapCatalog2018hg38)
+
+```
+
+
+
+## Loading a custom catalogue
+
+Another funtionnality  of this package is the ability to load a custom catalogue instead of ReMap. This is quite simple starting from a BED file as your catalogue.
+In this example, we load a custom catalogue present in `extdata/`, this is just a BED file for chr22 as dummy example. 
+
+```{r}
+# Load the ReMapEnrich library
+library(ReMapEnrich) 
+
+# Load the example catalogue as a BED file.
+catalogFile <- system.file("extdata",
+                                    "ReMap_nrPeaks_public_chr22.bed",
+                                    package = "ReMapEnrich")
+catalog <- bedToGranges(catalogFile)
+```
+
+
+
 # Download ENCODE peaks
 
-It is possible to download genomic regions of any ENCODE experiments with its ENCODE ID. Here we download the BED file for the histone mark H3K27 in MCF-7 cell line. 
+We have added a fucntionnality to direclty fetch ENCODE peaks. Wkith ReMapEnrich tt is possible to download genomic regions of any ENCODE experiments with its ENCODE ID. In this example we download a BED file for the H3K27 histone mark in MCF-7 cell line. 
 
 ```{r}
 # Downloading the ENCFF001VCU regions.
 ENCFF001VCU <- bedToGranges(downloadEncodePeaks("ENCFF001VCU", demo.dir))
 ```
 
-The ENCFF001VCU variable now contains all the regions of the given experiment. It is possible to use it in future enrichment analysis.
+The ENCFF001VCU variable now contains all the regions of the given experiment a `Grange` object. It is possible to use it in future enrichment analysis.
+
+# Compute enrichment
+
+The basic way to compute an enrichment is to run with default parameters.
+- no universe
+- single core
+- Default shuffling
+- defautl overlaps
+
+```{r}
+enrichment <- enrichment(ENCFF001VCU, remapCatalog)
+```
+
 
 # Using a universe
 
 Enrichment analysis often surestimate the p-values. Using a universe is setting constraints on the shuffling function, resulting in more reasonable probabilities.
-The universe is simply another set of genomic regions, in a GeomicRanges format, that will prevent shuffles to take place outside of it. Using a universe will reduce the analysis to certain portions of the genome. 
-However the ReMapEnrich package can also work without universe, in this case it will use the entire genome. 
+The universe is simply another set of genomic regions, in a `GeomicRanges` format, that will prevent shuffles to take place outside of it. Using a universe will reduce the analysis to certain portions of the genome. 
+However the ReMapEnrich package can also work without a universe, in this case it will use the entire genome. 
 
 ## Choosing an universe
 
-One of the most diffcult task in using a universe is choosing one that is relevant. No methods are perfect, once you understand what is the purpose of using a universe, it is be up to you to specify which one to use in order to accomplish a specific analysis.
+One of the most diffcult task in using a universe is choosing one that is relevant for you data. No methods are perfect, once you understand what is the purpose of using a universe, it is be up to you to specify which one to use in order to accomplish a specific analysis.
 But in general, the universe could be understood as **the set of regions that could have been used as query**.
 
 ## Enrichment using a universe
@@ -96,7 +125,7 @@ remapCatalog <- bedToGranges(remapCatalog2018hg38)
 enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, nCores=2)
 ```
 
-The data frame enrichment now contains the enrichment informations between ENCFF001VCU and the ReMap catalogue given ENCFF718QVA as a universe.
+The data frame `enrichment` now contains the enrichment informations between ENCFF001VCU and the ReMap catalogue given ENCFF718QVA as a universe.
 
 For more permissive universe you can use the parameter included as the fraction of shuffled regions that must be at least contained in universe regions (1 by default). For example included = 0.1 would allow at least 10% of shuffled regions to be within the universe. 
 
@@ -106,7 +135,7 @@ enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, nC
 # 90% of the shuffled regions can now be outside of the universe regions.
 ```
 
-Shuffling regions occurs in the whole genome but it is possible to restrict shuffles to occur only in the chromosome they originate with the parameter byChrom (FALSE by default).
+Shuffling regions occurs in the whole genome but it is possible to restrict shuffles to occur only in the chromosome they originate with the parameter byChrom (`FALSE` by default).
 
 ```{r}
 # Create the enrichment with a less restrictive universe.
@@ -142,7 +171,7 @@ randomRegions <- genRegions(100, 1000)
 
 For now, only the hg38 assembly has been used by default. It is important to know how to make enrichment analysis with other genomes. All functions in the ReMapEnrich package that uses shuffles or random regions generation must ackowledge the sizes of the chromosomes of the species in consideration.
 
-It is possible to load the chromosomes sizes of hg19 in one function.
+It is possible to load the chromosomes sizes of hg38 in one function.
 
 ```{r}
 hg38ChromSizes <- loadChromSizes("hg38")
@@ -153,10 +182,30 @@ But you may want to download other assemblies from the UCSC database.
 ```{r}
 # Example with rn5
 rn5ChromSizes <- downloadUcscChromSizes("rn5")
+
 # Creation of random regions in the rattus norvegicus genome.
 randomRegions <- genRegions(100, 1000, rn5ChromSizes)
+
 # Shuffling of regions in the rattus norvegicus genome.
 shuffledRegions <- shuffle(randomRegions, rn5ChromSizes)
+
+# Species relevant to current and future ReMap releases
+hg38ChromSizes <- downloadUcscChromSizes("hg38")
+hg19ChromSizes <- downloadUcscChromSizes("hg19")
+mm10ChromSizes <- downloadUcscChromSizes("mm10")
+dm6ChromSizes <- downloadUcscChromSizes("dm6")
+
+# Maybe one day
+ce11ChromSizes <- downloadUcscChromSizes("ce11")
+rn5ChromSizes <- downloadUcscChromSizes("rn5")
+
+#-- This warning message is known an issue from RMySQL
+# https://github.com/r-dbi/RMySQL/issues/37
+
+# Warning message:
+# In .local(conn, statement, ...) :
+#  Unsigned INTEGER in col 1 imported as numeric
+
 ```
 
 # References
