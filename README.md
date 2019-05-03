@@ -69,6 +69,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* We are grateful to Aurélien Griffon and Quentin Barbier for their very early contributions to this project. 
+We are grateful to Aurélien Griffon and Quentin Barbier for their very early contributions to this project. 
 
 
