@@ -44,17 +44,19 @@ Or just follow the steps described in the previous section, entering the code in
 
 This example is based on small dataset (input and catalog) released with the ReMapEnrich package. It will go through various  steps : loading data,  computing enrichments, visualizing results. 
 
-[Basic use](vignettes/basic_use.md) 
+[Basic use](vignettes/basic_use.md) documentations, and plot examples. 
 
 ### Advanced use
 
 Here we will be discovering more advanced functions and possibilities of the ReMapEnrich package. You may want to read the basics functions first in order to understand the principles of enrichment analysis.
 
-[Advanced use](vignettes/advanced_use.md) 
+[Advanced use](vignettes/advanced_use.md) documentations, and universe usage. 
 
 
 
-## Quick Code Access
+## Quick Enrichement Code - no fuzz
+
+Please read [Basic use](vignettes/basic_use.md) and [Advanced use](vignettes/advanced_use.md) for full  documentations of ReMapEnrich functionalities. 
 
 #### Load the ReMapEnrich library
 ```
@@ -70,7 +72,6 @@ query <- bedToGranges(system.file("extdata",
 ```
 
 #### Load the ReMap catalogue
-Please read [Basic use](vignettes/basic_use.md) and [Advanced use](vignettes/advanced_use.md) for more  documentations
 ```
 # Create a local directory 
 demo.dir <- "~/ReMapEnrich_demo"
@@ -95,7 +96,7 @@ Here we display a dot plot. Please read [Basic use](vignettes/basic_use.md) and 
 ```
 enrichmentDotPlot(enrichment.df)
 ```
-![alt text](vignettes/basic_use_files/figure-html/unnamed-chunk-7-1.png)
+![Dotplot](vignettes/basic_use_files/figure-html/unnamed-chunk-7-1.png)
 
 
 
