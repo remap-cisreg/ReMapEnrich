@@ -52,6 +52,41 @@ Here we will be discovering more advanced functions and possibilities of the ReM
 
 [Advanced use](vignettes/advanced_use.md) 
 
+#### Quick Code Access
+
+####Load the ReMapEnrich library
+```
+library(ReMapEnrich) 
+```
+
+#### Load the example dataset
+```
+query <- bedToGranges(system.file("extdata",
+                                  "ReMap_nrPeaks_public_chr22_SOX2.bed",
+                                  package = "ReMapEnrich"))
+
+```
+
+#### Load the ReMap atalogue.
+```
+# Create a local directory 
+demo.dir <- "~/ReMapEnrich_demo"
+dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
+
+# Use the function DowloadRemapCatalog
+remapCatalog2018hg38 <- downloadRemapCatalog(demo.dir)
+
+# Load the ReMap catalogue and convert it to Genomic Ranges
+remapCatalog <- bedToGranges(remapCatalog2018hg38)        
+```
+
+
+#### Compute enrichment
+The basic way to compute an enrichment is to run with default parameters. - no universe - single core - Default shuffling - defautl overlaps
+```
+enrichment.df <- enrichment(query, catalog, byChrom = TRUE)
+# The option byChrom is set to TRUE as we are only working on one chromosome for this analysis.
+```
 
 
 ## Authors
