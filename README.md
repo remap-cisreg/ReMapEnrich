@@ -18,9 +18,22 @@ Here are dependencies used in our package. Build will prompt for installation.
 R.utils, data.table, RMySQL, GenomicRanges
 ```
 
+### Install the ReMapEnrich R-package from GitHub
+
+To install a R package, start by installing the `devtools` package from CRAN. 
+```
+install.packages("devtools")
+```
+Install the ReMapEnrich R-package from GitHub using the following code, where you need to remember to list both the author and the name of the package 
+```
+library(devtools)
+install_github("remap-cisreg/ReMapEnrich")
+```
+
 ### Installing GitHub packages into RStudio
 
 Although RStudio does have various tools for installing packages, the most straightforward approach is to download the zipped file, open the `ReMapEnrich.Rpoject` file, and in Rstudio Build -> Install and Restart.
+Or just follow the steps described in the previous section, entering the code into the Console in RStudio. 
 
 
 ## Authors
@@ -38,6 +51,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
+* We are grateful to Aurélien Griffon and Quentin Barbier for their very early contributions to this project. 
 
 
