@@ -1,5 +1,5 @@
 ---
-title: "ReMapEnrich: basic usage"
+title: "ReMapEnrich: Basic usage"
 author: "Martin Mestdagh, Zacharie Ménétrier"
 date: "`r Sys.Date()`"
 package: "`r 'ReMapEnrich'`"
@@ -18,23 +18,25 @@ csl:
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
 knitr::opts_chunk$set(collapse = T, 
-                      comment = "##    ", 
+                      comment = "#--", 
                       eval=TRUE, 
                       echo=FALSE, 
                       warning = FALSE, 
                       results = FALSE, 
                       message = FALSE)
-options(tibble.print_min = 4L, tibble.print_max = 4L)
+options(tibble.print_min = 6L, tibble.print_max = 6L)
 library(dplyr)
 ```
 
 ## Abstract
 
-Current next generation sequencing studies generate a large variety of genomic regions ranging from regulatory regions with transcription factors or histone marks ChIP-seq to variant calls or coding/non-coding transcripts. Also, the number of complex catalogues from large-scale integrative efforts are increasing[@Cheneby:2018ix; @Griffon:2015en; @Ashoor:2015ey; @Amin:2015jm] and large sequencing projects[@RoadmapEpigenomicsConsortium:2015in; @ENCODEProjectConsortium:2012gc; @Fernandez:2016do].  To facilitate the interpretation of functional genomics, epigenomics and genomics data we have developed a R-software package ‘ReMapEnrich’ to identify significantly enriched regions from user defined catalogues. ReMapEnrich provide functions to import any in-house catalogue, automate and plot the enrichment analysis for genomic regions. 
+Current next generation sequencing studies generate a large variety of genomic regions ranging from regulatory regions with transcription factors or histone marks ChIP-seq to variant calls or coding/non-coding transcripts. Also, the number of complex catalogues from large-scale integrative efforts are increasing[@Cheneby:2018ix; @Griffon:2015en; @Ashoor:2015ey; @Amin:2015jm] and large sequencing projects[@RoadmapEpigenomicsConsortium:2015in; @ENCODEProjectConsortium:2012gc; @Fernandez:2016do].  
+
+To facilitate the interpretation of functional genomics, epigenomics and genomics data we have developed a R-software package `ReMapEnrich` to identify significantly enriched regions from user defined catalogues. ReMapEnrich provide functions to import any in-house catalogue, automate and plot the enrichment analysis for genomic regions. 
 
 ## Quick example
 
-This example is based on small datasets released with the ReMapEnrich package. 
+This example is based on small datasets released with the `ReMapEnrich` package. 
 
 It will go through the folowing steps. 
 
@@ -111,7 +113,7 @@ The result comes as a data frame (`enrichment.df`) which contains all the featur
 
 8. **Q-significance: ** minus-logarithm of the q-value: $q_{sig} = -log_{10}(q)$
 
-9. **Q-value:** correction of the p-value to take into account the multiple testing (due to the fact that the query is compared to each regulator of the remap catalogue). The q-value is an estimation of the false discovery rate (FDR). Several multiple-testing correction methods are supported by ReMapEnrich (default: "BH" for Benjamini-Hochberg).
+9. **Q-value:** correction of the p-value to take into account the multiple testing (due to the fact that the query is compared to each regulator of the remap catalogue). The q-value is an estimation of the false discovery rate (FDR). Several multiple-testing correction methods are supported by `ReMapEnrich` (default: "BH" for Benjamini-Hochberg).
 
 10. **E-significance:** minus-logarithm of the e-value: $q_{sig} = -log_{10}(E)$
 

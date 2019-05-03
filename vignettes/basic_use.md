@@ -1,5 +1,5 @@
 ---
-title: "ReMapEnrich: basic usage"
+title: "ReMapEnrich: Basic usage"
 author: "Martin Mestdagh, Zacharie Ménétrier"
 date: "2019-05-03"
 package: "ReMapEnrich"
@@ -20,11 +20,13 @@ csl:
 
 ## Abstract
 
-Current next generation sequencing studies generate a large variety of genomic regions ranging from regulatory regions with transcription factors or histone marks ChIP-seq to variant calls or coding/non-coding transcripts. Also, the number of complex catalogues from large-scale integrative efforts are increasing[@Cheneby:2018ix; @Griffon:2015en; @Ashoor:2015ey; @Amin:2015jm] and large sequencing projects[@RoadmapEpigenomicsConsortium:2015in; @ENCODEProjectConsortium:2012gc; @Fernandez:2016do].  To facilitate the interpretation of functional genomics, epigenomics and genomics data we have developed a R-software package ‘ReMapEnrich’ to identify significantly enriched regions from user defined catalogues. ReMapEnrich provide functions to import any in-house catalogue, automate and plot the enrichment analysis for genomic regions. 
+Current next generation sequencing studies generate a large variety of genomic regions ranging from regulatory regions with transcription factors or histone marks ChIP-seq to variant calls or coding/non-coding transcripts. Also, the number of complex catalogues from large-scale integrative efforts are increasing[@Cheneby:2018ix; @Griffon:2015en; @Ashoor:2015ey; @Amin:2015jm] and large sequencing projects[@RoadmapEpigenomicsConsortium:2015in; @ENCODEProjectConsortium:2012gc; @Fernandez:2016do].  
+
+To facilitate the interpretation of functional genomics, epigenomics and genomics data we have developed a R-software package `ReMapEnrich` to identify significantly enriched regions from user defined catalogues. ReMapEnrich provide functions to import any in-house catalogue, automate and plot the enrichment analysis for genomic regions. 
 
 ## Quick example
 
-This example is based on small datasets released with the ReMapEnrich package. 
+This example is based on small datasets released with the `ReMapEnrich` package. 
 
 It will go through the folowing steps. 
 
@@ -64,41 +66,41 @@ Notes
 ```r
 # Check what the catalog contains
 print(catalog)
-##     GRanges object with 98976 ranges and 2 metadata columns:
-##               seqnames            ranges strand |          id     score
-##                  <Rle>         <IRanges>  <Rle> | <character> <numeric>
-##           [1]    chr22 16050049-16051598      * |        MBD4     -40.4
-##           [2]    chr22 16050111-16050193      * |       NCOR2    -100.1
-##           [3]    chr22 16050116-16051390      * |        BRD4    -14.14
-##           [4]    chr22 16050341-16051306      * |      NKX2-1    -100.1
-##           [5]    chr22 16050431-16051070      * |       FOXA1     -8.14
-##           ...      ...               ...    ... .         ...       ...
-##       [98972]    chr22 51239301-51239707      * |       SMAD1    -33.33
-##       [98973]    chr22 51239371-51239450      * |        E2F6    -100.1
-##       [98974]    chr22 51241809-51241892      * |      CTNNB1    -100.1
-##       [98975]    chr22 51241901-51241950      * |        KLF4    -33.33
-##       [98976]    chr22 51244211-51244331      * |       CEBPB     -50.5
-##       -------
-##       seqinfo: 1 sequence from an unspecified genome; no seqlengths
+#-- GRanges object with 98976 ranges and 2 metadata columns:
+#--           seqnames            ranges strand |          id     score
+#--              <Rle>         <IRanges>  <Rle> | <character> <numeric>
+#--       [1]    chr22 16050049-16051598      * |        MBD4     -40.4
+#--       [2]    chr22 16050111-16050193      * |       NCOR2    -100.1
+#--       [3]    chr22 16050116-16051390      * |        BRD4    -14.14
+#--       [4]    chr22 16050341-16051306      * |      NKX2-1    -100.1
+#--       [5]    chr22 16050431-16051070      * |       FOXA1     -8.14
+#--       ...      ...               ...    ... .         ...       ...
+#--   [98972]    chr22 51239301-51239707      * |       SMAD1    -33.33
+#--   [98973]    chr22 51239371-51239450      * |        E2F6    -100.1
+#--   [98974]    chr22 51241809-51241892      * |      CTNNB1    -100.1
+#--   [98975]    chr22 51241901-51241950      * |        KLF4    -33.33
+#--   [98976]    chr22 51244211-51244331      * |       CEBPB     -50.5
+#--   -------
+#--   seqinfo: 1 sequence from an unspecified genome; no seqlengths
 
 # Check what the query contains
 print(query)
-##     GRanges object with 616 ranges and 2 metadata columns:
-##             seqnames            ranges strand |          id     score
-##                <Rle>         <IRanges>  <Rle> | <character> <numeric>
-##         [1]    chr22 16115696-16115821      * |        SOX2     -50.5
-##         [2]    chr22 16687711-16687815      * |        SOX2     -50.5
-##         [3]    chr22 16860611-16860784      * |        SOX2     -50.5
-##         [4]    chr22 16886641-16886785      * |        SOX2     -50.5
-##         [5]    chr22 16907901-16908105      * |        SOX2     -50.5
-##         ...      ...               ...    ... .         ...       ...
-##       [612]    chr22 49906161-49906442      * |        SOX2     -50.5
-##       [613]    chr22 50139461-50139586      * |        SOX2     -50.5
-##       [614]    chr22 50233306-50233435      * |        SOX2     -50.5
-##       [615]    chr22 51128401-51128513      * |        SOX2     -50.5
-##       [616]    chr22 51198171-51198471      * |        SOX2     -50.5
-##       -------
-##       seqinfo: 1 sequence from an unspecified genome; no seqlengths
+#-- GRanges object with 616 ranges and 2 metadata columns:
+#--         seqnames            ranges strand |          id     score
+#--            <Rle>         <IRanges>  <Rle> | <character> <numeric>
+#--     [1]    chr22 16115696-16115821      * |        SOX2     -50.5
+#--     [2]    chr22 16687711-16687815      * |        SOX2     -50.5
+#--     [3]    chr22 16860611-16860784      * |        SOX2     -50.5
+#--     [4]    chr22 16886641-16886785      * |        SOX2     -50.5
+#--     [5]    chr22 16907901-16908105      * |        SOX2     -50.5
+#--     ...      ...               ...    ... .         ...       ...
+#--   [612]    chr22 49906161-49906442      * |        SOX2     -50.5
+#--   [613]    chr22 50139461-50139586      * |        SOX2     -50.5
+#--   [614]    chr22 50233306-50233435      * |        SOX2     -50.5
+#--   [615]    chr22 51128401-51128513      * |        SOX2     -50.5
+#--   [616]    chr22 51198171-51198471      * |        SOX2     -50.5
+#--   -------
+#--   seqinfo: 1 sequence from an unspecified genome; no seqlengths
 ```
 
 As you can see, it is important for the catalogue to have proper IDs for each regions. All IDs found in the catalogue will be taken as a category and will be computed in enrichment analysis.
@@ -109,32 +111,32 @@ The IDs of the query will not be used for the rest of the enrichment analysis an
 
 ```r
 enrichment.df <- enrichment(query, catalog, byChrom = TRUE)
-##     Computing intersections.
-##     Computing shuffles. May take time.
-##     Consider using parallelization with the 'nCores' parameter.
-##     Extracting enrichment.
+#-- Computing intersections.
+#-- Computing shuffles. May take time.
+#-- Consider using parallelization with the 'nCores' parameter.
+#-- Extracting enrichment.
 head(enrichment.df)
-##             category nb.overlaps random.average mapped.peaks.ratio effect.size
-##     SOX2        SOX2         616      2.0000000         1.00000000    8.266787
-##     NANOG      NANOG         115      2.5000000         0.11782787    5.523562
-##     POU5F1    POU5F1          51      6.3333333         0.05290456    3.009460
-##     SMARCA4  SMARCA4          37      5.5000000         0.02786145    2.750022
-##     FOXH1      FOXH1          30      4.1666667         0.04279601    2.847997
-##     SMAD3      SMAD3          14      0.6666667         0.04281346    4.392317
-##             p.significance       p.value q.significance       q.value
-##     SOX2        1270.57222  0.000000e+00     1268.83593  0.000000e+00
-##     NANOG        145.44591 3.581671e-146      143.74181 1.812113e-144
-##     POU5F1        28.91718  1.210109e-29       27.24304  5.714270e-28
-##     SMARCA4       18.90763  1.237013e-19       17.26152  5.476232e-18
-##     FOXH1         16.45084  3.541316e-17       14.83106  1.475514e-15
-##     SMAD3         15.02896  9.354863e-16       13.43401  3.681226e-14
-##             e.significance       e.value
-##     SOX2        1268.45827  0.000000e+00
-##     NANOG        143.33197 4.656172e-144
-##     POU5F1        26.80323  1.573141e-27
-##     SMARCA4       16.79368  1.608117e-17
-##     FOXH1         14.33689  4.603711e-15
-##     SMAD3         12.91502  1.216132e-13
+#--         category nb.overlaps random.average mapped.peaks.ratio effect.size
+#-- SOX2        SOX2         616      1.5000000         1.00000000    8.681824
+#-- NANOG      NANOG         115      3.1666667         0.11782787    5.182525
+#-- POU5F1    POU5F1          51      3.5000000         0.05290456    3.865070
+#-- SMARCA4  SMARCA4          37      5.0000000         0.02786145    2.887525
+#-- FOXH1      FOXH1          30      4.0000000         0.04279601    2.906891
+#-- PRDM14    PRDM14           8      0.1666667         0.11111111    5.584963
+#--         p.significance       p.value q.significance       q.value
+#-- SOX2        1347.44262  0.000000e+00     1345.70634  0.000000e+00
+#-- NANOG        133.82408 1.499418e-134      132.11998 7.586163e-133
+#-- POU5F1        41.10551  7.843139e-42       39.43137  3.703618e-40
+#-- SMARCA4       20.26978  5.373061e-21       18.62367  2.378644e-19
+#-- FOXH1         16.93061  1.173244e-17       15.31083  4.888401e-16
+#-- PRDM14        12.62822  2.353863e-13       11.03326  9.262673e-12
+#--         e.significance       e.value
+#-- SOX2        1345.32868  0.000000e+00
+#-- NANOG        131.71013 1.949243e-132
+#-- POU5F1        38.99157  1.019608e-39
+#-- SMARCA4       18.15583  6.984979e-19
+#-- FOXH1         14.81667  1.525217e-15
+#-- PRDM14        10.51428  3.060022e-11
 ```
 
 The option `byChrom` is set to TRUE as we are only working on one chromosome for this analysis.
@@ -160,7 +162,7 @@ The result comes as a data frame (`enrichment.df`) which contains all the featur
 
 8. **Q-significance: ** minus-logarithm of the q-value: $q_{sig} = -log_{10}(q)$
 
-9. **Q-value:** correction of the p-value to take into account the multiple testing (due to the fact that the query is compared to each regulator of the remap catalogue). The q-value is an estimation of the false discovery rate (FDR). Several multiple-testing correction methods are supported by ReMapEnrich (default: "BH" for Benjamini-Hochberg).
+9. **Q-value:** correction of the p-value to take into account the multiple testing (due to the fact that the query is compared to each regulator of the remap catalogue). The q-value is an estimation of the false discovery rate (FDR). Several multiple-testing correction methods are supported by `ReMapEnrich` (default: "BH" for Benjamini-Hochberg).
 
 10. **E-significance:** minus-logarithm of the e-value: $q_{sig} = -log_{10}(E)$
 

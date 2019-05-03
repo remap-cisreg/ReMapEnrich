@@ -1,12 +1,12 @@
 ## ----echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE----------
 knitr::opts_chunk$set(collapse = T, 
-                      comment = "##    ", 
+                      comment = "#--", 
                       eval=TRUE, 
                       echo=FALSE, 
                       warning = FALSE, 
                       results = FALSE, 
                       message = FALSE)
-options(tibble.print_min = 4L, tibble.print_max = 4L)
+options(tibble.print_min = 6L, tibble.print_max = 6L)
 library(dplyr)
 
 ## ----init_query, echo=TRUE-----------------------------------------------

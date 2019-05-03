@@ -1,6 +1,8 @@
-## ---- echo = FALSE, message = FALSE--------------------------------------
-knitr::opts_chunk$set(collapse = T, comment = "#>", eval=FALSE)
-options(tibble.print_min = 4L, tibble.print_max = 4L)
+## ---- echo = FALSE, message = FALSE, warning=FALSE, paged.print=TRUE-----
+knitr::opts_chunk$set(collapse = T, 
+                      comment = "#--", 
+                      eval=FALSE)
+options(tibble.print_min = 6L, tibble.print_max = 6L)
 library(dplyr)
 
 ## ---- echo=TRUE----------------------------------------------------------
@@ -17,9 +19,8 @@ library(dplyr)
 ## ---- echo=TRUE----------------------------------------------------------
 #  # Load the ReMap catalogue and convert it to Genomic Ranges
 #  remapCatalog <- bedToGranges(remapCatalog2018hg38)
-#  
 
-## ------------------------------------------------------------------------
+## ---- echo=TRUE----------------------------------------------------------
 #  # Load the ReMapEnrich library
 #  library(ReMapEnrich)
 #  
@@ -29,12 +30,13 @@ library(dplyr)
 #                                      package = "ReMapEnrich")
 #  catalog <- bedToGranges(catalogFile)
 
-## ------------------------------------------------------------------------
+## ---- echo=TRUE----------------------------------------------------------
 #  # Downloading the ENCFF001VCU regions.
 #  ENCFF001VCU <- bedToGranges(downloadEncodePeaks("ENCFF001VCU", demo.dir))
 
-## ------------------------------------------------------------------------
-#  enrichment <- enrichment(ENCFF001VCU, remapCatalog)
+## ---- message=FALSE, warning=FALSE, echo=TRUE----------------------------
+#  enrichment.df <- enrichment(ENCFF001VCU, remapCatalog)
+#  head(enrichment.df)
 
 ## ------------------------------------------------------------------------
 #  # Download a universe.
@@ -42,16 +44,16 @@ library(dplyr)
 #  # Convert ReMap to GRanges
 #  remapCatalog <- bedToGranges(remapCatalog2018hg38)
 #  # Create the enrichment with the universe.
-#  enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, nCores=2)
+#  enrichment.df <- enrichment(ENCFF001VCU, remapCatalog, universe, nCores=2)
 
 ## ------------------------------------------------------------------------
 #  # Create the enrichment with a less restrictive universe.
-#  enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, nCores=2)
+#  enrichment.df <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, nCores=2)
 #  # 90% of the shuffled regions can now be outside of the universe regions.
 
 ## ------------------------------------------------------------------------
 #  # Create the enrichment with a less restrictive universe.
-#  enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE, nCores=2)
+#  enrichment.df <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE, nCores=2)
 #  # 90% of the shuffled regions can now be outside of the universe regions.
 #  # The shuffled regions are still in the same chromosome where they came from.
 
@@ -85,12 +87,5 @@ library(dplyr)
 #  # Maybe one day
 #  ce11ChromSizes <- downloadUcscChromSizes("ce11")
 #  rn5ChromSizes <- downloadUcscChromSizes("rn5")
-#  
-#  #-- This warning message is known an issue from RMySQL
-#  # https://github.com/r-dbi/RMySQL/issues/37
-#  
-#  # Warning message:
-#  # In .local(conn, statement, ...) :
-#  #  Unsigned INTEGER in col 1 imported as numeric
 #  
 

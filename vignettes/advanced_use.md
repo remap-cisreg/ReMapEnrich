@@ -1,5 +1,5 @@
 ---
-title: "ReMapEnrich: advanced use"
+title: "ReMapEnrich: Advanced usage"
 author: "Martin Mestdagh, Zacharie Ménétrier"
 date: "2019-05-03"
 package: "ReMapEnrich"
@@ -55,7 +55,6 @@ A file has also been downloaded at "~/ReMapEnrich_demo/remap1_hg38_nrPeaks.bed" 
 ```r
 # Load the ReMap catalogue and convert it to Genomic Ranges
 remapCatalog <- bedToGranges(remapCatalog2018hg38)
-
 ```
 
 
@@ -81,7 +80,7 @@ catalog <- bedToGranges(catalogFile)
 
 # Download ENCODE peaks
 
-We have added a fucntionnality to direclty fetch ENCODE peaks. Wkith ReMapEnrich tt is possible to download genomic regions of any ENCODE experiments with its ENCODE ID. In this example we download a BED file for the H3K27 histone mark in MCF-7 cell line. 
+We have added a fucntionnality to direclty fetch ENCODE peaks. With `ReMapEnrich` it is possible to download genomic regions of any ENCODE experiments using an ENCODE ID for a bed file (eg. ENCFF001VCU). In this example we download a BED file for the H3K27 histone mark in MCF-7 cell line. 
 
 
 ```r
@@ -89,7 +88,7 @@ We have added a fucntionnality to direclty fetch ENCODE peaks. Wkith ReMapEnrich
 ENCFF001VCU <- bedToGranges(downloadEncodePeaks("ENCFF001VCU", demo.dir))
 ```
 
-The ENCFF001VCU variable now contains all the regions of the given experiment a `Grange` object. It is possible to use it in future enrichment analysis.
+The ENCFF001VCU variable now contains all the regions of the given experiment a `GRange` object. It is possible to use it in future enrichment analysis.
 
 # Compute enrichment
 
@@ -101,7 +100,8 @@ The basic way to compute an enrichment is to run with default parameters.
 
 
 ```r
-enrichment <- enrichment(ENCFF001VCU, remapCatalog)
+enrichment.df <- enrichment(ENCFF001VCU, remapCatalog)
+head(enrichment.df)
 ```
 
 
@@ -125,17 +125,17 @@ universe <- bedToGranges(downloadEncodePeaks("ENCFF718QVA", demo.dir))
 # Convert ReMap to GRanges
 remapCatalog <- bedToGranges(remapCatalog2018hg38)
 # Create the enrichment with the universe.
-enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, nCores=2)
+enrichment.df <- enrichment(ENCFF001VCU, remapCatalog, universe, nCores=2)
 ```
 
-The data frame `enrichment` now contains the enrichment informations between ENCFF001VCU and the ReMap catalogue given ENCFF718QVA as a universe.
+The data frame `enrichment.df` now contains the enrichment informations between ENCFF001VCU and the ReMap catalogue given ENCFF718QVA as a universe.
 
 For more permissive universe you can use the parameter included as the fraction of shuffled regions that must be at least contained in universe regions (1 by default). For example included = 0.1 would allow at least 10% of shuffled regions to be within the universe. 
 
 
 ```r
 # Create the enrichment with a less restrictive universe.
-enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, nCores=2)
+enrichment.df <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, nCores=2)
 # 90% of the shuffled regions can now be outside of the universe regions.
 ```
 
@@ -144,7 +144,7 @@ Shuffling regions occurs in the whole genome but it is possible to restrict shuf
 
 ```r
 # Create the enrichment with a less restrictive universe.
-enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE, nCores=2)
+enrichment.df <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE, nCores=2)
 # 90% of the shuffled regions can now be outside of the universe regions.
 # The shuffled regions are still in the same chromosome where they came from.
 ```
@@ -176,7 +176,7 @@ randomRegions <- genRegions(100, 1000)
 
 # Other assemblies
 
-For now, only the hg38 assembly has been used by default. It is important to know how to make enrichment analysis with other genomes. All functions in the ReMapEnrich package that uses shuffles or random regions generation must ackowledge the sizes of the chromosomes of the species in consideration.
+For now, only the hg38 assembly has been used by default. It is important to know how to make enrichment analysis with other genomes. All functions in the `ReMapEnrich` package that uses shuffles or random regions generation must ackowledge the sizes of the chromosomes of the species in consideration.
 
 It is possible to load the chromosomes sizes of hg38 in one function.
 
@@ -207,13 +207,6 @@ dm6ChromSizes <- downloadUcscChromSizes("dm6")
 # Maybe one day
 ce11ChromSizes <- downloadUcscChromSizes("ce11")
 rn5ChromSizes <- downloadUcscChromSizes("rn5")
-
-#-- This warning message is known an issue from RMySQL
-# https://github.com/r-dbi/RMySQL/issues/37
-
-# Warning message:
-# In .local(conn, statement, ...) :
-#  Unsigned INTEGER in col 1 imported as numeric
 
 ```
 
