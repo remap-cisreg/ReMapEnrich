@@ -44,12 +44,13 @@ Or just follow the steps described in the previous section, entering the code in
 
 This example is based on small dataset (input and catalog) released with the ReMapEnrich package. It will go through various  steps : loading data,  computing enrichments, visualizing results. 
 
-[Basic use](docs/basic_use/basic_use.md) 
+[Basic use](vignettes/basic_use.md) 
 
 ### Advanced use
 
-### Statistical validation
+Here we will be discovering more advanced functions and possibilities of the ReMapEnrich package. You may want to read the basics functions first in order to understand the principles of enrichment analysis.
 
+[Advanced use](vignettes/advanced_use.md) 
 
 
 
