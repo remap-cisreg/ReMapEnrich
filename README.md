@@ -38,9 +38,16 @@ Although RStudio does have various tools for installing packages, the most strai
 Or just follow the steps described in the previous section, entering the code into the Console in RStudio. 
 
 
-## About
+## Using ReMapEnrich
+
+### Basic use
+
+This example is based on small dataset (input and catalog) released with the ReMapEnrich package. It will go through various  steps : loading data,  computing enrichments, visualizing results. 
 
 
+### Advanced use
+
+### Statistical validation
 
 
 
