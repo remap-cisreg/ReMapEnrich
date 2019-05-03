@@ -52,9 +52,11 @@ Here we will be discovering more advanced functions and possibilities of the ReM
 
 [Advanced use](vignettes/advanced_use.md) 
 
-#### Quick Code Access
 
-####Load the ReMapEnrich library
+
+## Quick Code Access
+
+#### Load the ReMapEnrich library
 ```
 library(ReMapEnrich) 
 ```
