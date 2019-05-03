@@ -7,7 +7,9 @@ vignette: >
     %\VignetteIndexEntry{ReMapEnrich-quick-tour}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
-output: github_document
+output: 
+  html_document:
+    keep_md: true
 bibliography: 
     bibliography.bib
 csl:
