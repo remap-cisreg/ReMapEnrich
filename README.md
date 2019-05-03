@@ -44,7 +44,7 @@ Or just follow the steps described in the previous section, entering the code in
 
 This example is based on small dataset (input and catalog) released with the ReMapEnrich package. It will go through various  steps : loading data,  computing enrichments, visualizing results. 
 
-[Basic use](docs/basic_use.md) 
+[Basic use](docs/basic_use/basic_use.md) 
 
 ### Advanced use
 
