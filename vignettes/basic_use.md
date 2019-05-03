@@ -1,28 +1,19 @@
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
+ReMapEnrich Basic Usage
+=======================
 
 Abstract
-========
+--------
 
 Current next generation sequencing studies generate a large variety of genomic regions ranging from regulatory regions with transcription factors or histone marks ChIP-seq to variant calls or coding/non-coding transcripts. Also, the number of complex catalogues from large-scale integrative efforts are increasing\[1–4\] and large sequencing projects\[5–7\]. To facilitate the interpretation of functional genomics, epigenomics and genomics data we have developed a R-software package ‘ReMapEnrich’ to identify significantly enriched regions from user defined catalogues. ReMapEnrich provide functions to import any in-house catalogue, automate and plot the enrichment analysis for genomic regions.
 
 Quick example
-=============
+-------------
 
 This example is based on small datasets released with the ReMapEnrich package.
 
 It will go through the folowing steps.
 
-Loading a minimal set of regions
---------------------------------
+### Loading a minimal set of regions
 
 -   A **query set** of genomic regions (all the annotated SOX2 binidng regions on the chromosome 22).
 -   Load a (reduced) catalogue of reference genomic regions (all the annotated regions of the chromosome22).
@@ -92,8 +83,7 @@ print(query)
 
 As you can see, it is important for the catalogue to have proper IDs for each regions. All IDs found in the catalogue will be taken as a category and will be computed in enrichment analysis. The IDs of the query will not be used for the rest of the enrichment analysis and can be ignored.
 
-Computing enrichment of intersections between the query and each entry of the catalogue
----------------------------------------------------------------------------------------
+### Computing enrichment of intersections between the query and each entry of the catalogue
 
 ``` r
 enrichment.df <- enrichment(query, catalog, byChrom = TRUE)
@@ -103,32 +93,31 @@ enrichment.df <- enrichment(query, catalog, byChrom = TRUE)
 ##     Extracting enrichment.
 head(enrichment.df)
 ##             category nb.overlaps random.average mapped.peaks.ratio effect.size
-##     SOX2        SOX2         616      2.8333333         1.00000000    7.764286
-##     NANOG      NANOG         115      4.5000000         0.11782787    4.675565
-##     POU5F1    POU5F1          51      3.8333333         0.05290456    3.733826
-##     SMARCA4  SMARCA4          37      4.8333333         0.02786145    2.936435
-##     FOXH1      FOXH1          30      3.5000000         0.04279601    3.099536
-##     SMAD3      SMAD3          14      0.6666667         0.04281346    4.392317
+##     SOX2        SOX2         616       1.833333         1.00000000    8.392317
+##     NANOG      NANOG         115       4.000000         0.11782787    4.845490
+##     POU5F1    POU5F1          51       4.833333         0.05290456    3.399407
+##     FOXH1      FOXH1          30       2.833333         0.04279601    3.404390
+##     SMARCA4  SMARCA4          37       6.000000         0.02786145    2.624491
+##     AR            AR          45       9.833333         0.02238806    2.194173
 ##             p.significance       p.value q.significance       q.value
-##     SOX2        1177.60138  0.000000e+00     1176.00643  0.000000e+00
-##     NANOG        116.69524 2.017233e-117      115.12377 7.520212e-116
-##     POU5F1        39.19290  6.413499e-40       37.64371  2.271395e-38
-##     SMARCA4       20.75899  1.741862e-21       19.23098  5.875193e-20
-##     FOXH1         18.51883  3.028075e-19       17.01103  9.749256e-18
-##     SMAD3         15.02896  9.354863e-16       13.54046  2.880960e-14
+##     SOX2        1293.81549  0.000000e+00     1292.11139  0.000000e+00
+##     NANOG        122.41371 3.857324e-123      120.73958 1.821472e-121
+##     POU5F1        34.38346  4.135627e-35       32.73735  1.830834e-33
+##     FOXH1         21.08415  8.238449e-22       19.46438  3.432607e-20
+##     SMARCA4       17.68234  2.078063e-18       16.08739  8.177374e-17
+##     AR            16.24557  5.681057e-17       14.67410  2.117889e-15
 ##             e.significance       e.value
-##     SOX2        1175.48744  0.000000e+00
-##     NANOG        114.58130 2.622403e-115
-##     POU5F1        37.07896  8.337549e-38
-##     SMARCA4       18.64504  2.264421e-19
-##     FOXH1         16.40489  3.936497e-17
-##     SMAD3         12.91502  1.216132e-13
+##     SOX2        1291.70155  0.000000e+00
+##     NANOG        120.29977 5.014521e-121
+##     POU5F1        32.26952  5.376316e-33
+##     FOXH1         18.97021  1.070998e-19
+##     SMARCA4       15.56840  2.701482e-16
+##     AR            14.13163  7.385374e-15
 ```
 
 The option `byChrom` is set to TRUE as we are only working on one chromosome for this analysis.
 
-Format of the result table
---------------------------
+### Format of the result table
 
 The result comes as a data frame (`enrichment.df`) which contains all the features of the catalogue with their enrichment values.
 
@@ -154,20 +143,19 @@ The result comes as a data frame (`enrichment.df`) which contains all the featur
 
 11. **E-value:** expected number of false positives for a given p-value.
 
-Statistical interpretation
---------------------------
+### Statistical interpretation
 
 The data frame is ordered by decreasing significance (`p.significance` column). Since it returns different overlap statistics, it is not obvious to interpret the results and to know which column should be considered.
 
-### Which statistics gives me an intuition of the enrichment?
+#### Which statistics gives me an intuition of the enrichment?
 
 The direct measure of enrichment is the `effect.size`, defined above as the log-ratio between observed and expected overlaps. Positive/negative values respectively indicate enrichment (more overlaps than expected by chance) or empoverishment (less overlaps than expected by chance). Note that in usual working conditions, the effect sizes are generally positive, but the same analysis could in principle be led to compare other region types.
 
-### How much does my query cover the reference regions?
+#### How much does my query cover the reference regions?
 
 The column `mapped.peak.ratio` indicates the coverage, i.e. the fraction of regions annotated for the considered regulator that are covered by the query regions.
 
-### Which statistics should be used to select significant overlaps?
+#### Which statistics should be used to select significant overlaps?
 
 This might be considered a matter of religion. Rather than promoting our own preference, `ReMapEnrich` returns different significance statistics, and lets you choose your preferred one. What really matters is to understand the nature of the information returned by each statistic.
 
@@ -177,10 +165,9 @@ This might be considered a matter of religion. Rather than promoting our own pre
 
 -   The `q.value` indicates the false discovery rate (FDR) indicates the proportion of false positive results among those declared positive. Since the results are sorted by decreasing significance, the FDR found in a given row indicates the proportion of false positives that should be expected in all the results at least as significant as this one, i.e. among all the rows above this one (included).
 
-### Which threshold should I choose on the significance?
+#### Which threshold should I choose on the significance?
 
-Biological interpretation of the results
-----------------------------------------
+### Biological interpretation of the results
 
 It is interesting to give some hints about the biological relevance of the results.
 
@@ -201,21 +188,24 @@ It is important to specify that this example is only relevant for the hg19 assem
 This vignette will presents graphical representations of enrichment analysis that are implemented in this package.
 
 Graphical functions
-===================
+-------------------
 
 Multiple graphical representations of enrichment analysis are implemented in this package.
 
-Bar plot
---------
+### Bar plot
 
 We can now display a bar plot which is the most basic representation of an enrichment analysis.
 
-![](/private/var/folders/0s/kyrkxvhs0z31686kqykvkp040000gn/T/RtmpZEhQdJ/preview-33fd6acfe0e9.dir/basic_use_files/figure-markdown_github/unnamed-chunk-4-1.png)
+``` r
+# Display a bar plot
+enrichmentBarPlot(enrichment.df, sigDisplayQuantile = 0.5, top = 20, aRisk = 0.00001)
+```
+
+![](/private/var/folders/0s/kyrkxvhs0z31686kqykvkp040000gn/T/RtmpZEhQdJ/preview-33fd75b717c7.dir/basic_use_files/figure-markdown_github/unnamed-chunk-4-1.png)
 
 The displayed plot represents the most significant categories and their q-significances. The sigDisplayQuantile parameter allow to choose a quatile limit at which the bars will stop expanding. The values of those bars will be displayed on it. The top parameter allow to choose how many categories you want to be displayed on the plot, and the aRisk represents the alpha risk that will be rescaled as the significance in order to see which categories reject the null hypothesis.
 
-Volcano plot
-------------
+### Volcano plot
 
 A volcano plot is a type of scatter-plot that is used to quickly identify changes in large data sets composed of replicate data. It plots significance versus fold-change on the y and x axes, respectively. As effect size in enrichment analysis is rarely negative you must expect the volcano plot to only expand in one direction.
 
@@ -224,10 +214,9 @@ A volcano plot is a type of scatter-plot that is used to quickly identify change
 enrichmentVolcanoPlot(na.omit(enrichment.df), sigDisplayQuantile = 0.9, aRisk = 0.00001)
 ```
 
-![](/private/var/folders/0s/kyrkxvhs0z31686kqykvkp040000gn/T/RtmpZEhQdJ/preview-33fd6acfe0e9.dir/basic_use_files/figure-markdown_github/unnamed-chunk-5-1.png)
+![](/private/var/folders/0s/kyrkxvhs0z31686kqykvkp040000gn/T/RtmpZEhQdJ/preview-33fd75b717c7.dir/basic_use_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
-Dot plot
---------
+### Dot plot
 
 The enrichment dot plot is a good way to compare various informations in the enrichment analysis. It gives hints about the number of overlaps, the mapped peaks ratio and the q-significance for the given number of categories.
 
@@ -236,7 +225,7 @@ The enrichment dot plot is a good way to compare various informations in the enr
 enrichmentDotPlot(enrichment.df)
 ```
 
-![](/private/var/folders/0s/kyrkxvhs0z31686kqykvkp040000gn/T/RtmpZEhQdJ/preview-33fd6acfe0e9.dir/basic_use_files/figure-markdown_github/unnamed-chunk-6-1.png)
+![](/private/var/folders/0s/kyrkxvhs0z31686kqykvkp040000gn/T/RtmpZEhQdJ/preview-33fd75b717c7.dir/basic_use_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
 It should be interesting here to avoid representation of the SOX2 category as it enriched against itself in the chromosome 22.
 
@@ -245,10 +234,10 @@ It should be interesting here to avoid representation of the SOX2 category as it
 enrichmentDotPlot(enrichment.df[enrichment.df$category != "SOX2",])
 ```
 
-![](/private/var/folders/0s/kyrkxvhs0z31686kqykvkp040000gn/T/RtmpZEhQdJ/preview-33fd6acfe0e9.dir/basic_use_files/figure-markdown_github/unnamed-chunk-7-1.png)
+![](/private/var/folders/0s/kyrkxvhs0z31686kqykvkp040000gn/T/RtmpZEhQdJ/preview-33fd75b717c7.dir/basic_use_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
 References
-==========
+----------
 
 1. Chèneby J, Gheorghe M, Artufel M, Mathelier A, Ballester B. ReMap 2018: an updated atlas of regulatory regions from an integrative analysis of DNA-binding ChIP-seq experiments. Nucleic acids research. 2018;46:D267–75.
 
