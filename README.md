@@ -95,7 +95,7 @@ Here we display a dot plot. Please read [Basic use](vignettes/basic_use.md) and 
 ```
 enrichmentDotPlot(enrichment.df)
 ```
-![alt text](vignettes/basic_use_fils/figure-html/unamed-chunk-7-1.png)
+![alt text](vignettes/basic_use_files/figure-html/unnamed-chunk-7-1.png)
 
 
 
