@@ -69,7 +69,8 @@ query <- bedToGranges(system.file("extdata",
 
 ```
 
-#### Load the ReMap atalogue.
+#### Load the ReMap catalogue
+Please read [Basic use](vignettes/basic_use.md) and [Advanced use](vignettes/advanced_use.md) for more  documentations
 ```
 # Create a local directory 
 demo.dir <- "~/ReMapEnrich_demo"
@@ -82,13 +83,20 @@ remapCatalog2018hg38 <- downloadRemapCatalog(demo.dir)
 remapCatalog <- bedToGranges(remapCatalog2018hg38)        
 ```
 
-
 #### Compute enrichment
-The basic way to compute an enrichment is to run with default parameters. - no universe - single core - Default shuffling - defautl overlaps
+The basic way to compute an enrichment is to run with default parameters. - no universe - single core - Default shuffling - defautl overlaps. Please read [Basic use vignette](vignettes/basic_use.md) for more documentations
 ```
 enrichment.df <- enrichment(query, catalog, byChrom = TRUE)
 # The option byChrom is set to TRUE as we are only working on one chromosome for this analysis.
 ```
+
+#### Plot the enriched TFs
+Here we display a dot plot. Please read [Basic use](vignettes/basic_use.md) and [Advanced use](vignettes/advanced_use.md) for more  documentations
+```
+enrichmentDotPlot(enrichment.df)
+```
+![alt text](vignettes/basic_use_fils/figure-html/unamed-chunk-7-1.png)
+
 
 
 ## Authors
