@@ -1,8 +1,8 @@
 ---
 title: "ReMapEnrich: basic usage"
 author: "Martin Mestdagh, Zacharie Ménétrier"
-date: "`r Sys.Date()`"
-package: "`r 'ReMapEnrich'`"
+date: "2019-05-03"
+package: "ReMapEnrich"
 vignette: >
     %\VignetteIndexEntry{ReMapEnrich-quick-tour}
     %\VignetteEncoding{UTF-8}
@@ -16,17 +16,7 @@ csl:
     biomed-central.csl
 ---
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
-knitr::opts_chunk$set(collapse = T, 
-                      comment = "##    ", 
-                      eval=TRUE, 
-                      echo=FALSE, 
-                      warning = FALSE, 
-                      results = FALSE, 
-                      message = FALSE)
-options(tibble.print_min = 4L, tibble.print_max = 4L)
-library(dplyr)
-```
+
 
 ## Abstract
 
@@ -44,7 +34,8 @@ It will go through the folowing steps.
 - Load a (reduced) catalogue of reference genomic regions (all the annotated regions of the chromosome22). 
 
 
-```{r init_query, echo=TRUE}
+
+```r
 # Load the ReMapEnrich library
 library(ReMapEnrich) 
 
@@ -69,13 +60,45 @@ Notes
 
 
 
-```{r echo=TRUE, results=TRUE}
+
+```r
 # Check what the catalog contains
 print(catalog)
+##     GRanges object with 98976 ranges and 2 metadata columns:
+##               seqnames            ranges strand |          id     score
+##                  <Rle>         <IRanges>  <Rle> | <character> <numeric>
+##           [1]    chr22 16050049-16051598      * |        MBD4     -40.4
+##           [2]    chr22 16050111-16050193      * |       NCOR2    -100.1
+##           [3]    chr22 16050116-16051390      * |        BRD4    -14.14
+##           [4]    chr22 16050341-16051306      * |      NKX2-1    -100.1
+##           [5]    chr22 16050431-16051070      * |       FOXA1     -8.14
+##           ...      ...               ...    ... .         ...       ...
+##       [98972]    chr22 51239301-51239707      * |       SMAD1    -33.33
+##       [98973]    chr22 51239371-51239450      * |        E2F6    -100.1
+##       [98974]    chr22 51241809-51241892      * |      CTNNB1    -100.1
+##       [98975]    chr22 51241901-51241950      * |        KLF4    -33.33
+##       [98976]    chr22 51244211-51244331      * |       CEBPB     -50.5
+##       -------
+##       seqinfo: 1 sequence from an unspecified genome; no seqlengths
 
 # Check what the query contains
 print(query)
-
+##     GRanges object with 616 ranges and 2 metadata columns:
+##             seqnames            ranges strand |          id     score
+##                <Rle>         <IRanges>  <Rle> | <character> <numeric>
+##         [1]    chr22 16115696-16115821      * |        SOX2     -50.5
+##         [2]    chr22 16687711-16687815      * |        SOX2     -50.5
+##         [3]    chr22 16860611-16860784      * |        SOX2     -50.5
+##         [4]    chr22 16886641-16886785      * |        SOX2     -50.5
+##         [5]    chr22 16907901-16908105      * |        SOX2     -50.5
+##         ...      ...               ...    ... .         ...       ...
+##       [612]    chr22 49906161-49906442      * |        SOX2     -50.5
+##       [613]    chr22 50139461-50139586      * |        SOX2     -50.5
+##       [614]    chr22 50233306-50233435      * |        SOX2     -50.5
+##       [615]    chr22 51128401-51128513      * |        SOX2     -50.5
+##       [616]    chr22 51198171-51198471      * |        SOX2     -50.5
+##       -------
+##       seqinfo: 1 sequence from an unspecified genome; no seqlengths
 ```
 
 As you can see, it is important for the catalogue to have proper IDs for each regions. All IDs found in the catalogue will be taken as a category and will be computed in enrichment analysis.
@@ -83,9 +106,35 @@ The IDs of the query will not be used for the rest of the enrichment analysis an
 
 ### Computing enrichment of intersections between the query and each entry of the catalogue
 
-```{r echo=TRUE, results=TRUE}
+
+```r
 enrichment.df <- enrichment(query, catalog, byChrom = TRUE)
+##     Computing intersections.
+##     Computing shuffles. May take time.
+##     Consider using parallelization with the 'nCores' parameter.
+##     Extracting enrichment.
 head(enrichment.df)
+##             category nb.overlaps random.average mapped.peaks.ratio effect.size
+##     SOX2        SOX2         616      2.0000000         1.00000000    8.266787
+##     NANOG      NANOG         115      2.5000000         0.11782787    5.523562
+##     POU5F1    POU5F1          51      6.3333333         0.05290456    3.009460
+##     SMARCA4  SMARCA4          37      5.5000000         0.02786145    2.750022
+##     FOXH1      FOXH1          30      4.1666667         0.04279601    2.847997
+##     SMAD3      SMAD3          14      0.6666667         0.04281346    4.392317
+##             p.significance       p.value q.significance       q.value
+##     SOX2        1270.57222  0.000000e+00     1268.83593  0.000000e+00
+##     NANOG        145.44591 3.581671e-146      143.74181 1.812113e-144
+##     POU5F1        28.91718  1.210109e-29       27.24304  5.714270e-28
+##     SMARCA4       18.90763  1.237013e-19       17.26152  5.476232e-18
+##     FOXH1         16.45084  3.541316e-17       14.83106  1.475514e-15
+##     SMAD3         15.02896  9.354863e-16       13.43401  3.681226e-14
+##             e.significance       e.value
+##     SOX2        1268.45827  0.000000e+00
+##     NANOG        143.33197 4.656172e-144
+##     POU5F1        26.80323  1.573141e-27
+##     SMARCA4       16.79368  1.608117e-17
+##     FOXH1         14.33689  4.603711e-15
+##     SMAD3         12.91502  1.216132e-13
 ```
 
 The option `byChrom` is set to TRUE as we are only working on one chromosome for this analysis.
@@ -175,10 +224,13 @@ Multiple graphical representations of enrichment analysis are implemented in thi
 
 We can now display a bar plot which is the most basic representation of an enrichment analysis.
 
-```{r echo=TRUE}
+
+```r
 # Display a bar plot
 enrichmentBarPlot(enrichment.df, sigDisplayQuantile = 0.5, top = 20, aRisk = 0.00001)
 ```
+
+![](basic_use_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 The displayed plot represents the most significant categories and their q-significances. The sigDisplayQuantile parameter allow to choose a quatile limit at which the bars will stop expanding. The values of those bars will be displayed on it.
 The top parameter allow to choose how many categories you want to be displayed on the plot, and the aRisk represents the alpha risk that will be rescaled as the significance in order to see which categories reject the null hypothesis.
@@ -187,26 +239,35 @@ The top parameter allow to choose how many categories you want to be displayed o
 
 A volcano plot is a type of scatter-plot that is used to quickly identify changes in large data sets composed of replicate data. It plots significance versus fold-change on the y and x axes, respectively. As effect size in enrichment analysis is rarely negative you must expect the volcano plot to only expand in one direction.
 
-```{r, echo=TRUE}
+
+```r
 # Display a volcano plot (na.omit() is mandatory as there is NAs in the enrichment data frame).
 enrichmentVolcanoPlot(na.omit(enrichment.df), sigDisplayQuantile = 0.9, aRisk = 0.00001)
 ```
+
+![](basic_use_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 ### Dot plot
 
 The enrichment dot plot is a good way to compare various informations in the enrichment analysis. It gives hints about the number of overlaps, the mapped peaks ratio and the q-significance for the given number of categories.
 
-```{r, echo=TRUE, fig.height=7}
+
+```r
 # Display a dot plot.
 enrichmentDotPlot(enrichment.df)
 ```
 
+![](basic_use_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
 It should be interesting here to avoid representation of the SOX2 category as it enriched against itself in the chromosome 22.
 
-```{r, echo=TRUE, fig.height=7}
+
+```r
 # Display a dot plot without SOX2.
 enrichmentDotPlot(enrichment.df[enrichment.df$category != "SOX2",])
 ```
+
+![](basic_use_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 
 ## References

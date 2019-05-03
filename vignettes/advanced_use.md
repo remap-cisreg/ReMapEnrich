@@ -1,8 +1,8 @@
 ---
 title: "ReMapEnrich: advanced use"
 author: "Martin Mestdagh, Zacharie Ménétrier"
-date: "`r Sys.Date()`"
-package: "`r 'ReMapEnrich'`"
+date: "2019-05-03"
+package: "ReMapEnrich"
 vignette: >
     %\VignetteIndexEntry{ReMapEnrich-advanced-use}
     %\VignetteEngine{knitr::rmarkdown}
@@ -16,11 +16,7 @@ csl:
     biomed-central.csl
 ---
 
-```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>", eval=FALSE)
-options(tibble.print_min = 4L, tibble.print_max = 4L)
-library(dplyr)
-```
+
 
 # Abstract
 
@@ -37,7 +33,8 @@ There is 4 different versions of the ReMap catalogue.
 The current version of ReMap 2018 [@Cheneby:2018ix] and the previous ReMap 2015 release [@Griffon:2015en].
 Both are declined in hg19 or hg38 assemblies. This function will download the files locally. 
 
-```{r, echo=TRUE}
+
+```r
 # Create a local directory for the tutorial
 demo.dir <- "~/ReMapEnrich_demo"
 dir.create(demo.dir, showWarnings = FALSE, recursive = TRUE)
@@ -54,7 +51,8 @@ A file has also been downloaded at "~/ReMapEnrich_demo/remap1_hg38_nrPeaks.bed" 
 
 ## Load the ReMap catalogue
 
-```{r, echo=TRUE}
+
+```r
 # Load the ReMap catalogue and convert it to Genomic Ranges
 remapCatalog <- bedToGranges(remapCatalog2018hg38)
 
@@ -67,7 +65,8 @@ remapCatalog <- bedToGranges(remapCatalog2018hg38)
 Another funtionnality  of this package is the ability to load a custom catalogue instead of ReMap. This is quite simple starting from a BED file as your catalogue.
 In this example, we load a custom catalogue present in `extdata/`, this is just a BED file for chr22 as dummy example. 
 
-```{r}
+
+```r
 # Load the ReMapEnrich library
 library(ReMapEnrich) 
 
@@ -84,7 +83,8 @@ catalog <- bedToGranges(catalogFile)
 
 We have added a fucntionnality to direclty fetch ENCODE peaks. Wkith ReMapEnrich tt is possible to download genomic regions of any ENCODE experiments with its ENCODE ID. In this example we download a BED file for the H3K27 histone mark in MCF-7 cell line. 
 
-```{r}
+
+```r
 # Downloading the ENCFF001VCU regions.
 ENCFF001VCU <- bedToGranges(downloadEncodePeaks("ENCFF001VCU", demo.dir))
 ```
@@ -99,7 +99,8 @@ The basic way to compute an enrichment is to run with default parameters.
 - Default shuffling
 - defautl overlaps
 
-```{r}
+
+```r
 enrichment <- enrichment(ENCFF001VCU, remapCatalog)
 ```
 
@@ -117,7 +118,8 @@ But in general, the universe could be understood as **the set of regions that co
 
 ## Enrichment using a universe
 
-```{r}
+
+```r
 # Download a universe.
 universe <- bedToGranges(downloadEncodePeaks("ENCFF718QVA", demo.dir))
 # Convert ReMap to GRanges
@@ -130,7 +132,8 @@ The data frame `enrichment` now contains the enrichment informations between ENC
 
 For more permissive universe you can use the parameter included as the fraction of shuffled regions that must be at least contained in universe regions (1 by default). For example included = 0.1 would allow at least 10% of shuffled regions to be within the universe. 
 
-```{r}
+
+```r
 # Create the enrichment with a less restrictive universe.
 enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, nCores=2)
 # 90% of the shuffled regions can now be outside of the universe regions.
@@ -138,7 +141,8 @@ enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, nC
 
 Shuffling regions occurs in the whole genome but it is possible to restrict shuffles to occur only in the chromosome they originate with the parameter byChrom (`FALSE` by default).
 
-```{r}
+
+```r
 # Create the enrichment with a less restrictive universe.
 enrichment <- enrichment(ENCFF001VCU, remapCatalog, universe, included = 0.1, byChrom = TRUE, nCores=2)
 # 90% of the shuffled regions can now be outside of the universe regions.
@@ -154,7 +158,8 @@ In this two functions, it is possible to use all the parameters already mentione
 
 Shuffling regions consists in randomly reordering the positions of the query regions within a genome.
 
-```{r}
+
+```r
 # Shuffling ENCFF001VCU
 shuffledENCFF001VCU <- shuffle(ENCFF001VCU, universe = universe, byChrom = TRUE)
 ```
@@ -163,7 +168,8 @@ shuffledENCFF001VCU <- shuffle(ENCFF001VCU, universe = universe, byChrom = TRUE)
 
 It is sometimes useful to generate purely random regions, for negatives controls for example.
 
-```{r}
+
+```r
 # Generate 100 random regions with a size of 1000 bases pair.
 randomRegions <- genRegions(100, 1000)
 ```
@@ -174,13 +180,15 @@ For now, only the hg38 assembly has been used by default. It is important to kno
 
 It is possible to load the chromosomes sizes of hg38 in one function.
 
-```{r}
+
+```r
 hg38ChromSizes <- loadChromSizes("hg38")
 ```
 
 But you may want to download other assemblies from the UCSC database.
 
-```{r}
+
+```r
 # Example with rn5
 rn5ChromSizes <- downloadUcscChromSizes("rn5")
 

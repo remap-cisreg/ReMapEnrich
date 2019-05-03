@@ -11,11 +11,11 @@ version = "2018", assembly = "hg38", force = FALSE, store = TRUE)
 \item{targetDir}{The name of the directory to download the catalogue in.}
 
 \item{fileName=""}{The name of the file after downloading.
-If let empty, default url names will be applied.}
+If left empty, default url names will be applied.}
 
 \item{version="2018"}{The year version of the catalog 2018 or 2015.}
 
-\item{assembly="hg38"}{The  genomic version of assembly hg38 or hg19.}
+\item{assembly="hg38"}{The  genomic version of assembly hg38 or hg19 for human.}
 
 \item{force=FALSE}{If FALSE (default), then no file is overwrited and the
 user is given confirmation message.}
@@ -24,7 +24,7 @@ user is given confirmation message.}
 on the disk else it is only loaded as an R object.}
 }
 \value{
-A data frame containing the Remap genomic regions if store = FALSE
+A data frame containing the ReMap genomic regions if store = FALSE
 else the path to the catalog file.
 }
 \description{
