@@ -21,10 +21,12 @@ R.utils, data.table, RMySQL, GenomicRanges
 ### Install the ReMapEnrich R-package from GitHub
 
 To install a R package, start by installing the `devtools` package from CRAN. 
+
 ```
 install.packages("devtools")
 ```
 Install the ReMapEnrich R-package from GitHub using the following code, where you need to remember to list both the author and the name of the package 
+
 ```
 library(devtools)
 install_github("remap-cisreg/ReMapEnrich")
