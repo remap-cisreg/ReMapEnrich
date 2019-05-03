@@ -5,6 +5,8 @@
 #' 
 #' @param query The genomic ranges object containing the genomic regions to analyze.
 #' @param catalog The genomic ranges object containing the database used for annotation.
+#' @param universe=NULL A set of genomic regions that prevent shuffles
+#' for occuring outside of it.
 #' @param chromSizes=LoadChromSizes("hg38") A vector containing all the chromosome 
 #' lengths for the species in consideration.
 #' @param fractionQuery=0.1 The fraction of coverage (query on catalog) a hit must 
@@ -18,18 +20,16 @@
 #' depending on the number of overlaps vs the theorical mean.
 #' @param pAdjust="BY" The method that will be used for correcting the p-values.
 #' BH, BY and bonferroni are available.
-#' @param universe=NULL A set of genomic regions that prevent shuffles
-#' for occuring outside of it.
-#' @param included=1 Represents the fraction of each regions that can
-#' be outside of the universe.
 #' @param byChrom=FALSE Will the shuffles stay in the chromosome they originate (TRUE)
 #' or can they be placed everywhere on the genome (FALSE)
+#' @param included=1 Represents the fraction of each regions that can
+#' be outside of the universe.
 #' @param nCores=1 The number of cores to be used for parallel computations.
 #' 1 by default will not be using parallel calculations.
 #' 
 #' @return A data frame containing the enrichment informations.
 #' 
-#' @usage enrichment(query, catalog, chromSizes = LoadChromSizes("hg38"),
+#' @usage enrichment(query, catalog, universe=NULL, chromSizes = LoadChromSizes("hg38"),
 #'                     fractionQuery = 0.1, fractionCatalog = 0.1,
 #'                     shuffles = 6, lower = FALSE, pAdjust = "BY",
 #'                      byChrom = FALSE, included = 1, nCores = 1)
