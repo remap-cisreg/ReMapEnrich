@@ -1,4 +1,4 @@
-## ---- echo=FALSE---------------------------------------------------------
+## ----echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE----------
 knitr::opts_chunk$set(collapse = T, 
                       comment = "##    ", 
                       eval=TRUE, 
@@ -34,7 +34,7 @@ print(query)
 enrichment.df <- enrichment(query, catalog, byChrom = TRUE)
 head(enrichment.df)
 
-## ------------------------------------------------------------------------
+## ----echo=TRUE-----------------------------------------------------------
 # Display a bar plot
 enrichmentBarPlot(enrichment.df, sigDisplayQuantile = 0.5, top = 20, aRisk = 0.00001)
 

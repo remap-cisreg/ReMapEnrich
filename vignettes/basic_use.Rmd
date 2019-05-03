@@ -5,9 +5,11 @@ date: "`r Sys.Date()`"
 package: "`r 'ReMapEnrich'`"
 vignette: >
     %\VignetteIndexEntry{ReMapEnrich-quick-tour}
-    %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
-output: github_document
+    %\VignetteEngine{knitr::rmarkdown}
+output: 
+    rmarkdown::html_document:  
+        keep_md: true 
 bibliography: 
     bibliography.bib
 csl:
