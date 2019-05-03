@@ -8,7 +8,8 @@ vignette: >
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 
-    rmarkdown::html_document
+    md_document:
+        variant: markdown_github
 bibliography: 
     bibliography.bib
 csl:
