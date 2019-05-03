@@ -10,7 +10,7 @@ Current next generation sequencing studies generate a large variety of genomic r
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-#### Dependencies
+### Dependencies
 
 Here are dependencies used in our package. Build will prompt for installation. 
 
@@ -18,7 +18,7 @@ Here are dependencies used in our package. Build will prompt for installation.
 R.utils, data.table, RMySQL, GenomicRanges
 ```
 
-#### Install the ReMapEnrich R-package from GitHub
+### Install the ReMapEnrich R-package from GitHub
 
 To install a R package, start by installing the `devtools` package from CRAN. 
 
@@ -32,7 +32,7 @@ library(devtools)
 install_github("remap-cisreg/ReMapEnrich")
 ```
 
-#### Installing GitHub packages into RStudio
+### Installing GitHub packages into RStudio
 
 Although RStudio does have various tools for installing packages, the most straightforward approach is to download the zipped file, open the `ReMapEnrich.Rpoject` file, and in Rstudio Build -> Install and Restart.
 Or just follow the steps described in the previous section, entering the code into the Console in RStudio. 
