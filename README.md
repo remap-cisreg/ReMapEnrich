@@ -103,7 +103,7 @@ enrichmentDotPlot(enrichment.df)
 ## Authors
 
 * **Zacharie Menetrier** - [ChienBleu](https://github.com/ChienBleu)
-* **Martin Mestdagh** - [-](https://github.com/)
+* **Martin Mestdagh** - [MartinMestdagh](https://github.com/MartinMestdagh)
 * **Jacques van Helden** - [jvanheld](https://github.com/jvanheld)
 * **Laurent Tichit** - [Laulo](https://github.com/Laulo)
 * **Benoit Ballester** - [benoitballester](https://github.com/benoitballester)
