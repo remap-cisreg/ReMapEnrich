@@ -71,8 +71,8 @@ enrichmentVolcanoPlot <-function(enrich,
    y[outsiders] <- yMax 
     
    # Transform point outside quantile with triangle.
-   pch <- rep(x = 19, length.out=nrow(enrich))
-   pch[outsiders] <- 17
+   pchList <- rep(x = pch, length.out=nrow(enrich))
+   pchList[outsiders] <- 17
    
    graphics::plot(x    = enrich$effect.size,
         y    = y,
@@ -81,7 +81,7 @@ enrichmentVolcanoPlot <-function(enrich,
         xlab = xlab,
         ylab = ylab,
         col  = colorFunction,
-        pch  = pch,
+        pch  = pchList,
         cex  = cex,
         las  = las,
         ...)
