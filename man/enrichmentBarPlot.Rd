@@ -56,7 +56,7 @@ Creates a barplot from the enrichment.
 }
 \examples{
 data("enrichment_example", package = "ReMapEnrich")
-enrichmentBarPlot(enrichment_example)
+enrichmentBarPlot(enrichmentExample)
 
 }
 \author{
