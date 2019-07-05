@@ -9,7 +9,7 @@ top = 20,
 main = paste("Significance, top", top, "categories"),
 aRisk = 0.05,
 sigDisplayQuantile = 0.95,
-col = c("#6699ff", "#ff5050"),
+col = c("#BFCBD4", "#33ACFF"),
 sigType = "q",
 xlab = sigTypeTitle,
 beside = TRUE, 
@@ -56,7 +56,7 @@ Creates a barplot from the enrichment.
 }
 \examples{
 data("enrichment_example", package = "ReMapEnrich")
-enrichmentBarPlot(enrichmentExample)
+enrichmentBarPlot(enrichment_example)
 
 }
 \author{

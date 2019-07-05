@@ -8,7 +8,7 @@ enrichmentVolcanoPlot(enrich,
 main = "Volcano plot",
 aRisk = 0.05,
 sigDisplayQuantile = 0.95,
-col = c("#ff5050", "#6699ff"),
+col = c("#BFCBD4", "#33ACFF"),
 sigType = "q",
 ylim = c(0,yMax),
 xlab = "Effect size",
@@ -51,7 +51,7 @@ Creates a volcano plot from the enrichment.
 }
 \examples{
 data("enrichment_example", package = "ReMapEnrich")
-enrichmentDotPlot(enrichment_example)
+enrichmentVolcanoPlot(na.omit(enrichment_example))
 
 }
 \author{
