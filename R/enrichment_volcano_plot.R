@@ -34,7 +34,7 @@
 #' 
 #' @examples 
 #' data("enrichment_example", package = "ReMapEnrich")
-#' enrichmentDotPlot(enrichment_example)
+#' enrichmentVolcanoPlot(na.omit(enrichment_example))
 #' 
 #' @export
 enrichmentVolcanoPlot <-function(enrich,
