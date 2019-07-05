@@ -26,7 +26,7 @@
 #' main = paste("Significance, top", top, "categories"),
 #' aRisk = 0.05,
 #' sigDisplayQuantile = 0.95,
-#' col = c("#6699ff", "#ff5050"),
+#' col = c("#BFCBD4", "#33ACFF"),
 #' sigType = "q",
 #' xlab = sigTypeTitle,
 #' beside = TRUE, 
