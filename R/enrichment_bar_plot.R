@@ -65,7 +65,7 @@ enrichmentBarPlot <- function(enrich,
     sig <- vector()
     sig[enrich$category] <- enrich[,sigType]
     sig <- sort(sig)
-    sig <- sig[(length(sig) - top) : length(sig)]
+    sig <- sig[(length(sig) - top - 1) : length(sig)]
 
     # Create the coloring palette
     colorFunction <- paste(grDevices::colorRampPalette(col)(top + 1))
