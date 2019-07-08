@@ -87,7 +87,7 @@ remapCatalog <- bedToGranges(remapCatalog2018hg38)
 #### Compute enrichment
 The basic way to compute an enrichment is to run with default parameters. - no universe - single core - Default shuffling - defautl overlaps. Please read [Basic use vignette](vignettes/basic_use.md) for more documentations
 ```
-enrichment.df <- enrichment(query, catalog, byChrom = TRUE)
+enrichment.df <- enrichment(query, remapCatalog, byChrom = TRUE)
 # The option byChrom is set to TRUE as we are only working on one chromosome for this analysis.
 ```
 
