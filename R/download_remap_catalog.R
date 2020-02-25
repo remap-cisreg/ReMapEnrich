@@ -44,7 +44,7 @@ downloadRemapCatalog <- function(targetDir,
     if (version == "2015") {
         size <- "0.5"
     }
-    url <- "http://tagc.univ-mrs.fr/remap/download/"
+    url <- "http://remap.univ-amu.fr/storage/"
     if (version == "2018" && assembly == "hg38") {
         url <- paste(url, "remap2018/hg38/MACS/remap2018_nr_macs2_hg38_v1_2.bed.gz", sep = "")
     }
