@@ -44,7 +44,7 @@ downloadRemapCatalog <- function(targetDir,
     if (version == "2015") {
         size <- "0.5"
     }
-    url <- "http://remap.univ-amu.fr/storage/"
+    url <- "https://remap.univ-amu.fr/storage/"
     if (version == "2018" && assembly == "hg38") {
         url <- paste(url, "remap2018/hg38/MACS/remap2018_nr_macs2_hg38_v1_2.bed.gz", sep = "")
     }
@@ -56,6 +56,9 @@ downloadRemapCatalog <- function(targetDir,
     }
     else if (version == "2015" && assembly == "hg19") {
         url <- paste(url, "remap2015/hg19/MACS/remap2015_TF_archive_nr_macs2_hg19_v1.tar.gz", sep = "")
+    }
+    else if (version == "2022" && assembly == "dm6") {
+        url <- paste(url, "remap2022/dm6/MACS2/remap2022_nr_macs2_dm6_v1_0.bed.gz", sep = "")
     }
     if (fileName == "") {
         splits <- strsplit(url, "/")
