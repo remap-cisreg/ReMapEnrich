@@ -85,7 +85,7 @@ downloadRemapCatalog <- function(targetDir,
                 }
         } else {
             tempZipFile <- paste(tempfile(),".bed.gz", sep = "")
-            utils::download.file(url, tempZipFile)
+            utils::download.file(url, tempZipFile, method="curl")
             R.utils::gunzip(tempZipFile, filePath, overwrite = force)
             unlink(tempZipFile)
             message("A file has been created at ", filePath)
