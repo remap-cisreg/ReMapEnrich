@@ -32,15 +32,15 @@ downloadRemapCatalog <- function(targetDir,
                                  force = FALSE,
                                  store = TRUE) {
     
-    if (version != "2018" && version != "2015") {
-        message("Invalid version of catalog, choose between 2015 and 2018.")
+    if (version != "2018" && version != "2015" && version != "2020" && version != "2022") {
+        message("Invalid version of catalog, choose between 2015, 2018, 2020 and 2022.")
         stop()
     }
-    if (assembly != "hg38" && assembly != "hg19") {
+    if (assembly != "hg38" && assembly != "hg19" && assembly != "dm6" && assembly != "tair1" && assembly != "mm10") {
         message("Invalid assembly, choose between hg19 and hg38.")
         stop()
     }
-    size <- "2"
+    size <- "Multi"
     if (version == "2015") {
         size <- "0.5"
     }
