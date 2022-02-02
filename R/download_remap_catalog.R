@@ -32,19 +32,19 @@ downloadRemapCatalog <- function(targetDir,
                                  force = FALSE,
                                  store = TRUE) {
     
-    if (version != "2018" && version != "2015") {
-        message("Invalid version of catalog, choose between 2015 and 2018.")
+    if (version != "2018" && version != "2015" && version != "2020" && version != "2022") {
+        message("Invalid version of catalog, choose between 2015, 2018, 2020 and 2022.")
         stop()
     }
-    if (assembly != "hg38" && assembly != "hg19") {
+    if (assembly != "hg38" && assembly != "hg19" && assembly != "dm6" && assembly != "tair1" && assembly != "mm10") {
         message("Invalid assembly, choose between hg19 and hg38.")
         stop()
     }
-    size <- "2"
+    size <- "Multi"
     if (version == "2015") {
         size <- "0.5"
     }
-    url <- "http://tagc.univ-mrs.fr/remap/download/"
+    url <- "http://remap.univ-amu.fr/storage/"
     if (version == "2018" && assembly == "hg38") {
         url <- paste(url, "remap2018/hg38/MACS/remap2018_nr_macs2_hg38_v1_2.bed.gz", sep = "")
     }
@@ -56,6 +56,9 @@ downloadRemapCatalog <- function(targetDir,
     }
     else if (version == "2015" && assembly == "hg19") {
         url <- paste(url, "remap2015/hg19/MACS/remap2015_TF_archive_nr_macs2_hg19_v1.tar.gz", sep = "")
+    }
+    else if (version == "2022" && assembly == "dm6") {
+        url <- paste(url, "remap2022/dm6/MACS2/remap2022_nr_macs2_dm6_v1_0.bed.gz", sep = "")
     }
     if (fileName == "") {
         splits <- strsplit(url, "/")
@@ -82,7 +85,7 @@ downloadRemapCatalog <- function(targetDir,
                 }
         } else {
             tempZipFile <- paste(tempfile(),".bed.gz", sep = "")
-            utils::download.file(url, tempZipFile)
+            utils::download.file(url, tempZipFile, method="curl")
             R.utils::gunzip(tempZipFile, filePath, overwrite = force)
             unlink(tempZipFile)
             message("A file has been created at ", filePath)
